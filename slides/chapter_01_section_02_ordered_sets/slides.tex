@@ -79,8 +79,8 @@
   \note{
     Welcome back to the Principles of Mathematical Analysis video series.
     This is Chapter 1, Section 2: Ordered Sets. In the previous section, we
-    saw that the rational numbers have gaps, and that the set of rationals p
-    with p squared less than 2 has no least upper bound in the rationals.
+    saw that the rational numbers have gaps, and that the set of rationals "p"
+    with "p" squared less than 2 has no least upper bound in the rationals.
     In this section, we will make these ideas precise by defining what it
     means for a set to be ordered, and what it means for a set to have
     the least-upper-bound property. Let's begin.
@@ -164,11 +164,11 @@
   \end{defblock}
 
   \note{
-    Let's define what an order is. An order on a set S is a relation,
+    Let's define what an order is. An order on a set "S" is a relation,
     written with the less-than symbol, satisfying two properties. The
-    first property is called trichotomy: for any two elements x and y
-    in S, exactly one of the three statements x less than y, x equals y,
-    or y less than x is true. There is no ambiguity --- one and only one
+    first property is called trichotomy: for any two elements "x" and "y"
+    in "S", exactly one of the three statements "x" less than "y", "x" equals "y",
+    or "y" less than "x" is true. There is no ambiguity --- one and only one
     of these holds.
   }
 \end{frame}
@@ -188,8 +188,8 @@
   \end{defblock}
 
   \note{
-    The second property is transitivity. If x is less than y and y is
-    less than z, then x is less than z. This is the familiar chaining
+    The second property is transitivity. If "x" is less than "y" and "y" is
+    less than "z", then "x" is less than "z". This is the familiar chaining
     property that lets us build up a consistent ordering of elements.
     Together, trichotomy and transitivity are all we need for an order.
   }
@@ -213,10 +213,10 @@
   \textbf{Notation:} $y > x$ means $x < y$. \quad $x \leq y$ means $x < y$ or $x = y$.
 
   \note{
-    A few words about notation. We write y greater than x as a synonym
-    for x less than y. And x less than or equal to y means that either
-    x is strictly less than y, or x equals y. In other words, x less
-    than or equal to y is the negation of x greater than y. Now let's
+    A few words about notation. We write "y" greater than "x" as a synonym
+    for "x" less than "y". And "x" less than or equal to "y" means that either
+    "x" is strictly less than "y", or "x" equals "y". In other words, "x" less
+    than or equal to "y" is the negation of "x" greater than "y". Now let's
     define ordered sets.
   }
 \end{frame}
@@ -233,8 +233,8 @@
   \note{
     An ordered set is simply a set equipped with an order relation
     satisfying the two properties we just defined. The most familiar
-    example is the rational numbers, where r is less than s means that
-    s minus r is a positive rational number. You can verify that this
+    example is the rational numbers, where "r" is less than "s" means that
+    "s" minus "r" is a positive rational number. You can verify that this
     relation satisfies both trichotomy and transitivity. Now that we
     have ordered sets, let's talk about bounds.
   }
@@ -272,14 +272,14 @@
   \end{center}
 
   \note{
-    Here is the definition of an upper bound. Suppose S is an ordered
-    set and E is a subset of S. If there is some element beta in S such
-    that x is less than or equal to beta for every x in E, we say that
-    E is bounded above, and we call beta an upper bound of E. As the
+    Here is the definition of an upper bound. Suppose "S" is an ordered
+    set and "E" is a subset of "S". If there is some element "beta" in "S" such
+    that "x" is less than or equal to "beta" for every "x" in "E", we say that
+    "E" is bounded above, and we call "beta" an upper bound of "E". As the
     diagram shows, upper bounds are elements that sit to the right of the
-    entire set E. Lower bounds are defined symmetrically --- they sit to
-    the left of E. Notice that the bound beta does not need to be in E
-    itself; it just needs to be in S.
+    entire set "E". Lower bounds are defined symmetrically --- they sit to
+    the left of "E". Notice that the bound "beta" does not need to be in "E"
+    itself; it just needs to be in "S".
   }
 \end{frame}
 
@@ -299,10 +299,10 @@
 
   \note{
     Now we come to one of the most important definitions in this section:
-    the supremum. Suppose E is a subset of an ordered set S and E is
-    bounded above. The supremum of E is an element alpha in S satisfying
-    two conditions. The first condition is that alpha must itself be an
-    upper bound of E. But being an upper bound is not enough --- many
+    the supremum. Suppose "E" is a subset of an ordered set "S" and "E" is
+    bounded above. The supremum of "E" is an element "alpha" in "S" satisfying
+    two conditions. The first condition is that "alpha" must itself be an
+    upper bound of "E". But being an upper bound is not enough --- many
     elements could be upper bounds. The key is the second condition,
     which we will see on the next slide.
   }
@@ -344,12 +344,12 @@
   \end{center}
 
   \note{
-    The second condition says that no element strictly smaller than alpha
-    is an upper bound of E. In other words, alpha is the smallest of all
+    The second condition says that no element strictly smaller than "alpha"
+    is an upper bound of "E". In other words, "alpha" is the smallest of all
     upper bounds. That's why we call it the least upper bound. We write
-    alpha equals sup E. Looking at the diagram, the supremum sits right
-    at the boundary between E and the upper bounds. Any gamma to the left
-    of it fails to be an upper bound because some element of E exceeds it.
+    "alpha" equals sup "E". Looking at the diagram, the supremum sits right
+    at the boundary between "E" and the upper bounds. Any "gamma" to the left
+    of it fails to be an upper bound because some element of "E" exceeds it.
     Notice from condition two that there is at most one supremum, since
     if two elements both satisfied these conditions, neither could be
     strictly less than the other.
@@ -387,11 +387,11 @@
 
   \note{
     The greatest lower bound, or infimum, is defined in the same manner
-    but in the other direction. Alpha equals inf E means that alpha is a
-    lower bound of E, and no beta strictly greater than alpha is a lower
-    bound of E. So the infimum is the largest of all lower bounds. In
+    but in the other direction. "Alpha" equals inf "E" means that "alpha" is a
+    lower bound of "E", and no "beta" strictly greater than "alpha" is a lower
+    bound of "E". So the infimum is the largest of all lower bounds. In
     the diagram, you can see the infimum sitting at the left boundary of
-    E, with all lower bounds to its left. Now let's look at some examples
+    "E", with all lower bounds to its left. Now let's look at some examples
     to build intuition.
   }
 \end{frame}
@@ -433,12 +433,12 @@
   \end{center}
 
   \note{
-    Let's revisit the sets from Example 1.1. The set A consists of all
-    positive rationals whose square is less than 2, and B consists of all
+    Let's revisit the sets from Example 1.1. The set "A" consists of all
+    positive rationals whose square is less than 2, and "B" consists of all
     positive rationals whose square is greater than 2. On the number line,
-    A lies to the left of the square root of 2, and B lies to the right.
+    "A" lies to the left of the square root of 2, and "B" lies to the right.
     But the square root of 2 is not rational, so there is a gap between
-    A and B. No rational number sits at the boundary.
+    "A" and "B". No rational number sits at the boundary.
   }
 \end{frame}
 
@@ -453,15 +453,15 @@
   \end{exblock}
 
   \note{
-    The upper bounds of A within the rationals are exactly the members
-    of B. Why? Any rational upper bound of A must satisfy p squared
-    greater than or equal to 2, but since no rational has p squared equal
-    to 2, it must satisfy p squared greater than 2, placing it in B. Now,
-    B has no smallest member, as we proved in the introduction. That means
-    there is no least upper bound for A within the rationals. A has no
-    supremum in Q. Similarly, the lower bounds of B consist of all members
-    of A together with all non-positive rationals. Since A has no largest
-    member, B has no greatest lower bound in Q either. This is the
+    The upper bounds of "A" within the rationals are exactly the members
+    of "B". Why? Any rational upper bound of "A" must satisfy "p" squared
+    greater than or equal to 2, but since no rational has "p" squared equal
+    to 2, it must satisfy "p" squared greater than 2, placing it in "B". Now,
+    "B" has no smallest member, as we proved in the introduction. That means
+    there is no least upper bound for "A" within the rationals. "A" has no
+    supremum in "Q". Similarly, the lower bounds of "B" consist of all members
+    of "A" together with all non-positive rationals. Since "A" has no largest
+    member, "B" has no greatest lower bound in Q either. This is the
     fundamental gap that motivates everything that follows.
   }
 \end{frame}
@@ -489,8 +489,8 @@
 
   \note{
     An important point: the supremum of a set may or may not actually
-    belong to that set. Consider E sub 1, the set of all rationals
-    strictly less than 0. The supremum is 0, but 0 is not in E sub 1,
+    belong to that set. Consider "E" sub 1, the set of all rationals
+    strictly less than 0. The supremum is 0, but 0 is not in "E" sub 1,
     because we required strict inequality.
   }
 \end{frame}
@@ -527,10 +527,10 @@
   Both have $\sup = 0$, but membership differs.
 
   \note{
-    Now consider E sub 2, the set of all rationals less than or equal to
-    zero. The supremum is again 0, but this time 0 belongs to E sub 2.
-    The open circle on the E sub 1 diagram shows that 0 is excluded, while
-    the filled circle for E sub 2 shows inclusion. Both sets have the same
+    Now consider "E" sub 2, the set of all rationals less than or equal to
+    zero. The supremum is again 0, but this time 0 belongs to "E" sub 2.
+    The open circle on the "E" sub 1 diagram shows that 0 is excluded, while
+    the filled circle for "E" sub 2 shows inclusion. Both sets have the same
     supremum, but membership differs. This is an important subtlety: the
     supremum need not be an element of the set.
   }
@@ -566,12 +566,12 @@
   $\sup E = 1 \in E$, \quad $\inf E = 0 \notin E$.
 
   \note{
-    Here is another instructive example. Let E be the set of all
-    numbers 1 over n, where n ranges over the positive integers. So E
+    Here is another instructive example. Let "E" be the set of all
+    numbers 1 over "n", where "n" ranges over the positive integers. So "E"
     is the set containing 1, one half, one third, one fourth, and so on.
-    The supremum is 1, which is a member of E since 1 equals 1 over 1.
-    The infimum is 0, which is not a member of E because there is no
-    positive integer n with 1 over n equal to 0. The elements of E get
+    The supremum is 1, which is a member of "E" since 1 equals 1 over 1.
+    The infimum is 0, which is not a member of "E" because there is no
+    positive integer "n" with 1 over "n" equal to 0. The elements of "E" get
     closer and closer to 0, accumulating near it, but never reaching it.
     This example again illustrates that the supremum can belong to the
     set while the infimum does not, or vice versa.
@@ -597,11 +597,11 @@
 
   \note{
     This is one of the most important definitions in the book. An
-    ordered set S has the least-upper-bound property if every nonempty
-    subset of S that is bounded above has a supremum that exists within S.
-    We already saw in Example 1.9 part a that the rationals do not have
-    this property, because the set A of rationals with p squared less
-    than 2 is bounded above but has no supremum in Q. In the next
+    ordered set "S" has the least-upper-bound property if every nonempty
+    subset of "S" that is bounded above has a supremum that exists within "S".
+    We already saw in Example 1.9 part "a" that the rationals do not have
+    this property, because the set "A" of rationals with "p" squared less
+    than 2 is bounded above but has no supremum in "Q". In the next
     section, we will see that the real numbers are constructed precisely
     to have this property. But first, let's see an important consequence:
     the least-upper-bound property implies the greatest-lower-bound property.
@@ -627,10 +627,10 @@
 
   \note{
     Here is Theorem 1.11, which establishes a beautiful connection. If
-    an ordered set S has the least-upper-bound property, then it also has
-    the greatest-lower-bound property. More precisely, if B is a nonempty
-    subset of S that is bounded below, and L is the set of all lower bounds
-    of B, then the supremum of L exists and equals the infimum of B.
+    an ordered set "S" has the least-upper-bound property, then it also has
+    the greatest-lower-bound property. More precisely, if "B" is a nonempty
+    subset of "S" that is bounded below, and "L" is the set of all lower bounds
+    of "B", then the supremum of "L" exists and equals the infimum of "B".
     This means we get greatest lower bounds for free once we have least
     upper bounds. Let's see why.
   }
@@ -668,13 +668,13 @@
 
   \note{
     Before we dive into the formal proof, let's understand the strategy.
-    We have the set B, which is bounded below, and L, the set of all
-    lower bounds of B. The picture shows L to the left and B to the right,
-    with alpha at the boundary. Our plan is: first, use the
-    least-upper-bound property to show that sup L exists. Then show that
-    this supremum is actually a lower bound of B, meaning it belongs to L.
-    Finally, show that nothing bigger than alpha is a lower bound of B.
-    That will make alpha the greatest lower bound, the infimum of B.
+    We have the set "B", which is bounded below, and "L", the set of all
+    lower bounds of "B". The picture shows "L" to the left and "B" to the right,
+    with "alpha" at the boundary. Our plan is: first, use the
+    least-upper-bound property to show that sup "L" exists. Then show that
+    this supremum is actually a lower bound of "B", meaning it belongs to "L".
+    Finally, show that nothing bigger than "alpha" is a lower bound of "B".
+    That will make "alpha" the greatest lower bound, the infimum of "B".
   }
 \end{frame}
 
@@ -691,13 +691,13 @@
   \end{proofblock}
 
   \note{
-    Let's begin. Since B is bounded below, there exists at least one lower
-    bound, so L is not empty. Now, every element x of B is an upper bound
-    for L. Why? Because L consists of all lower bounds of B, meaning every
-    element of L is less than or equal to every element of B. So every
-    element of B bounds L from above. Since L is nonempty and bounded
-    above, and S has the least-upper-bound property, sup L must exist in S.
-    Call it alpha.
+    Let's begin. Since "B" is bounded below, there exists at least one lower
+    bound, so "L" is not empty. Now, every element "x" of "B" is an upper bound
+    for "L". Why? Because "L" consists of all lower bounds of "B", meaning every
+    element of "L" is less than or equal to every element of "B". So every
+    element of "B" bounds "L" from above. Since "L" is nonempty and bounded
+    above, and "S" has the least-upper-bound property, sup "L" must exist in "S".
+    Call it "alpha".
   }
 \end{frame}
 
@@ -712,13 +712,13 @@
   \end{proofblock}
 
   \note{
-    Now we show that alpha is actually a lower bound of B. Take any
-    element x in B. We just showed that x is an upper bound of L. Since
-    alpha is the least upper bound of L, alpha must be less than or equal
-    to x. But x was arbitrary in B. So alpha is less than or equal to
-    every element of B, which means alpha is a lower bound of B. In
-    other words, alpha belongs to L. Now we just need to show that
-    nothing larger than alpha is also a lower bound of B.
+    Now we show that "alpha" is actually a lower bound of "B". Take any
+    element "x" in "B". We just showed that "x" is an upper bound of "L". Since
+    "alpha" is the least upper bound of "L", "alpha" must be less than or equal
+    to "x". But "x" was arbitrary in "B". So "alpha" is less than or equal to
+    every element of "B", which means "alpha" is a lower bound of "B". In
+    other words, "alpha" belongs to "L". Now we just need to show that
+    nothing larger than "alpha" is also a lower bound of "B".
   }
 \end{frame}
 
@@ -743,14 +743,14 @@
   $\boxed{\alpha = \inf B}$
 
   \note{
-    Finally, suppose beta is strictly greater than alpha. Since alpha is
-    the supremum of L, every element of L is at most alpha. So if beta
-    were in L, we would need beta less than or equal to alpha, which
-    contradicts beta being strictly greater. Therefore beta is not in L,
-    meaning beta is not a lower bound of B. Putting it all together:
-    alpha is a lower bound of B from Step 2, and no element greater than
-    alpha is a lower bound of B from Step 3. By definition, this means
-    alpha equals the infimum of B. The proof is complete. This elegant
+    Finally, suppose "beta" is strictly greater than "alpha". Since "alpha" is
+    the supremum of "L", every element of "L" is at most "alpha". So if "beta"
+    were in "L", we would need "beta" less than or equal to "alpha", which
+    contradicts "beta" being strictly greater. Therefore "beta" is not in "L",
+    meaning "beta" is not a lower bound of "B". Putting it all together:
+    "alpha" is a lower bound of "B" from Step 2, and no element greater than
+    "alpha" is a lower bound of "B" from Step 3. By definition, this means
+    "alpha" equals the infimum of "B". The proof is complete. This elegant
     argument shows that the least-upper-bound property automatically
     gives us the greatest-lower-bound property as well.
   }

@@ -12,8 +12,8 @@ Licensed under the [MIT License](LICENSE).
 2. Ordered Sets — [pdf](slides/chapter_01_section_02_ordered_sets/slides.pdf) · [pptx](slides/chapter_01_section_02_ordered_sets/slides.pptx)
 3. Fields — [pdf](slides/chapter_01_section_03_fields/slides.pdf) · [pptx](slides/chapter_01_section_03_fields/slides.pptx)
 4. The Real Field — [pdf](slides/chapter_01_section_04_the_real_field/slides.pdf) · [pptx](slides/chapter_01_section_04_the_real_field/slides.pptx)
-5. The Extended Real Number System
-6. The Complex Field
+5. The Extended Real Number System — [pdf](slides/chapter_01_section_05_the_extended_real_number_system/slides.pdf) · [pptx](slides/chapter_01_section_05_the_extended_real_number_system/slides.pptx)
+6. The Complex Field — [pdf](slides/chapter_01_section_06_the_complex_field/slides.pdf) · [pptx](slides/chapter_01_section_06_the_complex_field/slides.pptx)
 7. Euclidean Spaces
 8. Appendix
 
