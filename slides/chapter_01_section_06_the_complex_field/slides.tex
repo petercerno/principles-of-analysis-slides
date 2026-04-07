@@ -80,7 +80,7 @@
     we construct the complex numbers from scratch, using nothing more than
     ordered pairs of real numbers. We will see that these ordered pairs,
     equipped with the right addition and multiplication rules, form a field.
-    Along the way we will meet the imaginary unit i, the conjugate, the
+    Along the way we will meet the imaginary unit "i", the conjugate, the
     absolute value, and the important Schwarz inequality.
   }
 \end{frame}
@@ -90,7 +90,7 @@
   \note{
     Here is our outline for this section. We begin with the definition of
     complex numbers and verify that they form a field. Then we show how
-    the familiar notation a plus b i arises naturally. Next we study
+    the familiar notation "a" plus "b" "i" arises naturally. Next we study
     conjugation and the absolute value, establishing the triangle inequality.
     Finally, we prove the Schwarz inequality, which will be important
     throughout the rest of the book. Let's start with some motivation.
@@ -185,10 +185,10 @@
   \]
 
   \note{
-    Now we define the arithmetic. Let "x" equal the pair "a", "b" and "y" equal the
-    pair "c", "d". Addition is done component-wise: we add the first components
-    and the second components separately. This is exactly what you would
-    expect. Next, let's see the multiplication rule, which is more surprising.
+    Now we define the arithmetic. Addition is done component-wise: we add
+    the first components and the second components separately. This is
+    exactly what you would expect --- nothing surprising here. Next, let's
+    see the multiplication rule, which is more surprising.
   }
 \end{frame}
 
@@ -208,13 +208,12 @@
   \]
 
   \note{
-    Multiplication is more interesting. The first component of the product
-    is "a" "c" minus "b" "d", and the second component is "a" "d" plus "b" "c". This formula
-    may look strange at first, but it is exactly the rule you get if you
-    formally multiply "a" plus "b" "i" times "c" plus "d" "i" and use the fact that
-    "i" squared equals negative one. Of course, we haven't introduced "i" yet ---
-    that comes later. For now, this is just a definition. Let's visualize
-    these ordered pairs in the plane.
+    Multiplication is more interesting. The formula may look strange at first,
+    but there is a natural motivation: it is exactly what you get if you
+    formally expand the product using the rule that "i" squared equals negative one.
+    Of course, we haven't introduced "i" yet --- that comes later. For now, this
+    is just a definition, and its justification will become clear shortly.
+    Let's visualize these ordered pairs in the plane.
   }
 \end{frame}
 
@@ -294,13 +293,12 @@
   \end{tabular}
 
   \note{
-    Here is the roadmap for the proof. We write "x" equals "a", "b", "y" equals
-    "c", "d", and "z" equals "e", "f", and then verify each field axiom one by one.
-    The addition axioms are straightforward since addition is component-wise.
-    The multiplication axioms require more computation: associativity
-    involves expanding lengthy products, and the existence of multiplicative
-    inverses requires a clever formula. Let us walk through the key steps,
-    starting with the addition axioms.
+    Here is the roadmap for the proof. We verify each field axiom one by one.
+    The addition axioms are straightforward since addition is component-wise,
+    so they inherit directly from real number properties. The multiplication
+    axioms require more computation: associativity involves expanding lengthy
+    products, and the existence of multiplicative inverses requires a clever
+    formula. Let us walk through the key steps, starting with addition.
   }
 \end{frame}
 
@@ -352,13 +350,11 @@
 
   \note{
     Commutativity of multiplication follows because real multiplication is
-    commutative. Associativity is the most tedious verification. As you can
-    see on the slide, we first compute "x" "y", getting the pair "a" "c" minus "b" "d",
-    "a" "d" plus "b" "c", and then multiply by "z" equals the pair "e", "f". Expanding
-    gives the four-term expressions shown. The key point is that if we
-    instead first compute "y" "z" and then multiply by "x", we get exactly the
-    same four-term expressions. Finally, the identity element is the pair
-    one, zero, which leaves any pair "a", "b" unchanged. The crucial axiom is
+    commutative. Associativity is the most tedious verification --- the slide
+    shows the full expansion. The key point is that no matter which product
+    you compute first, the cross terms rearrange to give the same result.
+    You can verify this yourself by expanding in the other order. Finally,
+    the pair one, zero acts as the identity. The crucial remaining axiom is
     the existence of multiplicative inverses, which we address next.
   }
 \end{frame}
@@ -377,11 +373,13 @@
 
   \note{
     The most important part of the proof is the multiplicative inverse. If
-    "x" is a nonzero complex number, then at least one of "a" and "b" is nonzero,
-    which means "a" squared plus "b" squared is strictly positive by Proposition
-    1.18 part "d". So we can divide by this quantity. The inverse of "x" is the
-    pair "a" over "a" squared plus "b" squared, negative "b" over "a" squared plus "b"
-    squared. Now let's verify that this formula actually works.
+    "x" is nonzero, then at least one component is nonzero, so the sum of
+    squares in the denominator is strictly positive by Proposition 1.18.
+    This guarantees we can divide by it. Pay attention to the formula on
+    the slide: notice how it resembles rationalizing a denominator. This
+    is no coincidence --- we are essentially dividing by "a" plus "b" "i" by
+    multiplying numerator and denominator by the conjugate. Let's verify
+    that this formula actually works.
   }
 \end{frame}
 
@@ -398,13 +396,12 @@
   \end{proofblock}
 
   \note{
-    Let's write "D" for "a" squared plus "b" squared to keep things tidy. Applying
-    the multiplication rule, the first component is "a" times "a" over "D" minus "b"
-    times negative "b" over "D", which gives "a" squared plus "b" squared over "D",
-    which is "D" over "D", which is one. The second component is "a" times negative
-    "b" over "D" plus "b" times "a" over "D", which is negative "a" "b" plus "a" "b" over "D",
-    which is zero. So the product is the pair one, zero, confirming that our
-    formula gives a valid multiplicative inverse. The last axiom to check is
+    The verification is shown on the slide. The key thing to notice is why
+    it works: in the first component, the two squared terms add up to exactly
+    "D" over "D", which is one. In the second component, the two cross terms
+    cancel perfectly, giving zero. This cancellation pattern is the whole
+    reason the conjugate-based formula works. The result is the pair one,
+    zero, confirming we have a valid inverse. The last axiom to check is
     the distributive law.
   }
 \end{frame}
@@ -421,12 +418,12 @@
   \end{proofblock}
 
   \note{
-    Finally, the distributive law. We expand "x" times the sum "y" plus "z" using
-    the multiplication formula, then use the distributive law for real numbers
-    to separate the terms. The result splits neatly into "x" "y" plus "x" "z". This
-    completes the verification of all field axioms, so the complex numbers
-    indeed form a field. Next, let's see how the real numbers sit
-    inside this new field.
+    Finally, the distributive law. The idea is simple: we expand the left-hand
+    side using the multiplication formula, then use the distributive law for
+    real numbers to split everything apart. The terms regroup perfectly into
+    the two separate products. This completes the verification of all field
+    axioms, so the complex numbers indeed form a field. Next, let's see
+    how the real numbers sit inside this new field.
   }
 \end{frame}
 
@@ -478,7 +475,7 @@
     zero, one. There is nothing mysterious about it --- it is a perfectly
     concrete object, just a pair of real numbers. All of its special
     properties will follow from the multiplication rule we already defined.
-    Let's see what happens when we square i.
+    Let's see what happens when we square "i".
   }
 \end{frame}
 
@@ -515,12 +512,12 @@
   \end{proofblock}
 
   \note{
-    This theorem connects the ordered pair notation to the familiar "a" plus
-    "b" "i" notation. We compute: "a" is identified with the pair "a", zero; "b" times
-    "i" is the pair "b", zero times zero, one, which by our multiplication rule
-    gives zero, "b". Adding these gives "a", "b". So the two notations are
-    completely equivalent. From now on, we can freely write complex numbers
-    as "a" plus "b" "i". With this notation in hand, let's explore conjugation
+    This theorem bridges the two notations. The proof on the slide is just
+    one line, but the idea is important: using the identification of reals
+    with pairs and the multiplication rule we already defined, the "a" plus
+    "b" "i" notation falls out automatically. We did not need to introduce
+    any new assumptions. From now on, we can freely write complex numbers
+    in either form. With this notation in hand, let's explore conjugation
     and the absolute value.
   }
 \end{frame}
@@ -544,12 +541,11 @@
   \end{defblock}
 
   \note{
-    Given a complex number "z" equals "a" plus "b" "i", its conjugate "z" bar is
-    obtained by flipping the sign of the imaginary part: "z" bar equals "a" minus
-    "b" "i". Geometrically, conjugation reflects the point across the real axis.
-    We also give names to the two components: "a" is called the real part of
-    "z", written Re of "z", and "b" is called the imaginary part of "z", written
-    Im of "z". Note that the imaginary part is itself a real number.
+    The conjugate of "z" is obtained by flipping the sign of the imaginary
+    part. Geometrically, this reflects the point across the real axis. We
+    also give names to the two components: the real part and the imaginary
+    part. One subtle point worth noting: the imaginary part is itself a
+    real number --- it is the coefficient of "i", not the entire "b" "i" term.
     Let's see what conjugation looks like geometrically.
   }
 \end{frame}
@@ -644,9 +640,9 @@
 
   \note{
     Part "c" gives us formulas for extracting the real and imaginary parts
-    using conjugation. If "z" equals "a" plus "b" "i", then "z" plus "z" bar equals
-    2 "a", which is twice the real part. And "z" minus "z" bar equals 2 "b" "i",
-    which is twice "i" times the imaginary part. These identities will be
+    using conjugation. The idea is that adding "z" and "z" bar cancels the
+    imaginary parts, leaving twice the real part. Subtracting cancels the
+    real parts, leaving twice the imaginary part. These identities will be
     useful shortly when we prove the triangle inequality. Finally, the
     most important property.
   }
@@ -693,15 +689,13 @@
   and $|x| = -x$ if $x < 0$.
 
   \note{
-    The absolute value of a complex number "z" is defined as the nonnegative
-    square root of "z" times "z" bar. By Theorem 1.31 part "d", this product is a
-    nonnegative real number, so the square root exists and is unique by
-    Theorem 1.21. When "z" equals "a" plus "b" "i", the absolute value equals the
-    square root of "a" squared plus "b" squared. Geometrically, this is the
-    distance from "z" to the origin in the complex plane. Notice that when "z"
-    is real, say "z" equals "x", then "z" bar equals "x", so the absolute value is
-    the square root of "x" squared, which gives the usual real absolute value.
-    Let's visualize what the absolute value means geometrically.
+    The absolute value is defined using the product of "z" with its conjugate,
+    which we just showed is always a nonnegative real number. Taking the
+    square root is justified by Theorem 1.21. Geometrically, this gives the
+    distance from "z" to the origin in the complex plane. An important
+    consistency check: when "z" is real, the conjugate equals "z" itself, so
+    we recover the usual real absolute value. Let's visualize this
+    geometrically.
   }
 \end{frame}
 
@@ -732,12 +726,12 @@
 
   \note{
     This diagram makes the definition concrete. The red arrow shows the
-    vector from the origin to the point "z". Its length is the absolute value
-    of "z". As the formula on the right shows, by the Pythagorean theorem this
-    length is the square root of "a" squared plus "b" squared, since "a" and "b" are
-    the horizontal and vertical sides of a right triangle. This geometric
-    interpretation is why the absolute value is also called the modulus of "z".
-    Now let's study the key properties of the absolute value.
+    vector from the origin to "z", and its length is the absolute value.
+    Notice the right triangle formed by the real and imaginary components.
+    By the Pythagorean theorem, the hypotenuse gives exactly the formula
+    from the definition. This geometric interpretation is why the absolute
+    value is also called the modulus. Now let's study the key properties
+    of the absolute value.
   }
 \end{frame}
 
@@ -818,11 +812,11 @@
   \end{thmblock}
 
   \note{
-    Part "d" says the absolute value of the real part is at most the absolute
-    value of the whole complex number. This is because "a" squared is at most
-    "a" squared plus "b" squared, so taking square roots gives the absolute value
-    of "a" is at most the square root of "a" squared plus "b" squared.
-    And now the most important property of all.
+    Part "d" says the real part is never larger in absolute value than the
+    full complex number. Geometrically, a projection onto one axis cannot
+    be longer than the vector itself. This seemingly simple fact will be
+    a key step in proving the triangle inequality. And now the most
+    important property of all.
   }
 \end{frame}
 
@@ -862,15 +856,14 @@
   \end{proofblock}
 
   \note{
-    To prove multiplicativity, we compute the square of the absolute value
-    of "z" "w". Expanding the product "z" "w" using the multiplication rule and
-    squaring the components, we get "a" "c" minus "b" "d" squared plus "a" "d" plus "b" "c"
-    squared. If you expand these squares and collect terms, you find that the
-    cross terms cancel, leaving "a" squared plus "b" squared times "c" squared
-    plus "d" squared, which is the absolute value of "z" squared times the
-    absolute value of "w" squared. Taking square roots, using the uniqueness
-    from Theorem 1.21, gives the result. Now let's tackle the triangle
-    inequality, which requires a more subtle argument.
+    The proof strategy is to work with squared absolute values, which avoids
+    dealing with square roots. The key insight is that when you expand the
+    squared terms on the slide, all the cross terms cancel out perfectly.
+    This is a useful trick that appears often in complex analysis: working
+    with squares simplifies everything because the mixed terms vanish.
+    The uniqueness of square roots from Theorem 1.21 then lets us conclude.
+    Now let's tackle the triangle inequality, which requires a more subtle
+    argument.
   }
 \end{frame}
 
@@ -892,14 +885,14 @@
   \end{proofblock}
 
   \note{
-    The proof of the triangle inequality is the most involved computation in
-    this section. We begin by noting that "z" bar times "w" is the conjugate of
-    "z" times "w" bar, so their sum equals twice the real part of "z" times "w" bar.
-    Now we expand the absolute value of "z" plus "w" squared. The absolute value
-    squared of any complex number equals that number times its conjugate. So
-    we multiply "z" plus "w" by "z" bar plus "w" bar, expand, and recognize "z" "z" bar
-    as the absolute value of "z" squared, and similarly for "w". Now we need
-    to bound that middle term.
+    The proof of the triangle inequality is the most involved argument in
+    this section, and the technique is worth understanding well. The trick
+    is to square both sides to avoid square roots, then expand. Notice the
+    key identity at the top of the slide: the cross terms combine into twice
+    the real part of a single product. This is the crucial observation ---
+    it lets us replace a complex expression with a real quantity that we
+    can bound. Pay attention to how parts "c" and "d" of the theorem are about
+    to come together.
   }
 \end{frame}
 
@@ -918,14 +911,13 @@
   Taking square roots: $\boxed{|z + w| \leq |z| + |w|}$
 
   \note{
-    Now we use part "d", which says the real part of a complex number is at
-    most its absolute value. Applying this to "z" times "w" bar, we get that
-    2 times the real part of "z" "w" bar is at most 2 times the absolute value
-    of "z" "w" bar. By part "c", the absolute value of "z" "w" bar equals the absolute
-    value of "z" times the absolute value of "w". Substituting back, we get the
-    absolute value of "z" plus "w" squared is at most the absolute value of "z"
-    plus the absolute value of "w", all squared. Taking square roots gives
-    the triangle inequality. Let's see what this means geometrically.
+    Here is where the earlier results pay off. We chain two inequalities:
+    part "d" bounds the real part by the absolute value, and part "c" factors
+    the absolute value of a product into a product of absolute values. Together,
+    these turn the middle term into exactly what we need to complete the
+    square on the right-hand side. The whole proof hinges on this two-step
+    bound. Taking square roots gives the triangle inequality. Let's see
+    what this means geometrically.
   }
 \end{frame}
 
@@ -1024,11 +1016,10 @@
   \end{proofblock}
 
   \note{
-    We introduce shorthand: "A" for the sum of absolute values of "a" "j" squared,
-    "B" for the sum of absolute values of "b" "j" squared, and "C" for the sum
-    "a" "j" times "b" "j" bar. If "B" is zero, then all the "b" "j"'s are zero, both sides
-    of the inequality are zero, and there is nothing to prove. So we assume
-    "B" is positive. Now here comes the key trick.
+    We introduce shorthand "A", "B", and "C" as shown on the slide to keep the
+    expressions manageable. The trivial case is when all the "b" terms are zero.
+    Otherwise "B" is positive, and we can use it as a denominator. Now here
+    comes the key trick of the proof.
   }
 \end{frame}
 
@@ -1044,12 +1035,13 @@
   \end{proofblock}
 
   \note{
-    Here is the heart of the proof. Consider the sum of the absolute values
-    of "B" "a" "j" minus "C" "b" "j", all squared. Each term in this sum is nonnegative,
-    since it is a squared absolute value. We expand using the properties of
-    conjugation and the definitions of "A", "B", and "C". After simplification,
-    the expression reduces to "B" times the quantity "A" "B" minus the absolute
-    value of "C" squared. Now we can finish the argument.
+    Here is the heart of the proof. The trick is to construct a sum of
+    nonnegative terms that, when expanded, produces exactly the quantity
+    we want to bound. This is a classic technique: introduce a cleverly
+    chosen auxiliary expression whose nonnegativity forces the desired
+    inequality. Notice how the choice of coefficients "B" and "C" is designed
+    so that most terms cancel during expansion. The slide shows the result
+    after simplification. Now we can finish the argument.
   }
 \end{frame}
 
@@ -1067,14 +1059,14 @@
   \end{proofblock}
 
   \note{
-    Since every term in the sum is nonnegative, the entire sum is nonnegative,
-    so "B" times "A" "B" minus the absolute value of "C" squared is nonnegative. We
-    assumed "B" is positive, so we can divide by "B" and conclude that "A" "B" minus
-    the absolute value of "C" squared is nonnegative. Rearranging, the
-    absolute value of "C" squared is at most "A" times "B", which is exactly the
-    Schwarz inequality. Notice the elegance of the proof: the key idea was
-    to introduce the quantity "B" "a" "j" minus "C" "b" "j", which is designed to
-    telescope nicely. Let's now summarize the key ideas from this section.
+    The endgame is clean: the entire sum is nonnegative because each term is
+    a squared absolute value. Since "B" is positive, we can divide it out,
+    and the inequality falls straight out. Step back and appreciate the
+    proof technique: we never needed to be clever with algebraic
+    manipulations. Instead, we constructed a single nonnegative quantity
+    whose expansion encodes the inequality we wanted. This ``sum of
+    nonnegative terms'' trick is a powerful technique that appears
+    throughout analysis. Let's now summarize the key ideas from this section.
   }
 \end{frame}
 
@@ -1095,9 +1087,8 @@
     Let's review what we covered in this section. First, we defined complex
     numbers as ordered pairs of real numbers, gave them addition and
     multiplication rules, and proved that the resulting system is a field.
-    The key ingredients were the additive identity zero, zero, the
-    multiplicative identity one, zero, and the formula for the multiplicative
-    inverse involving "a" squared plus "b" squared.
+    The hardest part was finding the multiplicative inverse, where the
+    trick was essentially rationalizing the denominator using the conjugate.
   }
 \end{frame}
 
