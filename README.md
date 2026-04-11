@@ -6,6 +6,10 @@ Companion YouTube playlist: [Principles of Mathematical Analysis](https://www.yo
 
 Licensed under the [MIT License](LICENSE).
 
+## Preface
+
+1. About This Series - [pdf](slides/chapter_00_preface/slides.pdf) · [pptx](slides/chapter_00_preface/slides.pptx)
+
 ## Chapter 1: The Real and Complex Number Systems
 
 1. Introduction — [pdf](slides/chapter_01_section_01_introduction/slides.pdf) · [pptx](slides/chapter_01_section_01_introduction/slides.pptx)
@@ -14,8 +18,8 @@ Licensed under the [MIT License](LICENSE).
 4. The Real Field — [pdf](slides/chapter_01_section_04_the_real_field/slides.pdf) · [pptx](slides/chapter_01_section_04_the_real_field/slides.pptx)
 5. The Extended Real Number System — [pdf](slides/chapter_01_section_05_the_extended_real_number_system/slides.pdf) · [pptx](slides/chapter_01_section_05_the_extended_real_number_system/slides.pptx)
 6. The Complex Field — [pdf](slides/chapter_01_section_06_the_complex_field/slides.pdf) · [pptx](slides/chapter_01_section_06_the_complex_field/slides.pptx)
-7. Euclidean Spaces
-8. Appendix
+7. Euclidean Spaces — [pdf](slides/chapter_01_section_07_euclidean_spaces/slides.pdf) · [pptx](slides/chapter_01_section_07_euclidean_spaces/slides.pptx)
+8. Appendix — [pdf](slides/chapter_01_section_08_appendix/slides.pdf) · [pptx](slides/chapter_01_section_08_appendix/slides.pptx)
 
 ## Chapter 2: Basic Topology
 
