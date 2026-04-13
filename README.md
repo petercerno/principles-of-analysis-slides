@@ -23,7 +23,7 @@ Licensed under the [MIT License](LICENSE).
 
 ## Chapter 2: Basic Topology
 
-1. Finite, Countable, and Uncountable Sets
+1. Finite, Countable, and Uncountable Sets - [pdf](slides/chapter_02_section_01_finite_countable_uncountable/slides.pdf) · [pptx](slides/chapter_02_section_01_finite_countable_uncountable/slides.pptx)
 2. Metric Spaces
 3. Compact Sets
 4. Perfect Sets
