@@ -26,7 +26,7 @@ Licensed under the [MIT License](LICENSE).
 1. Finite, Countable, and Uncountable Sets - [pdf](slides/chapter_02_section_01_finite_countable_uncountable/slides.pdf) · [pptx](slides/chapter_02_section_01_finite_countable_uncountable/slides.pptx)
 2. Metric Spaces - [pdf](slides/chapter_02_section_02_metric_spaces/slides.pdf) · [pptx](slides/chapter_02_section_02_metric_spaces/slides.pptx)
 3. Compact Sets - [pdf](slides/chapter_02_section_03_compact_sets/slides.pdf) · [pptx](slides/chapter_02_section_03_compact_sets/slides.pptx)
-4. Perfect Sets
+4. Perfect Sets - [pdf](slides/chapter_02_section_04_perfect_sets/slides.pdf) · [pptx](slides/chapter_02_section_04_perfect_sets/slides.pptx)
 5. Connected Sets
 
 ## Chapter 3: Numerical Sequences and Series
