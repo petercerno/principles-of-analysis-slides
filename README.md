@@ -27,7 +27,7 @@ Licensed under the [MIT License](LICENSE).
 2. Metric Spaces - [pdf](slides/chapter_02_section_02_metric_spaces/slides.pdf) · [pptx](slides/chapter_02_section_02_metric_spaces/slides.pptx)
 3. Compact Sets - [pdf](slides/chapter_02_section_03_compact_sets/slides.pdf) · [pptx](slides/chapter_02_section_03_compact_sets/slides.pptx)
 4. Perfect Sets - [pdf](slides/chapter_02_section_04_perfect_sets/slides.pdf) · [pptx](slides/chapter_02_section_04_perfect_sets/slides.pptx)
-5. Connected Sets
+5. Connected Sets - [pdf](slides/chapter_02_section_05_connected_sets/slides.pdf) · [pptx](slides/chapter_02_section_05_connected_sets/slides.pptx)
 
 ## Chapter 3: Numerical Sequences and Series
 
