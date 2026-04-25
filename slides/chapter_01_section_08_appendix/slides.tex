@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 1: The Real and Complex Number Systems}
@@ -73,6 +94,10 @@
 % TITLE AND OUTLINE
 % =============================================================================
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_00.png}%
+}
 \begin{frame}
   \titlepage
   \note{
@@ -83,9 +108,16 @@
     by step, using the elegant method of Dedekind cuts.
   }
 \end{frame}
+}
 
-\begin{frame}{Outline}
-  \tableofcontents
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_01.png}%
+}
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is the roadmap for this appendix. We will go through the construction
     in nine steps, starting with the definition of Dedekind cuts, then building
@@ -109,8 +141,10 @@
   \end{alertblock}
 
   \vspace{0.5em}
-  This was \emph{stated} earlier without proof. The entire appendix is devoted
-  to \alert{proving} this theorem.
+  \begin{hlbox}
+    This was \emph{stated} earlier without proof. The entire appendix is devoted
+    to \alert{proving} this theorem.
+  \end{hlbox}
 
   \note{
     Before we dive in, let's recall exactly what we are trying to prove.
@@ -123,10 +157,12 @@
 
 % --- Build 1/3 ---
 \begin{frame}{Why This Appendix Matters}
-  \begin{itemize}
-    \item Theorem 1.19 \emph{asserts} that an ordered field with the
-          least-upper-bound property exists
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Theorem 1.19 \emph{asserts} that an ordered field with the
+            least-upper-bound property exists
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     So far in this chapter, we have been working with the real numbers as if
@@ -138,12 +174,14 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why This Appendix Matters}
-  \begin{itemize}
-    \item Theorem 1.19 \emph{asserts} that an ordered field with the
-          least-upper-bound property exists
-    \item This appendix provides the \alert{explicit construction} of $\mathbb{R}$
-          from $\mathbb{Q}$
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Theorem 1.19 \emph{asserts} that an ordered field with the
+            least-upper-bound property exists
+      \item This appendix provides the \alert{explicit construction} of $\mathbb{R}$
+            from $\mathbb{Q}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We are going to actually build the real numbers out of the rationals. This
@@ -155,13 +193,15 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why This Appendix Matters}
-  \begin{itemize}
-    \item Theorem 1.19 \emph{asserts} that an ordered field with the
-          least-upper-bound property exists
-    \item This appendix provides the \alert{explicit construction} of $\mathbb{R}$
-          from $\mathbb{Q}$
-    \item The method: \alert{Dedekind cuts} --- invented by Richard Dedekind in 1872
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Theorem 1.19 \emph{asserts} that an ordered field with the
+            least-upper-bound property exists
+      \item This appendix provides the \alert{explicit construction} of $\mathbb{R}$
+            from $\mathbb{Q}$
+      \item The method: \alert{Dedekind cuts} --- invented by Richard Dedekind in 1872
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The tool we use is called a Dedekind cut, named after the German
@@ -174,10 +214,12 @@
 
 % --- Construction roadmap Build 1/4 ---
 \begin{frame}{Construction Roadmap}
-  \begin{description}[Steps 4--7:]
-    \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered set}
-  \end{description}
+  \begin{hlbox}
+    \begin{description}[Steps 4--7:]
+      \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered set}
+    \end{description}
+  \end{hlbox}
 
   \note{
     The construction proceeds in nine steps. In the first two steps, we define
@@ -188,11 +230,13 @@
 
 % --- Construction roadmap Build 2/4 ---
 \begin{frame}{Construction Roadmap}
-  \begin{description}[Steps 4--7:]
-    \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered set}
-    \item[Step 3:] Prove the \alert{least-upper-bound property}
-  \end{description}
+  \begin{hlbox}
+    \begin{description}[Steps 4--7:]
+      \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered set}
+      \item[Step 3:] Prove the \alert{least-upper-bound property}
+    \end{description}
+  \end{hlbox}
 
   \note{
     Step 3 is the heart of the construction. We show that the ordered set of
@@ -204,13 +248,15 @@
 
 % --- Construction roadmap Build 3/4 ---
 \begin{frame}{Construction Roadmap}
-  \begin{description}[Steps 4--7:]
-    \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered set}
-    \item[Step 3:] Prove the \alert{least-upper-bound property}
-    \item[Steps 4--7:] Define $+$ and $\cdot$ $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered field}
-  \end{description}
+  \begin{hlbox}
+    \begin{description}[Steps 4--7:]
+      \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered set}
+      \item[Step 3:] Prove the \alert{least-upper-bound property}
+      \item[Steps 4--7:] Define $+$ and $\cdot$ $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered field}
+    \end{description}
+  \end{hlbox}
 
   \note{
     Steps 4 through 7 equip the set of cuts with addition and multiplication,
@@ -222,15 +268,17 @@
 
 % --- Construction roadmap Build 4/4 ---
 \begin{frame}{Construction Roadmap}
-  \begin{description}[Steps 4--7:]
-    \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered set}
-    \item[Step 3:] Prove the \alert{least-upper-bound property}
-    \item[Steps 4--7:] Define $+$ and $\cdot$ $\;\longrightarrow\;$
-          $\mathbb{R}$ is an \alert{ordered field}
-    \item[Steps 8--9:] Embed $\mathbb{Q}$ into $\mathbb{R}$
-          $\;\longrightarrow\;$ $\mathbb{Q}$ is a \alert{subfield} of $\mathbb{R}$
-  \end{description}
+  \begin{hlbox}
+    \begin{description}[Steps 4--7:]
+      \item[Steps 1--2:] Define cuts and order them $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered set}
+      \item[Step 3:] Prove the \alert{least-upper-bound property}
+      \item[Steps 4--7:] Define $+$ and $\cdot$ $\;\longrightarrow\;$
+            $\mathbb{R}$ is an \alert{ordered field}
+      \item[Steps 8--9:] Embed $\mathbb{Q}$ into $\mathbb{R}$
+            $\;\longrightarrow\;$ $\mathbb{Q}$ is a \alert{subfield} of $\mathbb{R}$
+    \end{description}
+  \end{hlbox}
 
   \note{
     Finally, Steps 8 and 9 show that the rationals sit naturally inside the
@@ -239,7 +287,12 @@
     regard the rationals as a subfield of the reals. Let's begin with Step 1.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_02.png}%
+}
 % =============================================================================
 % STEP 1: DEDEKIND CUTS
 % =============================================================================
@@ -274,8 +327,10 @@
   \end{center}
 
   \vspace{0.3em}
-  A \alert{cut} $\alpha$ is a subset of $\mathbb{Q}$ that is ``everything to
-  the left'' of some dividing point.
+  \begin{hlbox}
+    A \alert{cut} $\alpha$ is a subset of $\mathbb{Q}$ that is ``everything to
+    the left'' of some dividing point.
+  \end{hlbox}
 
   \note{
     Here is the central idea. Think of the rational number line. A Dedekind cut
@@ -343,8 +398,10 @@
   \end{defblock}
 
   \vspace{0.3em}
-  The members of $\mathbb{R}$ will be the cuts. Letters $p, q, r, \dots$ denote
-  rationals; $\alpha, \beta, \gamma, \dots$ denote cuts.
+  \begin{hlbox}
+    The members of $\mathbb{R}$ will be the cuts. Letters $p, q, r, \dots$ denote
+    rationals; $\alpha, \beta, \gamma, \dots$ denote cuts.
+  \end{hlbox}
 
   \note{
     Property 3 is subtle but essential. It is a technical convention that
@@ -358,19 +415,21 @@
 
 % --- Consequences of the definition ---
 \begin{frame}{Consequences of the Definition}
-  Property (II) immediately implies two useful facts:
-
-  \vspace{0.5em}
-  \begin{enumerate}
-    \item If $p \in \alpha$ and $q \notin \alpha$, then $p < q$
+  \begin{hlbox}
+    Property (II) immediately implies two useful facts:
 
     \vspace{0.5em}
-    \item If $r \notin \alpha$ and $r < s$, then $s \notin \alpha$
-  \end{enumerate}
+    \begin{enumerate}
+      \item If $p \in \alpha$ and $q \notin \alpha$, then $p < q$
 
-  \vspace{0.5em}
-  \textbf{Intuition:} Elements of $\alpha$ are always \emph{smaller} than
-  non-elements.
+      \vspace{0.5em}
+      \item If $r \notin \alpha$ and $r < s$, then $s \notin \alpha$
+    \end{enumerate}
+
+    \vspace{0.5em}
+    \textbf{Intuition:} Elements of $\alpha$ are always \emph{smaller} than
+    non-elements.
+  \end{hlbox}
 
     \note{
       Notice these are just contrapositives of the definition, not new
@@ -424,7 +483,12 @@
     without ever having to refer to them.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_03.png}%
+}
 % =============================================================================
 % STEP 2: ORDER ON \mathbb{R}
 % =============================================================================
@@ -541,8 +605,10 @@
 
 % --- Trichotomy diagram ---
 \begin{frame}{Proof of Trichotomy --- Key Idea}
-  Assume $\alpha \not\subset \beta$. Then some $p \in \alpha$ satisfies
-  $p \notin \beta$:
+  \begin{hlbox}
+    Assume $\alpha \not\subset \beta$. Then some $p \in \alpha$ satisfies
+    $p \notin \beta$:
+  \end{hlbox}
 
   \begin{center}
   \begin{tikzpicture}[scale=0.85]
@@ -576,12 +642,14 @@
   \end{tikzpicture}
   \end{center}
 
-  Since $p \notin \beta$, \emph{every} $q \in \beta$ satisfies $q < p$,
-  so $q \in \alpha$.
+  \begin{hlbox}
+    Since $p \notin \beta$, \emph{every} $q \in \beta$ satisfies $q < p$,
+    so $q \in \alpha$.
 
-  \vspace{0.3em}
-  Thus $\beta \subset \alpha$, and since $\beta \neq \alpha$:
-  $\;\beta < \alpha$.
+    \vspace{0.3em}
+    Thus $\beta \subset \alpha$, and since $\beta \neq \alpha$:
+    $\;\beta < \alpha$.
+  \end{hlbox}
 
   \note{
     The strategy is a dichotomy: either "alpha" is contained in "beta" or
@@ -632,6 +700,12 @@
 % =============================================================================
 % STEP 3: LEAST UPPER BOUND PROPERTY
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_04.png}%
+}
 
 \section{Step 3: The Least-Upper-Bound Property}
 
@@ -641,12 +715,14 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Strategy:} Given $A \subset \mathbb{R}$ nonempty and bounded above by
-  $\beta$, define
-  \[
-    \gamma \;=\; \bigcup_{\alpha \in A} \alpha
-  \]
-  and show $\gamma = \sup A$.
+  \begin{hlbox}
+    \textbf{Strategy:} Given $A \subset \mathbb{R}$ nonempty and bounded above by
+    $\beta$, define
+    \[
+      \gamma \;=\; \bigcup_{\alpha \in A} \alpha
+    \]
+    and show $\gamma = \sup A$.
+  \end{hlbox}
 
     \note{
       This is the payoff for all the care we put into defining cuts.
@@ -725,7 +801,9 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  $\boxed{\gamma \in R}$
+  \begin{center}
+    \hl{$\boxed{\gamma \in R}$}
+  \end{center}
 
   \note{
     The no-maximum property also transfers up from the pieces to the
@@ -756,7 +834,9 @@
       \end{proofblock}
 
   \vspace{0.3em}
-  $\boxed{\gamma = \sup A}$
+  \begin{center}
+    \hl{$\boxed{\gamma = \sup A}$}
+  \end{center}
 
   \note{
     The upper-bound part is trivial by definition of union. The
@@ -805,7 +885,9 @@
   \end{tikzpicture}
   \end{center}
 
-  The union $\gamma$ reaches exactly as far as the ``largest'' cut in $A$.
+  \begin{hlbox}
+    The union $\gamma$ reaches exactly as far as the ``largest'' cut in $A$.
+  \end{hlbox}
 
   \note{
     Pause on one subtlety the diagram hides. When "A" is an infinite
@@ -823,6 +905,12 @@
 % =============================================================================
 % STEP 4: ADDITION
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_05.png}%
+}
 
 \section{Step 4: Addition of Cuts}
 
@@ -881,7 +969,9 @@
   \end{center}
 
   \vspace{0.3em}
-  Adding cuts ``adds their boundary points.''
+  \begin{hlbox}
+    Adding cuts ``adds their boundary points.''
+  \end{hlbox}
 
   \note{
     Here is the geometric picture. If "alpha" is the cut at some point "a" and
@@ -962,7 +1052,9 @@
     Then $t + s > r + s = p$ and $t + s \in \alpha + \beta$.   \end{proofblock}
 
   \vspace{0.3em}
-  $\boxed{\alpha + \beta \text{ is a cut}}$
+  \begin{center}
+    \hl{$\boxed{\alpha + \beta \text{ is a cut}}$}
+  \end{center}
 
   \note{
     Notice how property 3 of the sum piggybacks on property 3 of
@@ -1028,13 +1120,15 @@
   \end{defblock}
 
   \vspace{0.3em}
-  \textbf{High-level idea:} Obtain $-\alpha$ by \alert{flipping the
-  "complement"} of $\alpha$ (rationals $> $ boundary) across $0$ (to get
-  rationals $< $ -boundary). The buffer $r > 0$ ensures the boundary point
-  itself is \emph{excluded} from $-\alpha$.
+  \begin{hlbox}
+    \textbf{High-level idea:} Obtain $-\alpha$ by \alert{flipping the
+    "complement"} of $\alpha$ (rationals $> $ boundary) across $0$ (to get
+    rationals $< $ -boundary). The buffer $r > 0$ ensures the boundary point
+    itself is \emph{excluded} from $-\alpha$.
 
-  \vspace{0.3em}
-  \textbf{Goal:} Show $\beta \in \mathbb{R}$ and $\alpha + \beta = 0^*$.
+    \vspace{0.3em}
+    \textbf{Goal:} Show $\beta \in \mathbb{R}$ and $\alpha + \beta = 0^*$.
+  \end{hlbox}
 
   \note{
     The trickiest axiom is the existence of additive inverses. Given a cut
@@ -1093,9 +1187,11 @@
   \end{center}
 
   \vspace{0.3em}
-  $p \in \beta$ because $-p - r \notin \alpha$: the point $-p$ lies
-  \alert{safely beyond} $\alpha$, so $p$ lies safely to the \alert{left of}
-  $-\alpha$.
+  \begin{hlbox}
+    $p \in \beta$ because $-p - r \notin \alpha$: the point $-p$ lies
+    \alert{safely beyond} $\alpha$, so $p$ lies safely to the \alert{left of}
+    $-\alpha$.
+  \end{hlbox}
 
   \note{
     This diagram makes the definition of the additive inverse concrete. On the
@@ -1249,9 +1345,11 @@
   \end{center}
 
   \vspace{0.2em}
-  $v/2$ sits \alert{exactly halfway} between $p$ and $nw$: shifting by
-  $t = (n+1)w$ to the right lands at $nw \in \alpha$, shifting by $t$ to
-  the left lands at $p \in \beta$.
+  \begin{hlbox}
+    $v/2$ sits \alert{exactly halfway} between $p$ and $nw$: shifting by
+    $t = (n+1)w$ to the right lands at $nw \in \alpha$, shifting by $t$ to
+    the left lands at $p \in \beta$.
+  \end{hlbox}
 
   \note{
     This diagram visualizes the clever splitting. On the bottom number line we
@@ -1276,6 +1374,12 @@
 % =============================================================================
 % STEP 5: ORDER AND ADDITION
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_06.png}%
+}
 
 \section{Step 5: Order Compatibility with Addition}
 
@@ -1321,8 +1425,10 @@
   \end{remblock}
 
   \vspace{0.5em}
-  With Steps 4 and 5, the first requirement of an ordered field
-  (Definition~1.17) is satisfied.
+  \begin{hlbox}
+    With Steps 4 and 5, the first requirement of an ordered field
+    (Definition~1.17) is satisfied.
+  \end{hlbox}
 
   \note{
     As a consequence, a cut is positive if and only if its additive inverse is
@@ -1336,6 +1442,12 @@
 % =============================================================================
 % STEPS 6--7: MULTIPLICATION
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_07.png}%
+}
 
 \section{Steps 6--7: Multiplication}
 
@@ -1386,7 +1498,9 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  The proofs parallel the addition axioms from Step~4.
+  \begin{hlbox}
+    The proofs parallel the addition axioms from Step~4.
+  \end{hlbox}
 
   \note{
     Rudin skips these proofs because they are mechanical repetitions
@@ -1462,6 +1576,12 @@
 % =============================================================================
 % STEPS 8--9: EMBEDDING Q INTO \mathbb{R}
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_08.png}%
+}
 
 \section{Steps 8--9: Embedding $\mathbb{Q}$ into $\mathbb{R}$}
 
@@ -1474,7 +1594,9 @@
   \end{defblock}
 
   \vspace{0.3em}
-  Each $r^*$ is a cut (easy to verify). These are the \alert{rational cuts}.
+  \begin{hlbox}
+    Each $r^*$ is a cut (easy to verify). These are the \alert{rational cuts}.
+  \end{hlbox}
 
   \begin{center}
   \begin{tikzpicture}[scale=0.9]
@@ -1542,7 +1664,9 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  The proof of (b) is similar to (a).
+  \begin{hlbox}
+    The proof of (b) is similar to (a).
+  \end{hlbox}
 
   \note{
     The second property says that multiplying rational cuts corresponds to
@@ -1600,8 +1724,10 @@
   \end{remblock}
 
   \vspace{0.3em}
-  \emph{This identification allows us to regard $\mathbb{Q}$ as a subfield
-  of~$\mathbb{R}$.}
+  \begin{hlbox}
+    \emph{This identification allows us to regard $\mathbb{Q}$ as a subfield
+    of~$\mathbb{R}$.}
+  \end{hlbox}
 
   \note{
     Step 9 puts everything together. The rational cuts form a subset of "R"
@@ -1624,12 +1750,14 @@
   \end{remblock}
 
   \vspace{0.5em}
-  \textbf{Historical note:}
-  \begin{itemize}
-    \item \textbf{Dedekind} (1872): Construction via cuts (the one we just saw)
-    \item \textbf{Cantor} (1872): Construction via Cauchy sequences of
-          rationals
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Historical note:}
+    \begin{itemize}
+      \item \textbf{Dedekind} (1872): Construction via cuts (the one we just saw)
+      \item \textbf{Cantor} (1872): Construction via Cauchy sequences of
+            rationals
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     A remarkable fact, which Rudin states without proof, is that any two
@@ -1645,16 +1773,24 @@
 % =============================================================================
 % SUMMARY
 % =============================================================================
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_09.png}%
+}
 
 \section{Summary}
 
 % --- Summary: Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this appendix:}
-  \begin{itemize}
-    \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
-          of $\mathbb{Q}$ with no largest element
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this appendix:}
+    \begin{itemize}
+      \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
+            of $\mathbb{Q}$ with no largest element
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's review the key ideas from this appendix. First, a Dedekind cut is a
@@ -1666,13 +1802,15 @@
 
 % --- Summary: Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this appendix:}
-  \begin{itemize}
-    \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
-          of $\mathbb{Q}$ with no largest element
-    \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
-          \alert{least-upper-bound property} (the supremum is the union)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this appendix:}
+    \begin{itemize}
+      \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
+            of $\mathbb{Q}$ with no largest element
+      \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
+            \alert{least-upper-bound property} (the supremum is the union)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The set of all cuts, ordered by inclusion, automatically has the
@@ -1684,15 +1822,17 @@
 
 % --- Summary: Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this appendix:}
-  \begin{itemize}
-    \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
-          of $\mathbb{Q}$ with no largest element
-    \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
-          \alert{least-upper-bound property} (the supremum is the union)
-    \item With addition and multiplication defined on cuts, $\mathbb{R}$ becomes an
-          \alert{ordered field}
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this appendix:}
+    \begin{itemize}
+      \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
+            of $\mathbb{Q}$ with no largest element
+      \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
+            \alert{least-upper-bound property} (the supremum is the union)
+      \item With addition and multiplication defined on cuts, $\mathbb{R}$ becomes an
+            \alert{ordered field}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     By defining addition as pairwise sums and multiplication carefully by
@@ -1703,21 +1843,23 @@
 
 % --- Summary: Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this appendix:}
-  \begin{itemize}
-    \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
-          of $\mathbb{Q}$ with no largest element
-    \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
-          \alert{least-upper-bound property} (the supremum is the union)
-    \item With addition and multiplication defined on cuts, $\mathbb{R}$ becomes an
-          \alert{ordered field}
-    \item The rational cuts $r^* = \{p \in \mathbb{Q} : p < r\}$ embed
-          $\mathbb{Q}$ as a subfield of $\mathbb{R}$, completing the proof of
-          Theorem~1.19
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this appendix:}
+    \begin{itemize}
+      \item A \alert{Dedekind cut} is a nonempty, proper, downward-closed subset
+            of $\mathbb{Q}$ with no largest element
+      \item The set $\mathbb{R}$ of all cuts, ordered by inclusion, has the
+            \alert{least-upper-bound property} (the supremum is the union)
+      \item With addition and multiplication defined on cuts, $\mathbb{R}$ becomes an
+            \alert{ordered field}
+      \item The rational cuts $r^* = \{p \in \mathbb{Q} : p < r\}$ embed
+            $\mathbb{Q}$ as a subfield of $\mathbb{R}$, completing the proof of
+            Theorem~1.19
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{0.5em}
-  \textbf{Coming up next:} Chapter 2 --- Basic Topology.
+  \hl{\textbf{Coming up next:} Chapter 2 --- Basic Topology.}
 
   \note{
     Finally, every rational number corresponds to a rational cut, and this
@@ -1728,5 +1870,6 @@
     concepts of open sets, closed sets, and compactness.
   }
 \end{frame}
+}
 
 \end{document}

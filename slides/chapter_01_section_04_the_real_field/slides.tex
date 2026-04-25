@@ -29,6 +29,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -36,31 +58,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 1: The Real and Complex Number Systems}
@@ -74,6 +95,10 @@
 % TITLE AND OUTLINE
 % =============================================================================
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_00.png}%
+}
 \begin{frame}
   \titlepage
   \note{
@@ -84,9 +109,16 @@
     of nth roots. Let's get started.
   }
 \end{frame}
+}
 
-\begin{frame}{Outline}
-  \tableofcontents
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_01.png}%
+}
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is our outline for this section. We begin with the existence theorem
     for the real field, then explore two key consequences: the archimedean
@@ -104,9 +136,11 @@
 
 % --- Build 1/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's recall the key problem from the introduction. We showed that there is
@@ -118,10 +152,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
-    \item We need an ordered field with the \alert{least-upper-bound property}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
+      \item We need an ordered field with the \alert{least-upper-bound property}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     To do analysis properly, we need an ordered field that has no such gaps.
@@ -133,11 +169,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
-    \item We need an ordered field with the \alert{least-upper-bound property}
-    \item This section: state the existence of $\mathbb{R}$ and derive key consequences
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The rationals $\mathbb{Q}$ have \alert{gaps} (e.g., no $p \in \mathbb{Q}$ with $p^2 = 2$)
+      \item We need an ordered field with the \alert{least-upper-bound property}
+      \item This section: state the existence of $\mathbb{R}$ and derive key consequences
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     In this section, we state the existence of such a field, which we call the
@@ -151,8 +189,6 @@
 \begin{frame}{Theorem 1.19: Existence of $\mathbb{R}$}
   \begin{thmblock}{Theorem 1.19}
     There exists an ordered field $\mathbb{R}$ which has the \alert{least-upper-bound property}.
-
-    \vspace{0.5em}
     Moreover, $\mathbb{R}$ contains $\mathbb{Q}$ as a subfield.
   \end{thmblock}
 
@@ -168,13 +204,15 @@
 
 % --- Remark on 1.19: Build 1/3 ---
 \begin{frame}{Theorem 1.19: What This Means}
-  The members of $\mathbb{R}$ are called \alert{real numbers}.
+  \begin{hlbox}
+    The members of $\mathbb{R}$ are called \alert{real numbers}.
 
-  \vspace{1em}
-  \textbf{Key points:}
-  \begin{itemize}
-    \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
-  \end{itemize}
+    \vspace{1em}
+    \textbf{Key points:}
+    \begin{itemize}
+      \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The elements of "R" are called real numbers. The statement that "Q" is a
@@ -186,14 +224,16 @@
 
 % --- Remark on 1.19: Build 2/3 ---
 \begin{frame}{Theorem 1.19: What This Means}
-  The members of $\mathbb{R}$ are called \alert{real numbers}.
+  \begin{hlbox}
+    The members of $\mathbb{R}$ are called \alert{real numbers}.
 
-  \vspace{1em}
-  \textbf{Key points:}
-  \begin{itemize}
-    \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
-    \item Positive rationals remain positive in $\mathbb{R}$
-  \end{itemize}
+    \vspace{1em}
+    \textbf{Key points:}
+    \begin{itemize}
+      \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
+      \item Positive rationals remain positive in $\mathbb{R}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Second, the positive rationals remain positive elements of "R". This is
@@ -205,15 +245,17 @@
 
 % --- Remark on 1.19: Build 3/3 ---
 \begin{frame}{Theorem 1.19: What This Means}
-  The members of $\mathbb{R}$ are called \alert{real numbers}.
+  \begin{hlbox}
+    The members of $\mathbb{R}$ are called \alert{real numbers}.
 
-  \vspace{1em}
-  \textbf{Key points:}
-  \begin{itemize}
-    \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
-    \item Positive rationals remain positive in $\mathbb{R}$
-    \item The proof \emph{constructs} $\mathbb{R}$ from $\mathbb{Q}$ (via Dedekind cuts --- see Appendix)
-  \end{itemize}
+    \vspace{1em}
+    \textbf{Key points:}
+    \begin{itemize}
+      \item $\mathbb{Q} \subset \mathbb{R}$, with the same $+$ and $\times$ on rationals
+      \item Positive rationals remain positive in $\mathbb{R}$
+      \item The proof \emph{constructs} $\mathbb{R}$ from $\mathbb{Q}$ (via Dedekind cuts --- see Appendix)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Third, the proof of this theorem is quite long and is given in the Appendix
@@ -257,7 +299,9 @@
   \end{center}
 
   \vspace{0.3em}
-  $\mathbb{R}$ \alert{fills all the gaps} in $\mathbb{Q}$ --- it is a \emph{complete} ordered field.
+  \begin{center}
+    \hl{$\mathbb{R}$ \alert{fills all the gaps} in $\mathbb{Q}$ --- it is a \emph{complete} ordered field.}
+  \end{center}
 
   \note{
     This diagram shows the real number line. The blue dots represent rational
@@ -269,7 +313,12 @@
     completeness.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_02.png}%
+}
 % =============================================================================
 % SECTION 2: THE ARCHIMEDEAN PROPERTY AND DENSITY OF Q
 % =============================================================================
@@ -322,18 +371,20 @@
 
 % --- Terminology ---
 \begin{frame}{Terminology}
-  \begin{itemize}
-    \item Part (a) is the \alert{archimedean property} of $\mathbb{R}$:
+  \begin{hlbox}
+    \begin{itemize}
+      \item Part (a) is the \alert{archimedean property} of $\mathbb{R}$:
 
-    \vspace{0.3em}
-    No element of $\mathbb{R}$ is ``infinitely large'' relative to any other.
+      \vspace{0.3em}
+      No element of $\mathbb{R}$ is ``infinitely large'' relative to any other.
 
-    \vspace{0.8em}
-    \item Part (b) says $\mathbb{Q}$ is \alert{dense} in $\mathbb{R}$:
+      \vspace{0.8em}
+      \item Part (b) says $\mathbb{Q}$ is \alert{dense} in $\mathbb{R}$:
 
-    \vspace{0.3em}
-    Between any two reals, there is a rational.
-  \end{itemize}
+      \vspace{0.3em}
+      Between any two reals, there is a rational.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's clarify the terminology. The archimedean property means there are no
@@ -373,7 +424,11 @@
   \end{center}
 
   \vspace{0.3em}
-  No matter how small $x > 0$ is, repeated addition \alert{eventually surpasses} any $y$.
+  \begin{center}
+    \begin{hlbox}
+    No matter how small $x > 0$ is, repeated addition \alert{eventually surpasses} any $y$.
+    \end{hlbox}
+  \end{center}
 
   \note{
     This diagram illustrates the archimedean property. We start with a small
@@ -386,7 +441,7 @@
 \end{frame}
 
 % --- Diagram: Density of Q ---
-\begin{frame}{Density of $\mathbb{Q}$ in $\mathbb{R}$: Illustration}
+\begin{frame}[c]{Density of $\mathbb{Q}$ in $\mathbb{R}$: Illustration}
   \begin{center}
   \begin{tikzpicture}[scale=1.1]
     % Number line
@@ -422,18 +477,20 @@
 
 % --- Proof of 1.20(a): Strategy ---
 \begin{frame}{Proof of 1.20(a): Strategy}
-  \textbf{Goal:} Show that for $x > 0$, the set $\{nx : n \in \mathbb{Z}^+\}$ is \alert{unbounded above}.
+  \begin{hlbox}
+    \textbf{Goal:} Show that for $x > 0$, the set $\{nx : n \in \mathbb{Z}^+\}$ is \alert{unbounded above}.
 
-  \vspace{1em}
-  \textbf{Technique:} Proof by contradiction using the least-upper-bound property.
+    \vspace{1em}
+    \textbf{Technique:} Proof by contradiction using the least-upper-bound property.
 
-  \vspace{1em}
-  \textbf{Idea:}
-  \begin{enumerate}
-    \item Suppose the set $A = \{nx\}$ is bounded above.
-    \item Then $\alpha = \sup A$ exists (by Theorem 1.19).
-    \item Show this leads to a contradiction.
-  \end{enumerate}
+    \vspace{1em}
+    \textbf{Idea:}
+    \begin{enumerate}
+      \item Suppose the set $A = \{nx\}$ is bounded above.
+      \item Then $\alpha = \sup A$ exists (by Theorem 1.19).
+      \item Show this leads to a contradiction.
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     Let's prove the archimedean property. Our strategy is proof by
@@ -499,14 +556,16 @@
 
 % --- Proof of 1.20(b): Strategy ---
 \begin{frame}{Proof of 1.20(b): Strategy}
-  \textbf{Goal:} Given $x < y$, find a rational $p = m/n$ with $x < m/n < y$.
+  \begin{hlbox}
+    \textbf{Goal:} Given $x < y$, find a rational $p = m/n$ with $x < m/n < y$.
 
-  \vspace{1em}
-  \textbf{Idea:} Use the archimedean property \emph{twice}:
-  \begin{enumerate}
-    \item Find $n$ large enough so that $1/n$ is smaller than $y - x$.
-    \item Find the right integer $m$ so that $m/n$ lands between $x$ and $y$.
-  \end{enumerate}
+    \vspace{1em}
+    \textbf{Idea:} Use the archimedean property \emph{twice}:
+    \begin{enumerate}
+      \item Find $n$ large enough so that $1/n$ is smaller than $y - x$.
+      \item Find the right integer $m$ so that $m/n$ lands between $x$ and $y$.
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     Now let's prove part "b", the density of the rationals. We need to find a
@@ -587,7 +646,7 @@
 \end{frame}
 
 % --- Diagram: Proof idea for 1.20(b) ---
-\begin{frame}{Proof of 1.20(b): Visual Summary}
+\begin{frame}[c]{Proof of 1.20(b): Visual Summary}
   \begin{center}
   \begin{tikzpicture}[scale=1.0]
     % Number line
@@ -623,6 +682,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_03.png}%
+}
 % =============================================================================
 % SECTION 3: EXISTENCE OF NTH ROOTS
 % =============================================================================
@@ -639,7 +704,9 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  This number $y$ is written $\sqrt[n]{x}$ or $x^{1/n}$.
+  \begin{center}
+    \hl{This number $y$ is written $\sqrt[n]{x}$ or $x^{1/n}$.}
+  \end{center}
 
   \note{
     Now we come to a beautiful application of the least-upper-bound property.
@@ -653,17 +720,19 @@
 
 % --- Proof Strategy ---
 \begin{frame}{Proof Strategy: Theorem 1.21}
-  \textbf{Goal:} Find $y > 0$ with $y^n = x$.
+  \begin{hlbox}
+    \textbf{Goal:} Find $y > 0$ with $y^n = x$.
 
-  \vspace{0.8em}
-  \textbf{Approach:}
-  \begin{enumerate}
-    \item \textbf{Uniqueness:} If $0 < y_1 < y_2$, then $y_1^n < y_2^n$. At most one root.
-    \item \textbf{Define} $E = \{t > 0 : t^n < x\}$.
-    \item \textbf{Show} $E \neq \emptyset$ and $E$ is bounded above. Set $y = \sup E$.
-    \item \textbf{Rule out} $y^n < x$: build $h > 0$ with $(y+h)^n < x$, so $y+h \in E$ --- contradicts $y$ being an \alert{upper bound}.
-    \item \textbf{Rule out} $y^n > x$: build $k > 0$ with $(y-k)^n > x$, so $y-k$ is an upper bound --- contradicts $y$ being the \alert{least} upper bound.
-  \end{enumerate}
+    \vspace{0.8em}
+    \textbf{Approach:}
+    \begin{enumerate}
+      \item \textbf{Uniqueness:} If $0 < y_1 < y_2$, then $y_1^n < y_2^n$. At most one root.
+      \item \textbf{Define} $E = \{t > 0 : t^n < x\}$.
+      \item \textbf{Show} $E \neq \emptyset$ and $E$ is bounded above. Set $y = \sup E$.
+      \item \textbf{Rule out} $y^n < x$: build $h > 0$ with $(y+h)^n < x$, so $y+h \in E$ --- contradicts $y$ being an \alert{upper bound}.
+      \item \textbf{Rule out} $y^n > x$: build $k > 0$ with $(y-k)^n > x$, so $y-k$ is an upper bound --- contradicts $y$ being the \alert{least} upper bound.
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     Here is the proof strategy. Uniqueness is immediate: the function "t" to the
@@ -708,10 +777,12 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  \textbf{$E$ is not empty:} Take $t = \dfrac{x}{1+x}$. Then $0 < t < 1$, so $t^n \leq t < x$.
+  \begin{hlbox}
+    \textbf{$E$ is not empty:} Take $t = \dfrac{x}{1+x}$. Then $0 < t < 1$, so $t^n \leq t < x$.
 
-  \vspace{0.5em}
-  \textbf{$E$ is bounded above:} If $t > 1 + x$, then $t^n \geq t > x$, so $t \notin E$.
+    \vspace{0.5em}
+    \textbf{$E$ is bounded above:} If $t > 1 + x$, then $t^n \geq t > x$, so $t \notin E$.
+  \end{hlbox}
 
   \note{
     We define "E" to be the set of all positive reals "t" whose nth power is less
@@ -735,7 +806,9 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  \textbf{Claim:} $y^n = x$.
+  \begin{center}
+    \hl{\textbf{Claim:} $y^n = x$.}
+  \end{center}
 
   \note{
     By the least-upper-bound property, the supremum "y" of "E" exists. Our claim is
@@ -862,6 +935,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_04.png}%
+}
 % =============================================================================
 % SECTION 4: COROLLARY AND DECIMALS
 % =============================================================================
@@ -914,16 +993,18 @@
 
 % --- 1.22 Decimals: Build 1/2 ---
 \begin{frame}{1.22: Decimals}
-  Let $x > 0$ be real. Define a sequence of digits:
+  \begin{hlbox}
+    Let $x > 0$ be real. Define a sequence of digits:
 
-  \vspace{0.5em}
-  \begin{itemize}
-    \item $n_0$ = largest integer $\leq x$ \quad {\footnotesize (exists by archimedean property)}
-    \item $n_k$ = largest integer such that
-    \begin{equation}
-      n_0 + \frac{n_1}{10} + \cdots + \frac{n_k}{10^k} \leq x \tag{5}
-    \end{equation}
-  \end{itemize}
+    \vspace{0.5em}
+    \begin{itemize}
+      \item $n_0$ = largest integer $\leq x$ \quad {\footnotesize (exists by archimedean property)}
+      \item $n_k$ = largest integer such that
+      \begin{equation}
+        n_0 + \frac{n_1}{10} + \cdots + \frac{n_k}{10^k} \leq x \tag{5}
+      \end{equation}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We conclude this section with a brief discussion of decimal expansions.
@@ -937,25 +1018,27 @@
 
 % --- 1.22 Decimals: Build 2/2 ---
 \begin{frame}{1.22: Decimals}
-  Let $x > 0$ be real. Define a sequence of digits:
+  \begin{hlbox}
+    Let $x > 0$ be real. Define a sequence of digits:
 
-  \vspace{0.5em}
-  \begin{itemize}
-    \item $n_0$ = largest integer $\leq x$ \quad {\footnotesize (exists by archimedean property)}
-    \item $n_k$ = largest integer such that
+    \vspace{0.5em}
+    \begin{itemize}
+      \item $n_0$ = largest integer $\leq x$ \quad {\footnotesize (exists by archimedean property)}
+      \item $n_k$ = largest integer such that
+      \begin{equation}
+        n_0 + \frac{n_1}{10} + \cdots + \frac{n_k}{10^k} \leq x \tag{5}
+      \end{equation}
+    \end{itemize}
+
+    \vspace{0.3em}
+    Let $E$ be the set of all such partial sums. Then $x = \sup E$.
+
+    \vspace{0.3em}
+    The \alert{decimal expansion} of $x$ is:
     \begin{equation}
-      n_0 + \frac{n_1}{10} + \cdots + \frac{n_k}{10^k} \leq x \tag{5}
+      n_0 \cdot n_1 n_2 n_3 \cdots \tag{6}
     \end{equation}
-  \end{itemize}
-
-  \vspace{0.3em}
-  Let $E$ be the set of all such partial sums. Then $x = \sup E$.
-
-  \vspace{0.3em}
-  The \alert{decimal expansion} of $x$ is:
-  \begin{equation}
-    n_0 \cdot n_1 n_2 n_3 \cdots \tag{6}
-  \end{equation}
+  \end{hlbox}
 
   \note{
     The set "E" of all these partial decimal sums is bounded above by "x" itself.
@@ -968,6 +1051,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_05.png}%
+}
 % =============================================================================
 % SUMMARY
 % =============================================================================
@@ -976,10 +1065,12 @@
 
 % --- Summary: Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's summarize what we covered in this section. The foundational result is
@@ -991,11 +1082,13 @@
 
 % --- Summary: Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
-    \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
+      \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The archimedean property, Theorem 1.20 part a, tells us that the reals
@@ -1007,12 +1100,14 @@
 
 % --- Summary: Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
-    \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
-    \item \textbf{Theorem 1.20(b):} $\mathbb{Q}$ is dense in $\mathbb{R}$ --- rationals are everywhere
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
+      \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
+      \item \textbf{Theorem 1.20(b):} $\mathbb{Q}$ is dense in $\mathbb{R}$ --- rationals are everywhere
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Part "b" of Theorem 1.20 shows that the rationals are dense in the reals:
@@ -1025,16 +1120,18 @@
 
 % --- Summary: Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
-    \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
-    \item \textbf{Theorem 1.20(b):} $\mathbb{Q}$ is dense in $\mathbb{R}$ --- rationals are everywhere
-    \item \textbf{Theorem 1.21:} Every positive real has a unique $n$th root
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \textbf{Theorem 1.19:} $\mathbb{R}$ exists as an ordered field with the least-upper-bound property, containing $\mathbb{Q}$
+      \item \textbf{Theorem 1.20(a):} Archimedean property --- no infinitely large elements
+      \item \textbf{Theorem 1.20(b):} $\mathbb{Q}$ is dense in $\mathbb{R}$ --- rationals are everywhere
+      \item \textbf{Theorem 1.21:} Every positive real has a unique $n$th root
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{0.8em}
-  \textbf{Coming up next:} The extended real number system ($+\infty$ and $-\infty$).
+  \hl{\textbf{Coming up next:} The extended real number system ($+\infty$ and $-\infty$).}
 
   \note{
     Finally, Theorem 1.21 establishes that every positive real number has a
@@ -1045,5 +1142,6 @@
     and negative infinity, creating the extended real number system.
   }
 \end{frame}
+}
 
 \end{document}

@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 1: The Real and Complex Number Systems}
@@ -73,6 +94,10 @@
 % TITLE AND OUTLINE
 % =============================================================================
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_00.png}%
+}
 \begin{frame}
   \titlepage
   \note{
@@ -84,9 +109,16 @@
     absolute value, and the important Schwarz inequality.
   }
 \end{frame}
+}
 
-\begin{frame}{Outline}
-  \tableofcontents
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_01.png}%
+}
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is our outline for this section. We begin with the definition of
     complex numbers and verify that they form a field. Then we show how
@@ -105,9 +137,11 @@
 
 % --- Build 1/3 ---
 \begin{frame}{Why the Complex Numbers?}
-  \begin{itemize}
-    \item We have built $\mathbb{R}$ with the least upper bound property
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item We have built $\mathbb{R}$ with the least upper bound property
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's begin with some motivation. In the previous sections we carefully
@@ -119,10 +153,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why the Complex Numbers?}
-  \begin{itemize}
-    \item We have built $\mathbb{R}$ with the least upper bound property
-    \item But not every polynomial has a root in $\mathbb{R}$ --- e.g., $x^2 + 1 = 0$
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item We have built $\mathbb{R}$ with the least upper bound property
+      \item But not every polynomial has a root in $\mathbb{R}$ --- e.g., $x^2 + 1 = 0$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The problem is that certain very simple equations have no solution in the
@@ -135,11 +171,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why the Complex Numbers?}
-  \begin{itemize}
-    \item We have built $\mathbb{R}$ with the least upper bound property
-    \item But not every polynomial has a root in $\mathbb{R}$ --- e.g., $x^2 + 1 = 0$
-    \item Solution: extend $\mathbb{R}$ to the \alert{complex numbers} $\mathbb{C}$
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item We have built $\mathbb{R}$ with the least upper bound property
+      \item But not every polynomial has a root in $\mathbb{R}$ --- e.g., $x^2 + 1 = 0$
+      \item Solution: extend $\mathbb{R}$ to the \alert{complex numbers} $\mathbb{C}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The solution is to extend the real numbers to a larger number system,
@@ -160,7 +198,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Equality:} $(a, b) = (c, d)$ if and only if $a = c$ and $b = d$.
+  \begin{hlbox}
+    \textbf{Equality:} $(a, b) = (c, d)$ if and only if $a = c$ and $b = d$.
+  \end{hlbox}
 
   \note{
     Here is the formal definition. A complex number is simply an ordered
@@ -176,13 +216,15 @@
 
 % --- Build 1/2 ---
 \begin{frame}{Definition 1.24: Arithmetic Operations}
-  Let $x = (a, b)$ and $y = (c, d)$.
+  \begin{hlbox}
+    Let $x = (a, b)$ and $y = (c, d)$.
 
-  \vspace{0.5em}
-  \textbf{Addition:}
-  \[
-    x + y = (a + c,\; b + d)
-  \]
+    \vspace{0.5em}
+    \textbf{Addition:}
+    \[
+      x + y = (a + c,\; b + d)
+    \]
+  \end{hlbox}
 
   \note{
     Now we define the arithmetic. Addition is done component-wise: we add
@@ -194,18 +236,20 @@
 
 % --- Build 2/2 ---
 \begin{frame}{Definition 1.24: Arithmetic Operations}
-  Let $x = (a, b)$ and $y = (c, d)$.
+  \begin{hlbox}
+    Let $x = (a, b)$ and $y = (c, d)$.
 
-  \vspace{0.5em}
-  \textbf{Addition:}
-  \[
-    x + y = (a + c,\; b + d)
-  \]
+    \vspace{0.5em}
+    \textbf{Addition:}
+    \[
+      x + y = (a + c,\; b + d)
+    \]
 
-  \textbf{Multiplication:}
-  \[
-    xy = (ac - bd,\; ad + bc)
-  \]
+    \textbf{Multiplication:}
+    \[
+      xy = (ac - bd,\; ad + bc)
+    \]
+  \end{hlbox}
 
   \note{
     Multiplication is more interesting. The formula may look strange at first,
@@ -278,19 +322,21 @@
 \end{frame}
 
 \begin{frame}{Proof Strategy: Theorem 1.25}
-  \textbf{Goal:} Verify all field axioms from Definition 1.12.
+  \begin{hlbox}
+    \textbf{Goal:} Verify all field axioms from Definition 1.12.
 
-  \vspace{0.5em}
-  \textbf{Approach:} Let $x = (a,b)$, $y = (c,d)$, $z = (e,f)$.
+    \vspace{0.5em}
+    \textbf{Approach:} Let $x = (a,b)$, $y = (c,d)$, $z = (e,f)$.
 
-  \vspace{0.3em}
-  \begin{tabular}{@{}ll}
-    \textbf{(A1)--(A5)} & Addition: closure, commutativity, associativity, \\
-                         & identity $(0,0)$, inverse $(-a,-b)$ \\[4pt]
-    \textbf{(M1)--(M5)} & Multiplication: closure, commutativity, associativity, \\
-                         & identity $(1,0)$, inverse $\tfrac{1}{x}$ \\[4pt]
-    \textbf{(D)}         & Distributive law
-  \end{tabular}
+    \vspace{0.3em}
+    \begin{tabular}{@{}ll}
+      \textbf{(A1)--(A5)} & Addition: closure, commutativity, associativity, \\
+                           & identity $(0,0)$, inverse $(-a,-b)$ \\[4pt]
+      \textbf{(M1)--(M5)} & Multiplication: closure, commutativity, associativity, \\
+                           & identity $(1,0)$, inverse $\tfrac{1}{x}$ \\[4pt]
+      \textbf{(D)}         & Distributive law
+    \end{tabular}
+  \end{hlbox}
 
   \note{
     Here is the roadmap for the proof. We verify each field axiom one by one.
@@ -426,7 +472,12 @@
     how the real numbers sit inside this new field.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_02.png}%
+}
 % =============================================================================
 % THEOREM 1.26 AND THE EMBEDDING OF R
 % =============================================================================
@@ -442,10 +493,12 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Key consequence:} We \alert{identify} $(a, 0)$ with $a$.
+  \begin{hlbox}
+    \textbf{Key consequence:} We \alert{identify} $(a, 0)$ with $a$.
 
-  \vspace{0.3em}
-  $\Longrightarrow$ $\mathbb{R}$ is a \emph{subfield} of $\mathbb{C}$.
+    \vspace{0.3em}
+    $\Longrightarrow$ $\mathbb{R}$ is a \emph{subfield} of $\mathbb{C}$.
+  \end{hlbox}
 
   \note{
     Theorem 1.26 says that complex numbers of the form "a", zero behave
@@ -521,7 +574,12 @@
     and the absolute value.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_03.png}%
+}
 % =============================================================================
 % DEFINITION 1.30: CONJUGATE
 % =============================================================================
@@ -661,7 +719,7 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  \textbf{Key fact:} $z\bar{z} = a^2 + b^2$
+  \hl{\textbf{Key fact:} $z\bar{z} = a^2 + b^2$}
 
   \note{
     Part "d" is especially important. The product "z" times "z" bar always gives
@@ -685,8 +743,10 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Note:} When $x$ is real: $|x| = \sqrt{x^2}$, so $|x| = x$ if $x \geq 0$,
-  and $|x| = -x$ if $x < 0$.
+  \begin{hlbox}
+    \textbf{Note:} When $x$ is real: $|x| = \sqrt{x^2}$, so $|x| = x$ if $x \geq 0$,
+    and $|x| = -x$ if $x < 0$.
+  \end{hlbox}
 
   \note{
     The absolute value is defined using the product of "z" with its conjugate,
@@ -734,7 +794,12 @@
     of the absolute value.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_04.png}%
+}
 % =============================================================================
 % THEOREM 1.33
 % =============================================================================
@@ -908,7 +973,9 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  Taking square roots: $\boxed{|z + w| \leq |z| + |w|}$
+  \begin{center}
+    \hl{Taking square roots: $\boxed{|z + w| \leq |z| + |w|}$}
+  \end{center}
 
   \note{
     Here is where the earlier results pay off. We chain two inequalities:
@@ -956,7 +1023,12 @@
     the Schwarz inequality.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_05.png}%
+}
 % =============================================================================
 % NOTATION 1.34
 % =============================================================================
@@ -1069,7 +1141,12 @@
     throughout analysis. Let's now summarize the key ideas from this section.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_06.png}%
+}
 % =============================================================================
 % SUMMARY
 % =============================================================================
@@ -1078,10 +1155,12 @@
 
 % --- Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Complex numbers are ordered pairs $(a,b)$ of reals, forming a \alert{field} $\mathbb{C}$
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Complex numbers are ordered pairs of reals, forming a \alert{field} $\mathbb{C}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's review what we covered in this section. First, we defined complex
@@ -1094,11 +1173,13 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Complex numbers are ordered pairs $(a,b)$ of reals, forming a \alert{field} $\mathbb{C}$
-    \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Complex numbers are ordered pairs of reals, forming a \alert{field} $\mathbb{C}$
+      \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Second, we showed that the reals embed naturally into the complex numbers
@@ -1112,12 +1193,14 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Complex numbers are ordered pairs $(a,b)$ of reals, forming a \alert{field} $\mathbb{C}$
-    \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
-    \item Conjugation ($\bar{z} = a - bi$) and absolute value ($|z| = \sqrt{a^2+b^2}$) satisfy the \alert{triangle inequality}
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Complex numbers are ordered pairs of reals, forming a \alert{field} $\mathbb{C}$
+      \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
+      \item Conjugation ($\bar{z} = a - bi$) and absolute value ($|z| = \sqrt{a^2+b^2}$) satisfy the \alert{triangle inequality}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Third, we introduced conjugation and the absolute value, and proved
@@ -1131,16 +1214,18 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Complex numbers are ordered pairs $(a,b)$ of reals, forming a \alert{field} $\mathbb{C}$
-    \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
-    \item Conjugation ($\bar{z} = a - bi$) and absolute value ($|z| = \sqrt{a^2+b^2}$) satisfy the \alert{triangle inequality}
-    \item The \alert{Schwarz inequality}: $\left|\sum a_j \bar{b}_j\right|^2 \leq \sum |a_j|^2 \sum |b_j|^2$
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Complex numbers are ordered pairs of reals, forming a \alert{field} $\mathbb{C}$
+      \item $\mathbb{R} \subset \mathbb{C}$ via $(a,0) \leftrightarrow a$; \; $i = (0,1)$ with $i^2 = -1$
+      \item Conjugation ($\bar{z} = a - bi$) and absolute value ($|z| = \sqrt{a^2+b^2}$) satisfy the \alert{triangle inequality}
+      \item The \alert{Schwarz inequality}: $\left|\sum a_j \bar{b}_j\right|^2 \leq \sum |a_j|^2 \sum |b_j|^2$
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{1em}
-  \textbf{Coming up next:} Euclidean Spaces --- generalizing $\mathbb{C}$ to $\mathbb{R}^k$.
+  \hl{\textbf{Coming up next:} Euclidean Spaces --- generalizing $\mathbb{C}$ to $\mathbb{R}^k$.}
 
   \note{
     Finally, we proved the Schwarz inequality, which bounds the inner
@@ -1150,5 +1235,6 @@
     vector spaces. Thank you for watching.
   }
 \end{frame}
+}
 
 \end{document}

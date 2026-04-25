@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,32 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-% Override Metropolis block styling for colored blocks
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 1: The Real and Complex Number Systems}
@@ -70,6 +90,10 @@
 
 \begin{document}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_00.png}%
+}
 % ============================================================
 % TITLE AND OUTLINE
 % ============================================================
@@ -86,9 +110,16 @@
     the least-upper-bound property. Let's begin.
   }
 \end{frame}
+}
 
-\begin{frame}{Outline}
-  \tableofcontents
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_01.png}%
+}
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
 
   \note{
     Here is our plan for this section. We will start with the basic
@@ -106,9 +137,11 @@
 
 % --- Build 1/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     In the previous section, we showed that there is no rational number
@@ -119,10 +152,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
-    \item We need precise language: \emph{order}, \emph{bounds}, \emph{supremum}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
+      \item We need precise language: \emph{order}, \emph{bounds}, \emph{supremum}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     To describe these gaps, we need to formalize the notions of order,
@@ -133,11 +168,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
-    \item We need precise language: \emph{order}, \emph{bounds}, \emph{supremum}
-    \item The \alert{least-upper-bound property} will distinguish $\mathbb{R}$ from $\mathbb{Q}$
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item The Introduction showed that $\mathbb{Q}$ has \alert{gaps}
+      \item We need precise language: \emph{order}, \emph{bounds}, \emph{supremum}
+      \item The \alert{least-upper-bound property} will distinguish $\mathbb{R}$ from $\mathbb{Q}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The key idea in this section is the least-upper-bound property. This
@@ -210,7 +247,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Notation:} $y > x$ means $x < y$. \quad $x \leq y$ means $x < y$ or $x = y$.
+  \begin{hlbox}
+    \textbf{Notation:} $y > x$ means $x < y$. \quad $x \leq y$ means $x < y$ or $x = y$.
+  \end{hlbox}
 
   \note{
     A few words about notation. We write "y" greater than "x" as a synonym
@@ -228,7 +267,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Example:} $\mathbb{Q}$ is an ordered set, where $r < s$ means $s - r$ is a positive rational.
+  \begin{hlbox}
+    \textbf{Example:} $\mathbb{Q}$ is an ordered set, where $r < s$ means $s - r$ is a positive rational.
+  \end{hlbox}
 
   \note{
     An ordered set is simply a set equipped with an order relation
@@ -249,7 +290,7 @@
   \end{defblock}
 
   \vspace{0.3em}
-  \alert{Lower bounds} are defined symmetrically (with $\geq$ in place of $\leq$).
+  \hl{\alert{Lower bounds} are defined symmetrically (with $\geq$ in place of $\leq$).}
 
   \begin{center}
   \begin{tikzpicture}[scale=1.1]
@@ -283,6 +324,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_02.png}%
+}
 % ============================================================
 \section{Supremum and Infimum}
 % ============================================================
@@ -321,7 +368,7 @@
   \end{defblock}
 
   \vspace{0.3em}
-  We write $\alpha = \sup E$.
+  \hl{We write $\alpha = \sup E$.}
 
   \begin{center}
   \begin{tikzpicture}[scale=1.1]
@@ -329,7 +376,7 @@
     % Set E
     \draw[very thick, blue] (1,0) -- (3.5,0);
     \fill[blue] (1,0) circle (2pt) node[below=4pt]{\footnotesize$a$};
-    \draw[blue] (3.5,0) circle (2pt) node[below=4pt]{\footnotesize$b$};
+    \draw[blue, fill=white] (3.5,0) circle (2pt) node[below=4pt]{\footnotesize$b$};
     \node[blue, above=4pt] at (2.25,0) {$E$};
     % Upper bounds region
     \draw[thick, red, ->] (3.5,0.35) -- (6.3,0.35);
@@ -374,7 +421,7 @@
     % Set E
     \draw[very thick, blue] (2,0) -- (5,0);
     \fill[blue] (5,0) circle (2pt) node[below=4pt]{\footnotesize$b$};
-    \draw[blue] (2,0) circle (2pt) node[below=4pt]{\footnotesize$a$};
+    \draw[blue, fill=white] (2,0) circle (2pt) node[below=4pt]{\footnotesize$a$};
     \node[blue, above=4pt] at (3.5,0) {$E$};
     % Lower bounds region
     \draw[thick, teal, ->] (2,0.35) -- (-0.3,0.35);
@@ -396,6 +443,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_03.png}%
+}
 % ============================================================
 \section{Examples}
 % ============================================================
@@ -418,11 +471,11 @@
     \fill (0.5,0) circle (1.5pt) node[below=4pt]{\footnotesize$0$};
     % Set A
     \draw[very thick, blue] (0.5,0) -- (3.2,0);
-    \draw[blue] (3.2,0) circle (2pt);
+    \draw[blue, fill=white] (3.2,0) circle (2pt);
     \node[blue, above=4pt] at (1.8,0) {$A$};
     % Set B
     \draw[very thick, red] (3.2,0) -- (6.5,0);
-    \draw[red] (3.2,0) circle (2pt);
+    \draw[red, fill=white] (3.2,0) circle (2pt);
     \draw[red,->] (6.5,0) -- (6.8,0);
     \node[red, above=4pt] at (5.0,0) {$B$};
     % sqrt(2) gap
@@ -473,14 +526,14 @@
   \end{exblock}
 
   \vspace{0.3em}
-  Let $E_1 = \{r \in \mathbb{Q} : r < 0\}$ and $E_2 = \{r \in \mathbb{Q} : r \leq 0\}$.
+  \hl{Let $E_1 = \{r \in \mathbb{Q} : r < 0\}$ and $E_2 = \{r \in \mathbb{Q} : r \leq 0\}$.}
 
   \begin{center}
   \begin{tikzpicture}[scale=1.0]
     % E_1
     \draw[->] (-0.5,0.8) -- (5,0.8);
     \draw[very thick, blue] (-0.2,0.8) -- (2.5,0.8);
-    \draw[blue] (2.5,0.8) circle (2pt) node[above=4pt]{\footnotesize$0$};
+    \draw[blue, fill=white] (2.5,0.8) circle (2pt) node[above=4pt]{\footnotesize$0$};
     \node[blue, below=4pt] at (1.2,0.8) {$E_1$};
     \node[right] at (5,0.8) {\footnotesize$\sup E_1 = 0$, \; $0 \notin E_1$};
     \draw[blue, <-] (-0.2,0.8) -- (-0.5,0.8);
@@ -502,14 +555,14 @@
   \end{exblock}
 
   \vspace{0.3em}
-  Let $E_1 = \{r \in \mathbb{Q} : r < 0\}$ and $E_2 = \{r \in \mathbb{Q} : r \leq 0\}$.
+  \hl{Let $E_1 = \{r \in \mathbb{Q} : r < 0\}$ and $E_2 = \{r \in \mathbb{Q} : r \leq 0\}$.}
 
   \begin{center}
   \begin{tikzpicture}[scale=1.0]
     % E_1
     \draw[->] (-0.5,1.2) -- (5,1.2);
     \draw[very thick, blue] (-0.2,1.2) -- (2.5,1.2);
-    \draw[blue] (2.5,1.2) circle (2pt) node[above=4pt]{\footnotesize$0$};
+    \draw[blue, fill=white] (2.5,1.2) circle (2pt) node[above=4pt]{\footnotesize$0$};
     \node[blue, below=4pt] at (1.2,1.2) {$E_1$};
     \node[right] at (5,1.2) {\footnotesize$\sup E_1 = 0$, \; $0 \notin E_1$};
     \draw[blue, <-] (-0.2,1.2) -- (-0.5,1.2);
@@ -524,7 +577,7 @@
   \end{center}
 
   \vspace{0.3em}
-  Both have $\sup = 0$, but membership differs.
+  \hl{Both have $\sup = 0$, but membership differs.}
 
   \note{
     Now consider "E" sub 2, the set of all rationals less than or equal to
@@ -555,7 +608,7 @@
     \fill[blue] (0.714,0) circle (1.3pt);
     \fill[blue] (0.625,0) circle (1.2pt);
     % Zero
-    \draw[teal] (0.2,0) circle (2.5pt) node[below=6pt]{\footnotesize$0$};
+    \draw[teal, fill=white] (0.2,0) circle (2.5pt) node[below=6pt]{\footnotesize$0$};
     % Annotations
     \node[teal, above=12pt] at (-0.6,0) {\footnotesize$\inf E = 0$};
     \node[red, above=12pt] at (5,0) {\footnotesize$\sup E = 1$};
@@ -563,7 +616,7 @@
   \end{center}
 
   \vspace{0.3em}
-  $\sup E = 1 \in E$, \quad $\inf E = 0 \notin E$.
+  \hl{$\sup E = 1 \in E$, \quad $\inf E = 0 \notin E$.}
 
   \note{
     Here is another instructive example. Let "E" be the set of all
@@ -578,6 +631,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_04.png}%
+}
 % ============================================================
 \section{The Least-Upper-Bound Property}
 % ============================================================
@@ -593,7 +652,7 @@
   \end{defblock}
 
   \vspace{0.5em}
-  Example 1.9(a) shows: \alert{$\mathbb{Q}$ does \emph{not} have the least-upper-bound property.}
+  \hl{Example 1.9(a) shows: \alert{$\mathbb{Q}$ does \emph{not} have the least-upper-bound property.}}
 
   \note{
     This is one of the most important definitions in the book. An
@@ -608,6 +667,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_05.png}%
+}
 % ============================================================
 \section{Theorem 1.11 and Proof}
 % ============================================================
@@ -638,16 +703,18 @@
 
 % --- Proof Strategy ---
 \begin{frame}{Proof Strategy: Theorem 1.11}
-  \textbf{Goal:} Show $\sup L = \inf B$, where $L = \{\text{lower bounds of } B\}$.
+  \begin{hlbox}
+    \textbf{Goal:} Show $\sup L = \inf B$, where $L = \{\text{lower bounds of } B\}$.
 
-  \vspace{0.8em}
-  \textbf{Approach:}
-  \begin{enumerate}
-    \item Show $L$ is nonempty and bounded above $\Longrightarrow$ $\sup L$ exists.
-    \item Show $\alpha = \sup L$ is a lower bound of $B$ (i.e., $\alpha \in L$).
-    \item Show nothing larger than $\alpha$ is a lower bound of $B$.
-    \item Conclude $\alpha = \inf B$.
-  \end{enumerate}
+    \vspace{0.8em}
+    \textbf{Approach:}
+    \begin{enumerate}
+      \item Show $L$ is nonempty and bounded above $\Longrightarrow$ $\sup L$ exists.
+      \item Show $\alpha = \sup L$ is a lower bound of $B$ (i.e., $\alpha \in L$).
+      \item Show nothing larger than $\alpha$ is a lower bound of $B$.
+      \item Conclude $\alpha = \inf B$.
+    \end{enumerate}
+  \end{hlbox}
 
   \begin{center}
   \begin{tikzpicture}[scale=1.0]
@@ -733,14 +800,16 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  \textbf{Conclusion:}
-  \begin{itemize}
-    \item $\alpha$ is a lower bound of $B$ \hfill (Step 2)
-    \item No $\beta > \alpha$ is a lower bound of $B$ \hfill (Step 3)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Conclusion:}
+    \begin{itemize}
+      \item $\alpha$ is a lower bound of $B$ \hfill (Step 2)
+      \item No $\beta > \alpha$ is a lower bound of $B$ \hfill (Step 3)
+    \end{itemize}
 
-  \vspace{0.3em}
-  $\boxed{\alpha = \inf B}$
+    \vspace{0.3em}
+    $\boxed{\alpha = \inf B}$
+  \end{hlbox}
 
   \note{
     Finally, suppose "beta" is strictly greater than "alpha". Since "alpha" is
@@ -756,16 +825,24 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_06.png}%
+}
 % ============================================================
 \section{Summary}
 % ============================================================
 
 % --- Summary: Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's review what we covered. First, we defined what an order is:
@@ -777,11 +854,13 @@
 
 % --- Summary: Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
-    \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
+      \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Second, we defined upper and lower bounds, and introduced the
@@ -792,12 +871,14 @@
 
 % --- Summary: Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
-    \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
-    \item $\mathbb{Q}$ lacks the \alert{least-upper-bound property} (Ex.\ 1.9, Def.\ 1.10)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
+      \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
+      \item $\mathbb{Q}$ lacks the \alert{least-upper-bound property} (Ex.\ 1.9, Def.\ 1.10)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Third, we saw concretely that the rationals do not have the
@@ -808,16 +889,18 @@
 
 % --- Summary: Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
-    \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
-    \item $\mathbb{Q}$ lacks the \alert{least-upper-bound property} (Ex.\ 1.9, Def.\ 1.10)
-    \item LUB property $\Longrightarrow$ GLB property (Thm.\ 1.11)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item An \alert{order} on a set requires trichotomy and transitivity (Def.\ 1.5--1.6)
+      \item The \alert{supremum} is the least upper bound; the \alert{infimum} is the greatest lower bound (Def.\ 1.7--1.8)
+      \item $\mathbb{Q}$ lacks the \alert{least-upper-bound property} (Ex.\ 1.9, Def.\ 1.10)
+      \item LUB property $\Longrightarrow$ GLB property (Thm.\ 1.11)
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{1em}
-  \textbf{Coming up next:} Fields --- the algebraic structure of $\mathbb{Q}$ and $\mathbb{R}$.
+  \hl{\textbf{Coming up next:} Fields --- the algebraic structure of $\mathbb{Q}$ and $\mathbb{R}$.}
 
   \note{
     And finally, Theorem 1.11 showed that the least-upper-bound property
@@ -828,5 +911,6 @@
     multiplication --- of the rational and real numbers. See you there.
   }
 \end{frame}
+}
 
 \end{document}

@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 1: The Real and Complex Number Systems}
@@ -73,6 +94,10 @@
 % TITLE AND OUTLINE
 % =============================================================================
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_00.png}%
+}
 \begin{frame}
   \titlepage
   \note{
@@ -84,9 +109,16 @@
     the supremum of an unbounded set always make sense.
   }
 \end{frame}
+}
 
-\begin{frame}{Outline}
-  \tableofcontents
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_01.png}%
+}
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is our outline for this section. We will start with the motivation
     for extending the real number system, then state the formal definition,
@@ -104,9 +136,11 @@
 
 % --- Build 1/3 ---
 \begin{frame}{Why Extend the Real Numbers?}
-  \begin{itemize}
-    \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Before we state the definition, let's understand why this extension is
@@ -120,10 +154,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why Extend the Real Numbers?}
-  \begin{itemize}
-    \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
-    \item We want $\sup E$ and $\inf E$ to \alert{always exist} for nonempty $E$
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
+      \item We want $\sup E$ and $\inf E$ to \alert{always exist} for nonempty $E$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The goal is to set up a system where every nonempty subset has both
@@ -135,11 +171,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why Extend the Real Numbers?}
-  \begin{itemize}
-    \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
-    \item We want $\sup E$ and $\inf E$ to \alert{always exist} for nonempty $E$
-    \item Solution: add two symbols, $+\infty$ and $-\infty$, to the real line
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item In $\mathbb{R}$, unbounded sets have \emph{no} supremum or infimum
+      \item We want $\sup E$ and $\inf E$ to \alert{always exist} for nonempty $E$
+      \item Solution: add two symbols, $+\infty$ and $-\infty$, to the real line
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The solution is elegant and simple: we adjoin two new symbols, plus
@@ -148,7 +186,12 @@
     convenient extended system. Let's see the formal definition.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_02.png}%
+}
 % =============================================================================
 % DEFINITION
 % =============================================================================
@@ -165,7 +208,7 @@
   \end{defblock}
 
   \vspace{0.5em}
-  The original order among real numbers is preserved.
+  \hl{The original order among real numbers is preserved.}
 
   \note{
     Here is Definition 1.23. The extended real number system is the real
@@ -210,10 +253,12 @@
   \end{center}
 
   \vspace{0.3em}
-  \begin{itemize}
-    \item Open circles: $+\infty$ and $-\infty$ are \emph{not} real numbers
-    \item They are \emph{symbols} adjoined to $\mathbb{R}$ with a defined ordering
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Open circles: $+\infty$ and $-\infty$ are \emph{not} real numbers
+      \item They are \emph{symbols} adjoined to $\mathbb{R}$ with a defined ordering
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     This diagram shows the extended real line. The real numbers sit in the
@@ -225,7 +270,12 @@
     other element.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_03.png}%
+}
 % =============================================================================
 % CONSEQUENCES FOR SUPREMA AND INFIMA
 % =============================================================================
@@ -234,9 +284,11 @@
 
 % --- Build 1/4 ---
 \begin{frame}{Suprema and Infima Always Exist}
-  \begin{itemize}
-    \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Now let's see the immediate payoff of this extension. Since plus infinity
@@ -248,10 +300,12 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Suprema and Infima Always Exist}
-  \begin{itemize}
-    \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
-    \item Therefore: every nonempty subset has a \alert{least upper bound}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
+      \item Therefore: every nonempty subset has a \alert{least upper bound}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Because plus infinity serves as a universal upper bound, every nonempty
@@ -264,11 +318,13 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Suprema and Infima Always Exist}
-  \begin{itemize}
-    \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
-    \item Therefore: every nonempty subset has a \alert{least upper bound}
-    \item Dually: $-\infty$ is a lower bound of every subset, so every nonempty subset has a \alert{greatest lower bound}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
+      \item Therefore: every nonempty subset has a \alert{least upper bound}
+      \item Dually: $-\infty$ is a lower bound of every subset, so every nonempty subset has a \alert{greatest lower bound}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     By exactly the same reasoning, minus infinity is a lower bound of every
@@ -281,18 +337,22 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Suprema and Infima Always Exist}
-  \begin{itemize}
-    \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
-    \item Therefore: every nonempty subset has a \alert{least upper bound}
-    \item Dually: $-\infty$ is a lower bound of every subset, so every nonempty subset has a \alert{greatest lower bound}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $+\infty$ is an upper bound of \emph{every} subset of the extended reals
+      \item Therefore: every nonempty subset has a \alert{least upper bound}
+      \item Dually: $-\infty$ is a lower bound of every subset, so every nonempty subset has a \alert{greatest lower bound}
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{0.5em}
-  \textbf{Key example:} If $E \subset \mathbb{R}$ is nonempty and not bounded above in~$\mathbb{R}$, then
-  \[
-    \sup E = +\infty
-  \]
-  in the extended real number system. Similarly, $\inf E = -\infty$ if $E$ is not bounded below.
+  \begin{hlbox}
+    \textbf{Key example:} If $E \subset \mathbb{R}$ is nonempty and not bounded above in~$\mathbb{R}$, then
+    \[
+      \sup E = +\infty
+    \]
+    in the extended real number system. Similarly, $\inf E = -\infty$ if $E$ is not bounded below.
+  \end{hlbox}
 
   \note{
     Here is the key example. Suppose "E" is a nonempty set of real numbers
@@ -305,7 +365,12 @@
     the extended reals.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_04.png}%
+}
 % =============================================================================
 % ARITHMETIC CONVENTIONS
 % =============================================================================
@@ -318,11 +383,13 @@
   \end{remblock}
 
   \vspace{0.5em}
-  Expressions like $\infty - \infty$, $\;0 \cdot \infty$, $\;\frac{\infty}{\infty}$
-  are \textbf{not defined}.
+  \begin{hlbox}
+    Expressions like $\infty - \infty$, $\;0 \cdot \infty$, $\;\frac{\infty}{\infty}$
+    are \textbf{not defined}.
 
-  \vspace{0.5em}
-  However, certain arithmetic operations \emph{are} defined by convention.
+    \vspace{0.5em}
+    However, certain arithmetic operations \emph{are} defined by convention.
+  \end{hlbox}
 
   \note{
     Before we list the arithmetic conventions, an important warning: the
@@ -338,7 +405,7 @@
 
 % --- Convention (a): Build 1/3 ---
 \begin{frame}{Arithmetic Conventions for the Extended Reals}
-  For any \emph{real} number $x$:
+  \hl{For any \emph{real} number $x$:}
 
   \vspace{0.5em}
   \begin{defblock}{Convention (a): Addition and Division}
@@ -361,7 +428,7 @@
 
 % --- Convention (b): Build 2/3 ---
 \begin{frame}{Arithmetic Conventions for the Extended Reals}
-  For any \emph{real} number $x$:
+  \hl{For any \emph{real} number $x$:}
 
   \vspace{0.5em}
   \begin{defblock}{Convention (a): Addition and Division}
@@ -387,7 +454,7 @@
 
 % --- Convention (c): Build 3/3 ---
 \begin{frame}{Arithmetic Conventions for the Extended Reals}
-  For any \emph{real} number $x$:
+  \hl{For any \emph{real} number $x$:}
 
   \vspace{0.5em}
   \begin{defblock}{Convention (a): Addition and Division}
@@ -417,7 +484,12 @@
     indeterminate form.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_05.png}%
+}
 % =============================================================================
 % TERMINOLOGY
 % =============================================================================
@@ -458,7 +530,12 @@
     what we have learned.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_01_bg_06.png}%
+}
 % =============================================================================
 % SUMMARY
 % =============================================================================
@@ -467,10 +544,12 @@
 
 % --- Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let's review the key points from this section. First, the extended
@@ -483,11 +562,13 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
-    \item Every nonempty subset has a supremum and an infimum
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
+      \item Every nonempty subset has a supremum and an infimum
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The main benefit is that every nonempty subset now has both a least
@@ -499,12 +580,14 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
-    \item Every nonempty subset has a supremum and an infimum
-    \item It is \emph{not} a field --- certain operations are undefined
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
+      \item Every nonempty subset has a supremum and an infimum
+      \item It is \emph{not} a field --- certain operations are undefined
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     However, this convenience comes with a caveat. The extended system is
@@ -517,17 +600,20 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
-    \item Every nonempty subset has a supremum and an infimum
-    \item It is \emph{not} a field --- certain operations are undefined
-    \item Arithmetic with $\pm\infty$ follows conventions (a), (b), (c)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item The extended real number system is $\mathbb{R} \cup \{-\infty, +\infty\}$
+      \item Every nonempty subset has a supremum and an infimum
+      \item It is \emph{not} a field --- certain operations are undefined
+      \item Arithmetic with $\pm\infty$ follows conventions (a), (b), (c)
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{1em}
-  \textbf{Coming up next:} The Complex Field --- extending $\mathbb{R}$ in a
-  completely different direction.
+  \begin{hlbox}
+    \textbf{Coming up next:} The Complex Field --- extending $\mathbb{R}$ in a completely different direction.
+  \end{hlbox}
 
   \note{
     Finally, we have the three arithmetic conventions for combining real
@@ -538,5 +624,6 @@
     negative one and build the complex number field.
   }
 \end{frame}
+}
 
 \end{document}
