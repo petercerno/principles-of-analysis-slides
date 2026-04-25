@@ -20,6 +20,13 @@
 *.vrb
 *.xdv
 
+# Generated video files
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.wmv
+
 # Generated subtitle files
 *.txt
 
