@@ -20,6 +20,9 @@
 *.vrb
 *.xdv
 
+# Generated PPTX files
+*.pptx
+
 # Generated video files
 *.mp4
 *.avi
