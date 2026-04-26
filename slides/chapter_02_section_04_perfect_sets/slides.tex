@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 2: Basic Topology}
@@ -69,6 +90,10 @@
 
 \begin{document}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_00.png}%
+}
 % =============================================================================
 \begin{frame}
   \titlepage
@@ -84,10 +109,17 @@
     and in topology.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_01.png}%
+}
 % =============================================================================
-\begin{frame}{Outline}
-  \tableofcontents
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is the plan. We start with a short motivation for why perfect sets
     deserve a dedicated section. Then we state and prove Theorem 2.43, which
@@ -103,12 +135,15 @@
 % =============================================================================
 % --- Motivation ---
 % =============================================================================
+\section{Motivation}
 
 % --- Build 1/3 ---
 \begin{frame}{Why Perfect Sets Matter}
-  \begin{itemize}
-    \item A \alert{perfect} set is closed with \emph{no isolated points}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item A \alert{perfect} set is closed with \emph{no isolated points}
+    \end{itemize}
+  \end{hlbox}
   \note{
     Recall from Definition 2.18 that a set is perfect if it is closed and
     every point of the set is also a limit point. In plain terms, every
@@ -120,10 +155,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why Perfect Sets Matter}
-  \begin{itemize}
-    \item A \alert{perfect} set is closed with \emph{no isolated points}
-    \item Every nonempty perfect set in $\mathbb{R}^k$ is \alert{uncountable}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item A \alert{perfect} set is closed with \emph{no isolated points}
+      \item Every nonempty perfect set in $\mathbb{R}^k$ is \alert{uncountable}
+    \end{itemize}
+  \end{hlbox}
   \note{
     The main result of this section is that every nonempty perfect subset of
     Euclidean space is uncountable. So once a closed set packs itself
@@ -136,11 +173,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why Perfect Sets Matter}
-  \begin{itemize}
-    \item A \alert{perfect} set is closed with \emph{no isolated points}
-    \item Every nonempty perfect set in $\mathbb{R}^k$ is \alert{uncountable}
-    \item The \alert{Cantor set}: perfect, uncountable, contains no interval
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item A \alert{perfect} set is closed with \emph{no isolated points}
+      \item Every nonempty perfect set in $\mathbb{R}^k$ is \alert{uncountable}
+      \item The \alert{Cantor set}: perfect, uncountable, contains no interval
+    \end{itemize}
+  \end{hlbox}
   \note{
     Then we turn to the headline example: the Cantor set. It lives inside
     the unit interval, it contains no segment whatsoever, and yet it is
@@ -150,7 +189,12 @@
     now make everything precise.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_02.png}%
+}
 % =============================================================================
 \section{The Main Theorem}
 % =============================================================================
@@ -169,7 +213,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Equivalent form:} $E$ is perfect $\iff$ $E$ has no isolated points and contains all its limit points.
+  \begin{hlbox}
+    \textbf{Equivalent form:} $E$ is perfect $\iff$ no isolated points, contains all limit points.
+  \end{hlbox}
 
   \note{
     Before we prove anything, let us remind ourselves what a perfect set is.
@@ -194,10 +240,12 @@
   \end{thmblock}
 
   \vspace{0.8em}
-  \textbf{Contrast:} A countable set can still be closed --- e.g.\ $\mathbb{Z}$ or $\{1/n\} \cup \{0\}$.
+  \begin{hlbox}
+    \textbf{Contrast:} A countable set can still be closed --- e.g.\ $\mathbb{Z}$ or $\{1/n\} \cup \{0\}$.
 
-  \vspace{0.4em}
-  What fails for these sets? They have \emph{isolated points}.
+    \vspace{0.4em}
+    What fails for these sets? They have \emph{isolated points}.
+  \end{hlbox}
 
   \note{
     Here is the theorem. Take any nonempty perfect set "P" sitting inside "R"
@@ -218,21 +266,23 @@
 % =============================================================================
 
 \begin{frame}{Proof Strategy: Theorem 2.43}
-  \textbf{Approach:} \alert{Proof by contradiction}, using compactness.
+  \begin{hlbox}
+    \textbf{Approach:} \alert{Proof by contradiction}, using compactness.
 
-  \vspace{0.8em}
-  \textbf{Setup:} Assume $P$ is countable, so
-  \[
-    P = \{\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3, \dots\}.
-  \]
+    \vspace{0.8em}
+    \textbf{Setup:} Assume $P$ is countable, so
+    \[
+      P = \{\mathbf{x}_1, \mathbf{x}_2, \mathbf{x}_3, \dots\}.
+    \]
 
-  \vspace{0.4em}
-  \textbf{Plan:} Build a shrinking sequence of neighborhoods $V_1 \supset V_2 \supset \cdots$ such that
-  \begin{itemize}
-    \item each $V_n$ meets $P$,
-    \item $\overline{V}_{n+1}$ \alert{excludes} $\mathbf{x}_n$ --- so no listed point lies in every $\overline{V}_n$.
-  \end{itemize}
-  Then nested \emph{compact} sets $K_n = \overline{V}_n \cap P$ must share a point of $P$ --- \alert{contradiction}.
+    \vspace{0.4em}
+    \textbf{Plan:} Build a shrinking sequence of neighborhoods $V_1 \supset V_2 \supset \cdots$ such that
+    \begin{itemize}
+      \item each $V_n$ meets $P$,
+      \item $\overline{V}_{n+1}$ \alert{excludes} $\mathbf{x}_n$ --- so no listed point lies in every $\overline{V}_n$.
+    \end{itemize}
+    Then nested \emph{compact} sets $K_n = \overline{V}_n \cap P$ must share a point of $P$ --- \alert{contradiction}.
+  \end{hlbox}
 
   \note{
     The proof is a contradiction argument with a compactness twist. We
@@ -269,7 +319,7 @@
   \end{proofblock}
 
   \vspace{0.4em}
-  Since $\mathbf{x}_1 \in P$, we have $V_1 \cap P \neq \emptyset$.
+  \hl{Since $\mathbf{x}_1 \in P$, we have $V_1 \cap P \neq \emptyset$.}
 
   \note{
     We start by choosing any open ball around the first listed point "x" sub
@@ -293,10 +343,12 @@
   \end{proofblock}
 
   \vspace{0.6em}
-  We want to construct $V_{n+1}$ satisfying:
-  \begin{enumerate}
-    \item[(i)] $\overline{V}_{n+1} \subset V_n$
-  \end{enumerate}
+  \begin{hlbox}
+    We want to construct $V_{n+1}$ satisfying:
+    \begin{enumerate}
+      \item[(i)] $\overline{V}_{n+1} \subset V_n$
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     Now for the inductive step. Suppose we have already constructed "V"
@@ -316,11 +368,13 @@
   \end{proofblock}
 
   \vspace{0.6em}
-  We want to construct $V_{n+1}$ satisfying:
-  \begin{enumerate}
-    \item[(i)] $\overline{V}_{n+1} \subset V_n$
-    \item[(ii)] $\mathbf{x}_n \notin \overline{V}_{n+1}$ \quad \alert{(kick out the $n$-th listed point)}
-  \end{enumerate}
+  \begin{hlbox}
+    We want to construct $V_{n+1}$ satisfying:
+    \begin{enumerate}
+      \item[(i)] $\overline{V}_{n+1} \subset V_n$
+      \item[(ii)] $\mathbf{x}_n \notin \overline{V}_{n+1}$ \quad \alert{(kick out the $n$-th listed point)}
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     The second property is the clever part. We insist that "x" sub
@@ -339,12 +393,14 @@
   \end{proofblock}
 
   \vspace{0.6em}
-  We want to construct $V_{n+1}$ satisfying:
-  \begin{enumerate}
-    \item[(i)] $\overline{V}_{n+1} \subset V_n$
-    \item[(ii)] $\mathbf{x}_n \notin \overline{V}_{n+1}$ \quad \alert{(kick out the $n$-th listed point)}
-    \item[(iii)] $V_{n+1} \cap P \neq \emptyset$ \quad \alert{(propagate the hypothesis)}
-  \end{enumerate}
+  \begin{hlbox}
+    We want to construct $V_{n+1}$ satisfying:
+    \begin{enumerate}
+      \item[(i)] $\overline{V}_{n+1} \subset V_n$
+      \item[(ii)] $\mathbf{x}_n \notin \overline{V}_{n+1}$ \quad \alert{(kick out the $n$-th listed point)}
+      \item[(iii)] $V_{n+1} \cap P \neq \emptyset$ \quad \alert{(propagate the hypothesis)}
+    \end{enumerate}
+  \end{hlbox}
 
   \note{
     The third property is what we need to run the induction again:
@@ -362,13 +418,15 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  Choose $\mathbf{q} \in P$ with $\mathbf{q} \neq \mathbf{x}_n$ arbitrarily close to $\mathbf{p}$.\\
-  Take $V_{n+1}$ a tiny ball around $\mathbf{q}$ whose closure:
-  \begin{itemize}
-    \item stays inside $V_n$ \hfill [gives (i)]
-    \item misses $\mathbf{x}_n$ \hfill [gives (ii)]
-  \end{itemize}
-  Since $\mathbf{q} \in V_{n+1} \cap P$, we have (iii).
+  \begin{hlbox}
+    Choose $\mathbf{q} \in P$ with $\mathbf{q} \neq \mathbf{x}_n$ arbitrarily close to $\mathbf{p}$.\\
+    Take $V_{n+1}$ a tiny ball around $\mathbf{q}$ whose closure:
+    \begin{itemize}
+      \item stays inside $V_n$ \hfill [gives (i)]
+      \item misses $\mathbf{x}_n$ \hfill [gives (ii)]
+    \end{itemize}
+    Since $\mathbf{q} \in V_{n+1} \cap P$, we have (iii).
+  \end{hlbox}
 
   \note{
     Here is the construction, powered by perfection. Take any point "p" of
@@ -448,12 +506,14 @@
   \end{proofblock}
 
   \vspace{0.4em}
-  \textbf{Each $K_n$ is compact:}
-  \begin{itemize}
-    \item $\overline{V}_n$ is \alert{closed and bounded} in $\mathbb{R}^k$ $\Longrightarrow$ compact (Heine--Borel).
-    \item $P$ is closed.
-    \item $K_n = \overline{V}_n \cap P$ is a closed subset of a compact set $\Longrightarrow$ compact (Thm 2.35).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Each $K_n$ is compact:}
+    \begin{itemize}
+      \item $\overline{V}_n$ is \alert{closed and bounded} in $\mathbb{R}^k$ $\Longrightarrow$ compact (Heine--Borel).
+      \item $P$ is closed.
+      \item $K_n = \overline{V}_n \cap P$ is a closed subset of a compact set $\Longrightarrow$ compact (Thm 2.35).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Now we switch from open neighborhoods to compact building blocks. Define
@@ -521,11 +581,13 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  Therefore \alert{no listed point} $\mathbf{x}_n$ lies in $\bigcap_{m=1}^{\infty} K_m$, so
-  \[
-    \bigcap_{m=1}^{\infty} K_m \;\cap\; P \;=\; \emptyset.
-  \]
-  But $K_m \subset P$ for all $m$, so $\bigcap_{m=1}^{\infty} K_m = \emptyset$.
+  \begin{hlbox}
+    Therefore \alert{no listed point} $\mathbf{x}_n$ lies in $\bigcap_{m=1}^{\infty} K_m$, so
+    \[
+      \bigcap_{m=1}^{\infty} K_m \;\cap\; P \;=\; \emptyset.
+    \]
+    But $K_m \subset P$ for all $m$, so $\bigcap_{m=1}^{\infty} K_m = \emptyset$.
+  \end{hlbox}
 
   \note{
     Third, and this is the key observation, for each "n" the point "x" sub
@@ -546,20 +608,22 @@
 % =============================================================================
 
 \begin{frame}{Proof --- Conclusion}
-  We have a sequence of \alert{nonempty} nested \alert{compact} sets
-  \[
-    K_1 \supset K_2 \supset K_3 \supset \cdots
-  \]
-  with $\displaystyle \bigcap_{n=1}^{\infty} K_n = \emptyset$.
+  \begin{hlbox}
+    We have a sequence of \alert{nonempty} nested \alert{compact} sets
+    \[
+      K_1 \supset K_2 \supset K_3 \supset \cdots
+    \]
+    with $\displaystyle \bigcap_{n=1}^{\infty} K_n = \emptyset$.
 
-  \vspace{0.6em}
-  \textbf{But} the \emph{Corollary to Theorem 2.36} says
-  \[
-    \bigcap_{n=1}^{\infty} K_n \neq \emptyset.
-  \]
+    \vspace{0.6em}
+    \textbf{But} the \emph{Corollary to Theorem 2.36} says
+    \[
+      \bigcap_{n=1}^{\infty} K_n \neq \emptyset.
+    \]
 
-  \vspace{0.4em}
-  \centerline{\alert{Contradiction!} $\qquad\boxed{P \text{ cannot be countable.}}$}
+    \vspace{0.4em}
+    \centerline{\alert{Contradiction!} $\qquad\boxed{P \text{ cannot be countable.}}$}
+  \end{hlbox}
 
   \note{
     We have reached a contradiction. The corollary to Theorem 2.36 stated
@@ -583,12 +647,14 @@
   \end{thmblock}
 
   \vspace{0.8em}
-  \textbf{Why:} $[a,b] \subset \mathbb{R}$ is
-  \begin{itemize}
-    \item closed,
-    \item every point is a limit point (interior points approached from both sides; endpoints from inside),
-  \end{itemize}
-  so $[a,b]$ is \alert{perfect}. Apply Theorem 2.43.
+  \begin{hlbox}
+    \textbf{Why:} $[a,b] \subset \mathbb{R}$ is
+    \begin{itemize}
+      \item closed,
+      \item every point is a limit point (interior points approached from both sides; endpoints from inside),
+    \end{itemize}
+    so $[a,b]$ is \alert{perfect}. Apply Theorem 2.43.
+  \end{hlbox}
 
   \note{
     As an immediate consequence we get a classical result: every closed
@@ -604,6 +670,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_03.png}%
+}
 % =============================================================================
 \section{The Cantor Set}
 % =============================================================================
@@ -613,19 +685,21 @@
 % =============================================================================
 
 \begin{frame}{2.44 --- The Cantor Set}
-  \textbf{Goal:} Exhibit a perfect set in $\mathbb{R}^1$ that contains \alert{no segment}.
+  \begin{hlbox}
+    \textbf{Goal:} Exhibit a perfect set in $\mathbb{R}^1$ that contains \alert{no segment}.
 
-  \vspace{0.8em}
-  \textbf{Why is this surprising?}
+    \vspace{0.8em}
+    \textbf{Why is this surprising?}
 
-  \vspace{0.3em}
-  \begin{itemize}
-    \item The obvious perfect subsets of $\mathbb{R}$ --- closed intervals --- are ``thick''.
-    \item Can we have a perfect set that is so ``thin'' it contains no interval?
-  \end{itemize}
+    \vspace{0.3em}
+    \begin{itemize}
+      \item The obvious perfect subsets of $\mathbb{R}$ --- closed intervals --- are ``thick''.
+      \item Can we have a perfect set that is so ``thin'' it contains no interval?
+    \end{itemize}
 
-  \vspace{0.5em}
-  \textbf{Answer:} Yes --- the \alert{Cantor set}.
+    \vspace{0.5em}
+    \textbf{Answer:} Yes --- the \alert{Cantor set}.
+  \end{hlbox}
 
   \note{
     To round out the section, Rudin constructs the most famous example of
@@ -646,10 +720,7 @@
 
 % --- Build 1/4 ---
 \begin{frame}{Construction: Removing Middle Thirds}
-  \textbf{Start with:}
-  \[
-    E_0 = [0,1].
-  \]
+  \hl{\textbf{Start with:} $E_0 = [0,1].$}
 
   \vspace{0.5em}
   \begin{center}
@@ -672,10 +743,12 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Construction: Removing Middle Thirds}
-  \textbf{Stage 1:} remove the open segment $(\tfrac{1}{3},\tfrac{2}{3})$.
-  \[
-    E_1 = [0,\tfrac{1}{3}] \cup [\tfrac{2}{3},1].
-  \]
+  \begin{hlbox}
+    \textbf{Stage 1:} remove the open segment $(\tfrac{1}{3},\tfrac{2}{3})$.
+    \[
+      E_1 = [0,\tfrac{1}{3}] \cup [\tfrac{2}{3},1].
+    \]
+  \end{hlbox}
 
   \vspace{0.5em}
   \begin{center}
@@ -705,10 +778,12 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Construction: Removing Middle Thirds}
-  \textbf{Stage 2:} remove the middle thirds of each remaining interval.
-  \[
-    E_2 = [0,\tfrac{1}{9}] \cup [\tfrac{2}{9},\tfrac{3}{9}] \cup [\tfrac{6}{9},\tfrac{7}{9}] \cup [\tfrac{8}{9},1].
-  \]
+  \begin{hlbox}
+    \textbf{Stage 2:} remove the middle thirds of each remaining interval.
+    \[
+      E_2 = [0,\tfrac{1}{9}] \cup [\tfrac{2}{9},\tfrac{3}{9}] \cup [\tfrac{6}{9},\tfrac{7}{9}] \cup [\tfrac{8}{9},1].
+    \]
+  \end{hlbox}
 
   \vspace{0.5em}
   \begin{center}
@@ -743,11 +818,13 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Construction: Removing Middle Thirds}
-  \textbf{Continuing:} we obtain compact sets $E_n$ with
-  \begin{itemize}
-    \item[(a)] $E_1 \supset E_2 \supset E_3 \supset \cdots$
-    \item[(b)] $E_n$ is the union of $2^n$ intervals, each of length $3^{-n}$.
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Continuing:} we obtain compact sets $E_n$ with
+    \begin{itemize}
+      \item[(a)] $E_1 \supset E_2 \supset E_3 \supset \cdots$
+      \item[(b)] $E_n$ is the union of $2^n$ intervals, each of length $3^{-n}$.
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{0.3em}
   \begin{center}
@@ -802,12 +879,14 @@
   \end{defblock}
 
   \vspace{0.8em}
-  \textbf{Basic properties:}
-  \begin{itemize}
-    \item Each $E_n$ is closed and bounded, so \alert{compact}.
-    \item $P$ is an intersection of compact sets $\Longrightarrow$ $P$ is \alert{compact}.
-    \item By the Corollary to Theorem 2.36: $P \neq \emptyset$.
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Basic properties:}
+    \begin{itemize}
+      \item Each $E_n$ is closed and bounded, so \alert{compact}.
+      \item $P$ is an intersection of compact sets $\Longrightarrow$ $P$ is \alert{compact}.
+      \item By the Corollary to Theorem 2.36: $P \neq \emptyset$.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The Cantor set "P" is the intersection of all the stages "E" sub "n"
@@ -829,14 +908,16 @@
 
 % --- Build 1/2 ---
 \begin{frame}{$P$ Contains No Segment}
-  \textbf{Claim:} The Cantor set $P$ contains no segment $(\alpha,\beta)$.
+  \begin{hlbox}
+    \textbf{Claim:} The Cantor set $P$ contains no segment $(\alpha,\beta)$.
 
-  \vspace{0.8em}
-  \textbf{Removed segments:} At stage $m$, we removed all segments of the form
-  \[
-    \left(\frac{3k+1}{3^m},\,\frac{3k+2}{3^m}\right), \tag{24}
-  \]
-  where $k,m$ are positive integers. These segments are \alert{disjoint from $P$}.
+    \vspace{0.8em}
+    \textbf{Removed segments:} At stage $m$, we removed all segments of the form
+    \[
+      \left(\frac{3k+1}{3^m},\,\frac{3k+2}{3^m}\right), \tag{24}
+    \]
+    where $k,m$ are positive integers. These segments are \alert{disjoint from $P$}.
+  \end{hlbox}
 
   \note{
     The Cantor set has a striking smallness property: it contains no open
@@ -851,20 +932,22 @@
 
 % --- Build 2/2 ---
 \begin{frame}{$P$ Contains No Segment}
-  \textbf{Claim:} The Cantor set $P$ contains no segment $(\alpha,\beta)$.
+  \begin{hlbox}
+    \textbf{Claim:} The Cantor set $P$ contains no segment $(\alpha,\beta)$.
 
-  \vspace{0.8em}
-  \textbf{Removed segments:} At stage $m$, we removed all segments of the form
-  \[
-    \left(\frac{3k+1}{3^m},\,\frac{3k+2}{3^m}\right). \tag{24}
-  \]
+    \vspace{0.8em}
+    \textbf{Removed segments:} At stage $m$, we removed all segments of the form
+    \[
+      \left(\frac{3k+1}{3^m},\,\frac{3k+2}{3^m}\right). \tag{24}
+    \]
 
-  \vspace{0.4em}
-  \textbf{Every segment $(\alpha,\beta)$ contains one of form (24)}: pick $m$ so that
-  \[
-    3^{-m} < \frac{\beta-\alpha}{6}.
-  \]
-  Hence $(\alpha,\beta) \not\subset P$. \hfill \alert{$\boxed{P \text{ contains no segment.}}$}
+    \vspace{0.4em}
+    \textbf{Every segment $(\alpha,\beta)$ contains one of form (24)}: pick $m$ so that
+    \[
+      3^{-m} < \frac{\beta-\alpha}{6}.
+    \]
+    Hence $(\alpha,\beta) \not\subset P$. \hfill \alert{$\boxed{P \text{ contains no segment.}}$}
+  \end{hlbox}
 
   \note{
     Now take any open segment with endpoints alpha and beta, no matter how
@@ -883,14 +966,16 @@
 % =============================================================================
 
 \begin{frame}{$P$ is Perfect: Strategy}
-  \textbf{$P$ is closed} --- intersection of closed sets. \\
-  So we only need to show $P$ has \alert{no isolated point}.
+  \begin{hlbox}
+    \textbf{$P$ is closed} --- intersection of closed sets. \\
+    So we only need to show $P$ has \alert{no isolated point}.
 
-  \vspace{0.6em}
-  \textbf{Plan:} For every $x \in P$ and every segment $S$ containing $x$, find another point of $P$ in $S$.
+    \vspace{0.6em}
+    \textbf{Plan:} For every $x \in P$ and every segment $S$ containing $x$, find another point of $P$ in $S$.
 
-  \vspace{0.6em}
-  \textbf{Key trick:} The endpoints of each stage's intervals are \emph{never removed}, so they all lie in $P$.
+    \vspace{0.6em}
+    \textbf{Key trick:} The endpoints of each stage's intervals are \emph{never removed}, so they all lie in $P$.
+  \end{hlbox}
 
   \note{
     To show that "P" is perfect, we first note that "P" is closed, since
@@ -911,24 +996,26 @@
 % =============================================================================
 
 \begin{frame}{$P$ is Perfect: The Argument}
-  Let $x \in P$ and let $S$ be any segment containing $x$.
+  \begin{hlbox}
+    Let $x \in P$ and let $S$ be any segment containing $x$.
 
-  \vspace{0.5em}
-  Let $I_n$ be the interval of $E_n$ that contains $x$.
-  \begin{itemize}
-    \item $I_n$ has length $3^{-n} \to 0$.
-    \item Choose $n$ large enough so $I_n \subset S$.
-  \end{itemize}
+    \vspace{0.5em}
+    Let $I_n$ be the interval of $E_n$ that contains $x$.
+    \begin{itemize}
+      \item $I_n$ has length $3^{-n} \to 0$.
+      \item Choose $n$ large enough so $I_n \subset S$.
+    \end{itemize}
 
-  \vspace{0.3em}
-  Let $x_n$ be an endpoint of $I_n$ with $x_n \neq x$.
-  \begin{itemize}
-    \item $x_n \in P$ (endpoints are never removed).
-    \item $x_n \in I_n \subset S$.
-  \end{itemize}
+    \vspace{0.3em}
+    Let $x_n$ be an endpoint of $I_n$ with $x_n \neq x$.
+    \begin{itemize}
+      \item $x_n \in P$ (endpoints are never removed).
+      \item $x_n \in I_n \subset S$.
+    \end{itemize}
 
-  \vspace{0.2em}
-  \alert{$\Longrightarrow$ $x$ is a limit point of $P$.}
+    \vspace{0.2em}
+    \alert{$\Longrightarrow$ $x$ is a limit point of $P$.}
+  \end{hlbox}
 
   \note{
     Fix "x" in "P" and any segment "S" around "x". For each stage "n", let
@@ -984,7 +1071,7 @@
   \end{center}
 
   \vspace{0.2em}
-  \centerline{\scriptsize Choose $n$ large enough that $I_n \subset S$.}
+  \centerline{\hl{\scriptsize Choose $n$ large enough that $I_n \subset S$.}}
 
   \note{
     Here is a schematic picture of the argument. The three blue bars at
@@ -1017,13 +1104,15 @@
   \end{remblock}
 
   \vspace{0.5em}
-  \begin{itemize}
-    \item $P$ is \alert{perfect} and nonempty $\Longrightarrow$ by Theorem 2.43, $P$ is \alert{uncountable}.
-    \item $P$ contains \alert{no segment} --- topologically ``tiny''.
-    \item Total length removed:
-      $\displaystyle \frac{1}{3} + \frac{2}{9} + \frac{4}{27} + \cdots = \sum_{n=0}^{\infty}\frac{2^n}{3^{n+1}} = 1$.
-    \item $P$ has \alert{measure zero} --- yet is uncountable (see Chap.~11).
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $P$ is \alert{perfect} and nonempty $\Longrightarrow$ by Theorem 2.43, $P$ is \alert{uncountable}.
+      \item $P$ contains \alert{no segment} --- topologically ``tiny''.
+      \item Total length removed:
+        $\displaystyle \frac{1}{3} + \frac{2}{9} + \frac{4}{27} + \cdots = \sum_{n=0}^{\infty}\frac{2^n}{3^{n+1}} = 1$.
+      \item $P$ has \alert{measure zero} --- yet is uncountable (see Chap.~11).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let us take stock. The Cantor set "P" is perfect and nonempty, so by
@@ -1042,41 +1131,133 @@
   }
 \end{frame}
 
+}
+
 % =============================================================================
 % --- Summary ---
 % =============================================================================
 
-\begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
-    \item Proof technique: nested shrinking neighborhoods + compactness (Cor.\ 2.36).
-    \item \alert{Corollary}: every interval $[a,b]$ with $a<b$ is uncountable, so $\mathbb{R}$ is uncountable.
-    \item \alert{Cantor set} $P = \bigcap_n E_n$ is:
-      \begin{itemize}
-        \item compact, nonempty, \emph{perfect},
-        \item contains \emph{no segment},
-        \item uncountable, measure zero.
-      \end{itemize}
-  \end{itemize}
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_04.png}%
+}
+% =============================================================================
+\section{Summary}
+% =============================================================================
 
-  \vspace{0.4em}
-  \textbf{Coming up:} Connected sets --- when is a set ``in one piece''?
+% --- Build 1/5 ---
+\begin{frame}{Summary}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
-    To summarize, the main theorem of this section is that every nonempty
-    perfect subset of Euclidean space is uncountable. The proof used a
-    clever construction of nested shrinking neighborhoods, each one
-    designed to kick out one listed point, together with the compactness
-    corollary of Theorem 2.36. A direct corollary is that every
-    nondegenerate closed interval and therefore the whole real line are
-    uncountable. We then built the Cantor set by repeatedly removing
-    middle thirds from the unit interval. The resulting set is compact,
-    nonempty, contains no segment, yet is perfect and therefore
-    uncountable. It also has Lebesgue measure zero, as we will see in
-    Chapter 11. In the next section we turn to connectedness, the precise
-    notion of a set being in one piece. See you there.
+    Let us summarize the main ideas of this section. The headline theorem
+    is Theorem 2.43: every nonempty perfect subset of "R" to the "k" is
+    uncountable. So just two mild topological hypotheses, closed and no
+    isolated points, force the set to have continuum many elements.
   }
 \end{frame}
+
+% --- Build 2/5 ---
+\begin{frame}{Summary}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
+      \item Proof technique: nested shrinking neighborhoods $+$ compactness (Cor.\ 2.36).
+    \end{itemize}
+  \end{hlbox}
+
+  \note{
+    The proof technique is worth remembering. We assumed the set was
+    countable, listed its points, and built a sequence of shrinking
+    neighborhoods, each one carefully chosen to kick out one listed point.
+    The corollary to Theorem 2.36 then said the nested compact pieces had
+    a common point, but our construction had excluded every listed point,
+    giving the contradiction.
+  }
+\end{frame}
+
+% --- Build 3/5 ---
+\begin{frame}{Summary}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
+      \item Proof technique: nested shrinking neighborhoods $+$ compactness (Cor.\ 2.36).
+      \item \alert{Corollary}: every interval $[a,b]$ with $a<b$ is uncountable, so $\mathbb{R}$ is uncountable.
+    \end{itemize}
+  \end{hlbox}
+
+  \note{
+    A direct corollary is that every nondegenerate closed interval is
+    perfect, since interior points are limit points from both sides and
+    endpoints are limit points from inside. By Theorem 2.43, such an
+    interval is uncountable, and therefore the entire real line is
+    uncountable as well.
+  }
+\end{frame}
+
+% --- Build 4/5 ---
+\begin{frame}{Summary}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
+      \item Proof technique: nested shrinking neighborhoods $+$ compactness (Cor.\ 2.36).
+      \item \alert{Corollary}: every interval $[a,b]$ with $a<b$ is uncountable, so $\mathbb{R}$ is uncountable.
+      \item \alert{Cantor set} $P = \bigcap_n E_n$ is:
+        \begin{itemize}
+          \item compact, nonempty, \emph{perfect},
+          \item contains \emph{no segment},
+          \item uncountable, measure zero.
+        \end{itemize}
+    \end{itemize}
+  \end{hlbox}
+
+  \note{
+    We then constructed the Cantor set by repeatedly removing the open
+    middle third of every surviving interval, starting from the unit
+    interval. The resulting set "P" is compact and nonempty, contains
+    no open segment, is perfect, and therefore by Theorem 2.43 is
+    uncountable. The total length removed is 1, so "P" also has Lebesgue
+    measure zero, as we will see in Chapter 11. It is simultaneously as
+    big as the real line and as small as a single point in the
+    measure-theoretic sense.
+  }
+\end{frame}
+
+% --- Build 5/5 ---
+\begin{frame}{Summary}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item \alert{Theorem 2.43}: every nonempty perfect set in $\mathbb{R}^k$ is uncountable.
+      \item Proof technique: nested shrinking neighborhoods $+$ compactness (Cor.\ 2.36).
+      \item \alert{Corollary}: every interval $[a,b]$ with $a<b$ is uncountable, so $\mathbb{R}$ is uncountable.
+      \item \alert{Cantor set} $P = \bigcap_n E_n$ is:
+        \begin{itemize}
+          \item compact, nonempty, \emph{perfect},
+          \item contains \emph{no segment},
+          \item uncountable, measure zero.
+        \end{itemize}
+    \end{itemize}
+
+    \vspace{0.4em}
+    \textbf{Coming up next:} Connected sets --- when is a set ``in one piece''?
+  \end{hlbox}
+
+  \note{
+    In the next section we turn to connectedness, the precise notion of a
+    set being in one piece. We will see how to formalize the intuitive
+    idea that a set is not split into two separated parts, and we will
+    relate connectedness in the real line to intervals. See you there.
+  }
+\end{frame}
+}
 
 \end{document}

@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 2: Basic Topology}
@@ -69,6 +90,10 @@
 
 \begin{document}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_00.png}%
+}
 % =============================================================================
 \begin{frame}
   \titlepage
@@ -80,10 +105,17 @@
     analysis not just on the real line, but in much more general settings.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_01.png}%
+}
 % =============================================================================
-\begin{frame}{Outline}
-  \tableofcontents
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is an outline of what we will cover. We begin by defining metric
     spaces and looking at key examples. Then we introduce the fundamental
@@ -158,7 +190,9 @@
   \end{defblock}
 
   \vspace{0.3em}
-  Any function with these three properties is called a \emph{distance function} or \emph{metric}.
+  \begin{hlbox}
+    Any function with these three properties is called a \emph{distance function} or \emph{metric}.
+  \end{hlbox}
 
   \note{
     The third property is the triangle inequality. It says that going from "p"
@@ -216,7 +250,7 @@
     Special cases: $R^1$ (the real line), $R^2$ (the complex plane).
   \end{exblock}
 
-  By Theorem 1.37, this satisfies Definition 2.15.
+  \hl{By Theorem 1.37, this satisfies Definition 2.15.}
 
   \note{
     Euclidean spaces are by far the most important examples, and they are the
@@ -241,10 +275,12 @@
     Special cases: $R^1$ (the real line), $R^2$ (the complex plane).
   \end{exblock}
 
-  By Theorem 1.37, this satisfies Definition 2.15.
+  \begin{hlbox}
+    By Theorem 1.37, this satisfies Definition 2.15.
 
-  \vspace{0.5em}
-  \textbf{Key observation:} Every subset $Y$ of a metric space $X$ is itself a metric space (with the same distance function).
+    \vspace{0.5em}
+    \textbf{Key observation:} Every subset $Y$ of a metric space $X$ is itself a metric space (with the same distance function).
+  \end{hlbox}
 
   \note{
     Here is a crucial observation. Every subset of a metric space is
@@ -269,7 +305,7 @@
     \end{itemize}
   \end{defblock}
 
-  Also: half-open intervals $[a, b)$ and $(a, b]$.
+  \hl{Also: half-open intervals $[a, b)$ and $(a, b]$.}
 
   \note{
     Rudin introduces several geometric objects that will appear throughout
@@ -291,7 +327,7 @@
   \end{defblock}
 
   \vspace{0.3em}
-  A 1-cell is an interval. A 2-cell is a rectangle.
+  \hl{A 1-cell is an interval. A 2-cell is a rectangle.}
 
   \begin{center}
   \begin{tikzpicture}[scale=0.75]
@@ -351,18 +387,20 @@
 
   \begin{center}
   \begin{tikzpicture}[scale=0.9]
+    \node[blue] at (0, 2.0) {Open ball};
     \fill[blue!10] (0,0) circle (1.5);
     \draw[thick, blue, dashed] (0,0) circle (1.5);
     \fill[blue] (0,0) circle (2pt) node[below=4pt]{$\mathbf{x}$};
     \draw[thick, red, <->] (0,0) -- (1.5,0) node[midway, above]{$r$};
-    \node[blue] at (0, -2.1) {Open ball: boundary \emph{not} included};
+    \node[blue] at (0, -2.1) {boundary \emph{not} included};
 
     \begin{scope}[xshift=9cm]
+      \node[red!80!black] at (0, 2.0) {Closed ball};
       \fill[red!10] (0,0) circle (1.5);
       \draw[thick, red] (0,0) circle (1.5);
       \fill[red] (0,0) circle (2pt) node[below=4pt]{$\mathbf{x}$};
       \draw[thick, red, <->] (0,0) -- (1.5,0) node[midway, above]{$r$};
-      \node[red!80!black] at (0, -2.1) {Closed ball: boundary included};
+      \node[red!80!black] at (0, -2.1) {boundary included};
     \end{scope}
   \end{tikzpicture}
   \end{center}
@@ -390,7 +428,7 @@
   \end{defblock}
 
   \vspace{0.3em}
-  \textbf{Fact:} Balls are convex. $k$-cells are convex.
+  \hl{\textbf{Fact:} Balls are convex. $k$-cells are convex.}
 
   \note{
     A set is convex if for any two points in the set, the entire line segment
@@ -406,15 +444,16 @@
   \begin{center}
   \begin{tikzpicture}[scale=1.3]
     % Convex set
+    \node at (0,1.7) {Convex};
     \fill[green!15] (0,0) ellipse (1.6 and 1.2);
     \draw[thick, green!60!black] (0,0) ellipse (1.6 and 1.2);
     \fill[blue] (-0.9,0.4) circle (2pt) node[above left]{$\mathbf{x}$};
     \fill[blue] (1.0,-0.3) circle (2pt) node[above right]{$\mathbf{y}$};
     \draw[thick, blue] (-0.9,0.4) -- (1.0,-0.3);
-    \node at (0,-1.8) {Convex};
 
     % Non-convex U-shaped set
     \begin{scope}[xshift=5.5cm]
+      \node at (0,1.7) {Not convex};
       \fill[red!15]
         (-1.4,1.2) -- (-1.4,-1.0)
         .. controls (-1.4,-1.4) and (-0.8,-1.4) .. (0,-1.4)
@@ -436,7 +475,6 @@
       \draw[thick, blue] (-1.05,0.6) -- (1.05,0.6);
       \fill[red] (0,0.6) circle (2.5pt);
       \node[red] at (0,0.2) {outside!};
-      \node at (0,-1.8) {Not convex};
     \end{scope}
   \end{tikzpicture}
   \end{center}
@@ -450,7 +488,12 @@
     non-convex.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_02.png}%
+}
 % =============================================================================
 \section{Topological Concepts}
 
@@ -460,7 +503,7 @@
 
 % --- Build 1/5 ---
 \begin{frame}{Definition 2.18: Topological Vocabulary}
-  Let $X$ be a metric space. All points and sets are elements and subsets of $X$.
+  \hl{Let $X$ be a metric space. All points and sets are elements and subsets of $X$.}
 
   \begin{defblock}{Definition 2.18(a): Neighborhood}
     A \alert{neighborhood} of $p$ is a set $N_r(p)$ consisting of all $q$ such that
@@ -585,7 +628,7 @@
   \end{defblock}
 
   \vspace{0.5em}
-  Perfect $=$ closed $+$ no isolated points.
+  \hl{Perfect $=$ closed $+$ no isolated points.}
 
   \note{
     The complement of "E" is the set of all points in "X" that do not belong
@@ -611,7 +654,13 @@
   \end{defblock}
 
   \vspace{0.3em}
-  \textbf{Note:} In $R^1$ neighborhoods are segments; in $R^2$ neighborhoods are open disks.
+  \begin{hlbox}
+    \textbf{Note:}
+    \begin{itemize}
+      \item In $R^1$ neighborhoods are segments
+      \item In $R^2$ neighborhoods are open disks
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     A set is bounded if it can be contained within some large ball. There is
@@ -728,7 +777,7 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  \textbf{Corollary:}\; A finite point set has no limit points.
+  \hl{\textbf{Corollary:}\; A finite point set has no limit points.}
 
   \note{
     The proof is a clever contradiction argument. If some neighborhood of
@@ -769,6 +818,7 @@
 \end{frame}
 
 % --- Build 2/3 ---
+% (kept on bg_02 — inside the same section)
 \begin{frame}{Examples 2.21: Subsets of $R^2$}
   \begin{exblock}{Examples 2.21 (continued)}
     \begin{enumerate}
@@ -780,7 +830,7 @@
   \end{exblock}
 
   \vspace{0.3em}
-  \textbf{Note on (e):} $E$ has a limit point ($z = 0$) that is \emph{not in} $E$.
+  \hl{\textbf{Note on (e):} $E$ has a limit point ($z = 0$) that is \emph{not in} $E$.}
 
   \note{
     Set (d) is the integers. Set (e) is the sequence of reciprocals: 1, 1/2,
@@ -810,7 +860,7 @@
     \end{center}
   \end{exblock}
 
-  $*$ Open in $R^1$ but not in $R^2$!
+  \hl{$*$ Open in $R^1$ but not in $R^2$!}
 
   \note{
     This table summarizes the properties of each set. Notice some
@@ -822,7 +872,12 @@
     will discuss later.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_03.png}%
+}
 % =============================================================================
 \section{Open and Closed Sets}
 
@@ -911,7 +966,7 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Corollary:}\; A set $F$ is closed if and only if $F^c$ is open.
+  \hl{\textbf{Corollary:}\; A set $F$ is closed if and only if $F^c$ is open.}
 
   \note{
     This theorem reveals the fundamental duality between open and closed sets.
@@ -1292,7 +1347,12 @@
     closure of sets.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_04.png}%
+}
 % =============================================================================
 \section{Closure and Relative Topology}
 
@@ -1389,7 +1449,7 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  By (a) and (c): $\bar{E}$ is the \alert{smallest} closed set containing $E$.
+  \hl{By (a) and (c): $\bar{E}$ is the \alert{smallest} closed set containing $E$.}
 
   \note{
     Part (c) says the closure is contained in every closed set that contains
@@ -1584,7 +1644,7 @@
   \end{remblock}
 
   \vspace{0.3em}
-  \textbf{Recall:} $(a, b)$ is open in $R^1$ but not open in $R^2$.
+  \hl{\textbf{Recall:} $(a, b)$ is open in $R^1$ but not open in $R^2$.}
 
   \note{
     This remark introduces relative topology. When we ask whether a set is
@@ -1766,6 +1826,14 @@
     subspace; you just slice open sets from the ambient space with "Y".
   }
 \end{frame}
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_05.png}%
+}
+% =============================================================================
+\section{Summary}
 
 % =============================================================================
 % --- Summary ---
@@ -1773,11 +1841,13 @@
 
 % --- Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A \alert{metric space} is a set with a distance function satisfying
-      positivity, symmetry, and the triangle inequality (Def.\ 2.15).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A \alert{metric space} is a set with a distance function satisfying
+        positivity, symmetry, and the triangle inequality (Def.\ 2.15).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let us review the main ideas from this section. We started by defining
@@ -1789,14 +1859,16 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A \alert{metric space} is a set with a distance function satisfying
-      positivity, symmetry, and the triangle inequality (Def.\ 2.15).
-    \item The topological vocabulary --- neighborhoods, limit points, open/closed
-      sets, interior, closure, bounded, dense, perfect --- provides the
-      language for analysis in metric spaces (Def.\ 2.18).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A \alert{metric space} is a set with a distance function satisfying
+        positivity, symmetry, and the triangle inequality (Def.\ 2.15).
+      \item The topological vocabulary --- neighborhoods, limit points, open/closed
+        sets, interior, closure, bounded, dense, perfect --- provides the
+        language for analysis in metric spaces (Def.\ 2.18).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We then introduced the fundamental topological vocabulary: neighborhoods,
@@ -1809,17 +1881,19 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A \alert{metric space} is a set with a distance function satisfying
-      positivity, symmetry, and the triangle inequality (Def.\ 2.15).
-    \item The topological vocabulary --- neighborhoods, limit points, open/closed
-      sets, interior, closure, bounded, dense, perfect --- provides the
-      language for analysis in metric spaces (Def.\ 2.18).
-    \item Open and closed are \emph{dual}: $E$ is open iff $E^c$ is closed (Thm.\ 2.23).
-      Unions of open sets are open; intersections of
-      closed sets are closed. Finiteness is needed for the reverse (Thm.\ 2.24).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A \alert{metric space} is a set with a distance function satisfying
+        positivity, symmetry, and the triangle inequality (Def.\ 2.15).
+      \item The topological vocabulary --- neighborhoods, limit points, open/closed
+        sets, interior, closure, bounded, dense, perfect --- provides the
+        language for analysis in metric spaces (Def.\ 2.18).
+      \item Open and closed are \emph{dual}: $E$ is open iff $E^c$ is closed (Thm.\ 2.23).
+        Unions of open sets are open; intersections of
+        closed sets are closed. Finiteness is needed for the reverse (Thm.\ 2.24).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We proved the fundamental duality between open and closed sets via
@@ -1831,20 +1905,22 @@
 
 % --- Build 4/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A \alert{metric space} is a set with a distance function satisfying
-      positivity, symmetry, and the triangle inequality (Def.\ 2.15).
-    \item The topological vocabulary --- neighborhoods, limit points, open/closed
-      sets, interior, closure, bounded, dense, perfect --- provides the
-      language for analysis in metric spaces (Def.\ 2.18).
-    \item Open and closed are \emph{dual}: $E$ is open iff $E^c$ is closed (Thm.\ 2.23).
-      Unions of open sets are open; intersections of
-      closed sets are closed. Finiteness is needed for the reverse (Thm.\ 2.24).
-    \item The \alert{closure} $\bar{E} = E \cup E'$ is the smallest closed set containing $E$
-      (Thm.\ 2.27). Relatively open sets are characterized by $E = Y \cap G$
-      (Thm.\ 2.30).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A \alert{metric space} is a set with a distance function satisfying
+        positivity, symmetry, and the triangle inequality (Def.\ 2.15).
+      \item The topological vocabulary --- neighborhoods, limit points, open/closed
+        sets, interior, closure, bounded, dense, perfect --- provides the
+        language for analysis in metric spaces (Def.\ 2.18).
+      \item Open and closed are \emph{dual}: $E$ is open iff $E^c$ is closed (Thm.\ 2.23).
+        Unions of open sets are open; intersections of
+        closed sets are closed. Finiteness is needed for the reverse (Thm.\ 2.24).
+      \item The \alert{closure} $\bar{E} = E \cup E'$ is the smallest closed set containing $E$
+        (Thm.\ 2.27). Relatively open sets are: $E = Y \cap G$
+        (Thm.\ 2.30).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Finally, we defined the closure as the set together with its limit
@@ -1856,7 +1932,9 @@
 
 % --- Build 5/5 ---
 \begin{frame}{Coming Up Next}
-  \textbf{Coming up next:} Compact sets --- a powerful finiteness condition.
+  \begin{center}
+    \hl{\textbf{Coming up next:} Compact sets --- a powerful finiteness condition.}
+  \end{center}
 
   \note{
     In the next section, we will study compact sets, which introduce a
@@ -1864,5 +1942,6 @@
     throughout analysis. See you there!
   }
 \end{frame}
+}
 
 \end{document}

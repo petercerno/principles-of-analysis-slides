@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 2: Basic Topology}
@@ -69,6 +90,10 @@
 
 \begin{document}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_00.png}%
+}
 % =============================================================================
 \begin{frame}
   \titlepage
@@ -82,10 +107,17 @@
     and convergence.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_01.png}%
+}
 % =============================================================================
-\begin{frame}{Outline}
-  \tableofcontents
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is our roadmap. We begin with the definitions of open cover and compact set. Next, a perhaps surprising fact: compactness is intrinsic to the set, unlike openness or closedness. We then connect compactness to closedness and prove a pair of basic preservation theorems. After that we develop the finite intersection property, study nested intervals and nested "k"-cells, and use those tools to prove the climax of the section: every "k"-cell in Euclidean space is compact. Finally, the Heine-Borel theorem and the Bolzano-Weierstrass theorem fall out as one-line corollaries.
   }
@@ -94,12 +126,15 @@
 % =============================================================================
 % --- Motivation: Why Compactness ---
 % =============================================================================
+\section{Motivation}
 
 % --- Build 1/3 ---
 \begin{frame}{Why Compactness Matters}
-  \begin{itemize}
-    \item Compactness is a \alert{finiteness condition} on infinite sets
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Compactness is a \alert{finiteness condition} on infinite sets
+    \end{itemize}
+  \end{hlbox}
   \note{
     Before we dive into the formal definitions, let us think about what
     compactness is supposed to capture. In one phrase, compactness is a
@@ -111,10 +146,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why Compactness Matters}
-  \begin{itemize}
-    \item Compactness is a \alert{finiteness condition} on infinite sets
-    \item It generalizes ``closed and bounded'' from $\mathbb{R}$ to metric spaces
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Compactness is a \alert{finiteness condition} on infinite sets
+      \item It generalizes ``closed and bounded'' from $\mathbb{R}$ to metric spaces
+    \end{itemize}
+  \end{hlbox}
   \note{
     On the real line, the sets that behave best under limits and continuous
     functions are the closed and bounded intervals. Compactness is the right
@@ -126,11 +163,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why Compactness Matters}
-  \begin{itemize}
-    \item Compactness is a \alert{finiteness condition} on infinite sets
-    \item It generalizes ``closed and bounded'' from $\mathbb{R}$ to metric spaces
-    \item It is the right hypothesis for continuity theorems (Chap.~4)
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Compactness is a \alert{finiteness condition} on infinite sets
+      \item It generalizes ``closed and bounded'' from $\mathbb{R}$ to metric spaces
+      \item It is the right hypothesis for continuity theorems (Chap.~4)
+    \end{itemize}
+  \end{hlbox}
   \note{
     Compactness is the essential hypothesis under which continuous functions
     behave nicely. For instance, a continuous function on a compact set
@@ -139,7 +178,12 @@
     definition and its consequences.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_02.png}%
+}
 % =============================================================================
 \section{Definitions}
 % =============================================================================
@@ -158,7 +202,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Key idea:} The open sets $G_\alpha$ together ``cover'' every point of $E$.
+  \begin{hlbox}
+    \textbf{Key idea:} The open sets $G_\alpha$ together ``cover'' every point of $E$.
+  \end{hlbox}
 
   \note{
     Let us start with the idea of an open cover. We have some set "E" sitting
@@ -192,7 +238,7 @@
     \draw[thick, red, dashed] (2.5,0) circle (1.4);
     \node[red, above] at (2.5,1.4) {$G_4$};
 
-    \node at (0,-2.4) {$\displaystyle E \subset G_1 \cup G_2 \cup G_3 \cup G_4$};
+    \node at (0,-2.4) {\hl{$\displaystyle E \subset G_1 \cup G_2 \cup G_3 \cup G_4$}};
   \end{tikzpicture}
   \end{center}
 
@@ -229,11 +275,13 @@
   \end{defblock}
 
   \vspace{0.5em}
-  More explicitly: if $\{G_\alpha\}$ is an open cover of $K$, then there are
-  finitely many indices $\alpha_1, \dots, \alpha_n$ such that
-  \[
-    K \subset G_{\alpha_1} \cup \cdots \cup G_{\alpha_n}.
-  \]
+  \begin{hlbox}
+    More explicitly: if $\{G_\alpha\}$ is an open cover of $K$, then there are
+    finitely many indices $\alpha_1, \dots, \alpha_n$ such that
+    \[
+      K \subset G_{\alpha_1} \cup \cdots \cup G_{\alpha_n}.
+    \]
+  \end{hlbox}
 
   \note{
     Here is the definition spelled out. Given any open cover "G" sub alpha of "K", compactness guarantees that finitely many indices, alpha one through alpha "n", suffice: the corresponding open sets still cover "K". The word "every" in the previous slide is where the strength lives. It is easy to find some finite cover of almost any reasonable set, but compactness demands a universal statement: any open cover, no matter how cleverly constructed to defeat finiteness, must give in. This is why most proofs invoking compactness work backwards, by exhibiting an awkward open cover that fails to admit a finite subcover and deriving a contradiction. Watch for this pattern in nearly every theorem of this section.
@@ -260,6 +308,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_03.png}%
+}
 % =============================================================================
 \section{Compactness Is Intrinsic}
 % =============================================================================
@@ -275,8 +329,10 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Key idea:} Unlike ``open'' or ``closed,'' compactness does \alert{not} depend
-  on the ambient metric space.
+  \begin{hlbox}
+    \textbf{Key idea:} Unlike ``open'' or ``closed,'' compactness does \alert{not} depend
+    on the ambient metric space.
+  \end{hlbox}
 
   \note{
     This theorem says something subtle and important. Recall that whether a
@@ -292,18 +348,20 @@
 
 % --- Proof Strategy ---
 \begin{frame}{Proof Strategy: Theorem 2.33}
-  \textbf{Goal:} Show compactness relative to $X$ $\iff$ compactness relative to $Y$.
+  \begin{hlbox}
+    \textbf{Goal:} Show compactness relative to $X$ $\iff$ compactness relative to $Y$.
 
-  \vspace{1em}
-  \textbf{Key tool:} Theorem 2.30 --- open sets of $Y$ are exactly
-  $V_\alpha = Y \cap G_\alpha$ where $G_\alpha$ is open in $X$.
+    \vspace{1em}
+    \textbf{Key tool:} Theorem 2.30 --- open sets of $Y$ are exactly
+    $V_\alpha = Y \cap G_\alpha$ where $G_\alpha$ is open in $X$.
 
-  \vspace{0.5em}
-  \textbf{Approach:}
-  \begin{itemize}
-    \item ($\Rightarrow$) Given a $Y$-open cover, lift to an $X$-open cover.
-    \item ($\Leftarrow$) Given an $X$-open cover, restrict to $Y$.
-  \end{itemize}
+    \vspace{0.5em}
+    \textbf{Approach:}
+    \begin{itemize}
+      \item ($\Rightarrow$) Given a $Y$-open cover, lift to an $X$-open cover.
+      \item ($\Leftarrow$) Given an $X$-open cover, restrict to $Y$.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Before we do the proof, let us understand the strategy. The proof is two
@@ -369,6 +427,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_04.png}%
+}
 % =============================================================================
 \section{Compactness and Closedness}
 % =============================================================================
@@ -383,8 +447,10 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Strategy:} Show the complement $K^c$ is open by proving that every
-  point outside $K$ is an interior point of $K^c$.
+  \begin{hlbox}
+    \textbf{Strategy:} Show the complement $K^c$ is open by proving that every
+    point outside $K$ is an interior point of $K^c$.
+  \end{hlbox}
 
   \note{
     This is our first real theorem connecting compactness to a familiar
@@ -406,10 +472,12 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  \begin{itemize}
-    \item $V_q \cap W_q = \varnothing$ (disjoint, by construction).
-    \item $\{W_q\}_{q \in K}$ is an open cover of $K$.
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item $V_q \cap W_q = \varnothing$ (disjoint, by construction).
+      \item $\{W_q\}_{q \in K}$ is an open cover of $K$.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We take a point "p" not in "K" and we want to build a neighborhood of "p"
@@ -473,7 +541,7 @@
     \draw[thick, red] (-2.5,0) circle (0.5);
     \node[red, above=4pt] at (-2.5,0.5) {$V$};
 
-    \node at (0,-2.5) {$V = V_{q_1} \cap V_{q_2} \cap V_{q_3}$ is disjoint from $W = W_{q_1} \cup W_{q_2} \cup W_{q_3}$};
+    \node at (0,-2.5) {\hl{$V = V_{q_1} \cap V_{q_2} \cap V_{q_3}$ is disjoint from $W = W_{q_1} \cup W_{q_2} \cup W_{q_3}$}};
   \end{tikzpicture}
   \end{center}
 
@@ -492,8 +560,10 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Strategy:} Given an open cover of $F$, add $F^c$ to get an
-  open cover of $K$, extract a finite subcover, and discard $F^c$.
+  \begin{hlbox}
+    \textbf{Strategy:} Given an open cover of $F$, add $F^c$ to get an
+    open cover of $K$, extract a finite subcover, and discard $F^c$.
+  \end{hlbox}
 
   \note{
     This is a nice companion to Theorem 2.34. If "F" is closed and sits
@@ -542,6 +612,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_05.png}%
+}
 % =============================================================================
 \section{The Finite Intersection Property}
 % =============================================================================
@@ -560,7 +636,9 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  \textbf{Key idea:} Testing intersection finitely at a time is enough.
+  \begin{hlbox}
+    \textbf{Key idea:} Testing intersection finitely at a time is enough.
+  \end{hlbox}
 
   \note{
     This theorem is a fundamental application of compactness. Suppose we
@@ -626,8 +704,10 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  \textbf{Reason:} Any finite subcollection is nested, so its intersection
-  equals the smallest member $K_N \neq \varnothing$.
+  \begin{hlbox}
+    \textbf{Reason:} Any finite subcollection is nested, so its intersection
+    equals the smallest member $K_N \neq \varnothing$.
+  \end{hlbox}
 
   \note{
     When the sets are nested, each one sitting inside the previous, the finite-intersection hypothesis is automatic. Any finite subcollection, consisting of say "K" sub "n" one through "K" sub "n" "N", intersects down to the smallest of them, the one with the largest index. Since each is nonempty, the intersection is nonempty. So Theorem 2.36 applies directly and gives us a nonempty total intersection. The nested-sequence form is the version of the finite intersection property you will meet most often, especially in constructions where successive approximations tighten. It also generalizes the nested interval theorem on the real line, which we will prove next in one dimension. In both cases the picture is the same: nested compact sets converge to their intersection, and compactness guarantees that this limit is a real, nonempty object rather than a phantom.
@@ -645,8 +725,10 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Contrapositive strategy:} If no point of $K$ is a limit point of $E$,
-  produce an open cover with no finite subcover.
+  \begin{hlbox}
+    \textbf{Contrapositive strategy:} If no point of $K$ is a limit point of $E$,
+    produce an open cover with no finite subcover.
+  \end{hlbox}
 
   \note{
     This theorem is a cornerstone. In any compact set, an infinite subset
@@ -676,6 +758,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_06.png}%
+}
 % =============================================================================
 \section{Nested Intervals and $k$-Cells}
 % =============================================================================
@@ -694,7 +782,9 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Tool:} The least upper bound property of $\mathbb{R}$.
+  \begin{hlbox}
+    \textbf{Tool:} The least upper bound property of $\mathbb{R}$.
+  \end{hlbox}
 
   \note{
     Now we turn to a concrete result on the real line. A nested
@@ -770,10 +860,12 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  Recall: a \emph{$k$-cell} is a product $[a_1, b_1] \times \cdots \times [a_k, b_k]$.
+  \begin{hlbox}
+    Recall: a \emph{$k$-cell} is a product $[a_1, b_1] \times \cdots \times [a_k, b_k]$.
 
-  \vspace{0.3em}
-  \textbf{Strategy:} Apply Theorem 2.38 coordinate-by-coordinate.
+    \vspace{0.3em}
+    \textbf{Strategy:} Apply Theorem 2.38 coordinate-by-coordinate.
+  \end{hlbox}
 
   \note{
     A "k"-cell is the Euclidean analog of a closed interval: a product
@@ -802,6 +894,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_07.png}%
+}
 % =============================================================================
 \section{$k$-Cells Are Compact}
 % =============================================================================
@@ -816,13 +914,15 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Technique:} Proof by contradiction --- \alert{bisection}.
-  \begin{itemize}
-    \item Suppose some open cover has no finite subcover.
-    \item Repeatedly halve the cell; one half still fails.
-    \item The nested halves shrink to a point, which must lie in a single
-      cover element --- contradiction.
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Technique:} Proof by contradiction --- \alert{bisection}.
+    \begin{itemize}
+      \item Suppose some open cover has no finite subcover.
+      \item Repeatedly halve the cell; one half still fails.
+      \item The nested halves shrink to a point, which must lie in a single
+        cover element --- contradiction.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     This is one of the most important theorems of the chapter. Every
@@ -846,7 +946,9 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  \textbf{Assume:} $\{G_\alpha\}$ is an open cover of $I$ with \alert{no finite subcover}.
+  \begin{hlbox}
+    \textbf{Assume:} $\{G_\alpha\}$ is an open cover of $I$ with \alert{no finite subcover}.
+  \end{hlbox}
 
   \note{
     Let "I" be our "k"-cell, and let delta be its diameter, the Euclidean
@@ -945,6 +1047,12 @@
   }
 \end{frame}
 
+}
+
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_08.png}%
+}
 % =============================================================================
 \section{Heine-Borel and Weierstrass}
 % =============================================================================
@@ -964,7 +1072,9 @@
   \end{thmblock}
 
   \vspace{0.3em}
-  \textbf{Note:} The equivalence of (a) and (b) is the classical Heine-Borel theorem.
+  \begin{hlbox}
+    \textbf{Note:} The equivalence of (a) and (b) is the Heine-Borel theorem.
+  \end{hlbox}
 
   \note{
     This is the central structural theorem of the chapter. In Euclidean space,
@@ -979,16 +1089,18 @@
 
 % --- Proof Strategy ---
 \begin{frame}{Proof Strategy: Theorem 2.41}
-  \textbf{Cyclic proof:} (a) $\Rightarrow$ (b) $\Rightarrow$ (c) $\Rightarrow$ (a).
+  \begin{hlbox}
+    \textbf{Cyclic proof:} (a) $\Rightarrow$ (b) $\Rightarrow$ (c) $\Rightarrow$ (a).
 
-  \vspace{1em}
-  \begin{itemize}
-    \item (a) $\Rightarrow$ (b): closed + bounded $\subset k$-cell $\Rightarrow$
-      closed subset of compact, by Thm 2.40 \& 2.35.
-    \item (b) $\Rightarrow$ (c): direct consequence of Theorem 2.37.
-    \item (c) $\Rightarrow$ (a): if not bounded or not closed, construct an
-      infinite set with no limit point in $E$.
-  \end{itemize}
+    \vspace{1em}
+    \begin{itemize}
+      \item (a) $\Rightarrow$ (b): closed + bounded $\subset k$-cell $\Rightarrow$
+        closed subset of compact, by Thm 2.40 \& 2.35.
+      \item (b) $\Rightarrow$ (c): direct consequence of Theorem 2.37.
+      \item (c) $\Rightarrow$ (a): if not bounded or not closed, construct an
+        infinite set with no limit point in $E$.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The proof is a three-step cycle. The first direction uses that bounded
@@ -1131,7 +1243,7 @@
   \end{center}
 
   \begin{center}
-    \small All but finitely many $\mathbf{x}_n$ lie inside the ball --- so $\mathbf{y}$ is not a limit point of $S$.
+    \hl{\small All but finitely many $\mathbf{x}_n$ lie inside the ball --- so $\mathbf{y}$ is not a limit point of $S$.}
   \end{center}
   \vfill
 
@@ -1190,18 +1302,25 @@
     enclosing "k"-cell.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_09.png}%
+}
 % =============================================================================
-% --- Summary ---
+\section{Summary}
 % =============================================================================
 
 % --- Build 1/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A set is \alert{compact} if every open cover has a finite
-      subcover (Def.\ 2.32).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A set is \alert{compact} if every open cover has a finite
+        subcover (Def.\ 2.32).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let us summarize the main ideas. We introduced compactness as the
@@ -1213,14 +1332,16 @@
 
 % --- Build 2/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A set is \alert{compact} if every open cover has a finite
-      subcover (Def.\ 2.32).
-    \item Compactness is \emph{intrinsic}: independent of ambient space
-      (Thm.\ 2.33). Compact sets are closed (Thm.\ 2.34), and closed
-      subsets of compact sets are compact (Thm.\ 2.35).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A set is \alert{compact} if every open cover has a finite
+        subcover (Def.\ 2.32).
+      \item Compactness is \emph{intrinsic}: independent of ambient space
+        (Thm.\ 2.33). Compact sets are closed (Thm.\ 2.34), and closed
+        subsets of compact sets are compact (Thm.\ 2.35).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     We proved that compactness is intrinsic to the set and does not
@@ -1232,18 +1353,20 @@
 
 % --- Build 3/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item A set is \alert{compact} if every open cover has a finite
-      subcover (Def.\ 2.32).
-    \item Compactness is \emph{intrinsic}: independent of ambient space
-      (Thm.\ 2.33). Compact sets are closed (Thm.\ 2.34), and closed
-      subsets of compact sets are compact (Thm.\ 2.35).
-    \item \alert{Finite intersection property}: a collection of compact sets
-      with nonempty finite intersections has nonempty total intersection
-      (Thm.\ 2.36). Infinite subsets of compact sets have limit points
-      in the set (Thm.\ 2.37).
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item A set is \alert{compact} if every open cover has a finite
+        subcover (Def.\ 2.32).
+      \item Compactness is \emph{intrinsic}: independent of ambient space
+        (Thm.\ 2.33). Compact sets are closed (Thm.\ 2.34), and closed
+        subsets of compact sets are compact (Thm.\ 2.35).
+      \item \alert{Finite intersection property}: a collection of compact sets
+        with nonempty finite intersections has nonempty total intersection
+        (Thm.\ 2.36). Infinite subsets of compact sets have limit points
+        in the set (Thm.\ 2.37).
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The finite intersection property tells us that nested or mutually
@@ -1255,13 +1378,15 @@
 
 % --- Build 4/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Every $k$-cell is compact (Thm.\ 2.40) via \alert{bisection} and
-      nested $k$-cells (Thms.\ 2.38, 2.39). \alert{Heine-Borel}
-      (Thm.\ 2.41): in $\mathbb{R}^k$, closed and bounded $\iff$ compact
-      $\iff$ every infinite subset has a limit point in the set.
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Every $k$-cell is compact (Thm.\ 2.40) via \alert{bisection} and
+        nested $k$-cells (Thms.\ 2.38, 2.39). \alert{Heine-Borel}
+        (Thm.\ 2.41): in $\mathbb{R}^k$, closed and bounded $\iff$ compact
+        $\iff$ every infinite subset has a limit point in the set.
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The hardest theorem is that every "k"-cell is compact, proved by
@@ -1275,22 +1400,25 @@
 
 % --- Build 5/5 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways from this section:}
-  \begin{itemize}
-    \item Every $k$-cell is compact (Thm.\ 2.40) via \alert{bisection} and
-      nested $k$-cells (Thms.\ 2.38, 2.39). \alert{Heine-Borel}
-      (Thm.\ 2.41): in $\mathbb{R}^k$, closed and bounded $\iff$ compact
-      $\iff$ every infinite subset has a limit point in the set.
-    \item \alert{Bolzano-Weierstrass} (Thm.\ 2.42): every bounded infinite
-      subset of $\mathbb{R}^k$ has a limit point.
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways from this section:}
+    \begin{itemize}
+      \item Every $k$-cell is compact (Thm.\ 2.40) via \alert{bisection} and
+        nested $k$-cells (Thms.\ 2.38, 2.39). \alert{Heine-Borel}
+        (Thm.\ 2.41): in $\mathbb{R}^k$, closed and bounded $\iff$ compact
+        $\iff$ every infinite subset has a limit point in the set.
+      \item \alert{Bolzano-Weierstrass} (Thm.\ 2.42): every bounded infinite
+        subset of $\mathbb{R}^k$ has a limit point.
+    \end{itemize}
 
-  \vspace{0.5em}
-  \textbf{Coming up next:} Perfect sets and the Cantor set.
+    \vspace{0.5em}
+    \textbf{Coming up next:} Perfect sets and the Cantor set.
+  \end{hlbox}
 
   \note{
     We closed with the Bolzano-Weierstrass theorem as a direct corollary. In the next section we will study perfect sets, which are closed sets in which every point is a limit point. We will also meet the Cantor set, one of the most remarkable examples in all of analysis. See you there!
   }
 \end{frame}
+}
 
 \end{document}

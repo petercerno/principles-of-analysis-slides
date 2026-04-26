@@ -28,6 +28,28 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+% --- Semi-transparent white highlight for text on top of background images ---
+\usepackage[most]{tcolorbox}
+
+% Inline highlight: \hl{short text}
+\newtcbox{\hl}{%
+  nobeforeafter, tcbox raise base,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  sharp corners, boxsep=2pt, left=3pt, right=3pt, top=2pt, bottom=2pt%
+}
+
+% Block highlight: \begin{hlbox} ... \end{hlbox}  (multi-line, paragraphs, itemize)
+% Optional argument accepts any tcolorbox key, e.g. [width=0.6\linewidth]
+\newtcolorbox{hlbox}[1][]{%
+  enhanced, breakable,
+  colback=white, opacityback=0.6,
+  colframe=white, opacityframe=0,
+  boxsep=3pt, left=6pt, right=6pt, top=4pt, bottom=4pt,
+  sharp corners,
+  {#1}%
+}
+
 % --- Custom colors for content types ---
 \definecolor{defcolor}{RGB}{25,85,120}
 \definecolor{thmcolor}{RGB}{140,35,35}
@@ -35,31 +57,30 @@
 \definecolor{excolor}{RGB}{140,75,10}
 \definecolor{remcolor}{RGB}{90,90,90}
 
-% --- Beamer blocks for mathematical content types ---
-\newenvironment{defblock}[1]{%
-  \setbeamercolor{block title}{bg=defcolor,fg=white}%
-  \setbeamercolor{block body}{bg=defcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+% --- Beamer blocks for mathematical content types (semi-transparent) ---
+% Native Beamer blocks cannot carry an alpha channel, so we render the blocks
+% with tcolorbox instead. Title and body are both at 50% opacity; body tint
+% bumped from !5 to !15 to stay visible after the alpha is applied.
+\tcbset{hlblockbase/.style={
+  enhanced, breakable,
+  coltitle=white, fonttitle=\bfseries,
+  opacitybacktitle=0.8, opacityback=0.6,
+  opacityframe=0,
+  sharp corners,
+  boxsep=1pt, left=5pt, right=5pt, top=2pt, bottom=2pt,
+  toptitle=1pt, bottomtitle=1pt
+}}
 
-\newenvironment{thmblock}[1]{%
-  \setbeamercolor{block title}{bg=thmcolor,fg=white}%
-  \setbeamercolor{block body}{bg=thmcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{proofblock}[1]{%
-  \setbeamercolor{block title}{bg=proofcolor,fg=white}%
-  \setbeamercolor{block body}{bg=proofcolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{exblock}[1]{%
-  \setbeamercolor{block title}{bg=excolor,fg=white}%
-  \setbeamercolor{block body}{bg=excolor!5}%
-  \begin{block}{#1}}{\end{block}}
-
-\newenvironment{remblock}[1]{%
-  \setbeamercolor{block title}{bg=remcolor,fg=white}%
-  \setbeamercolor{block body}{bg=remcolor!5}%
-  \begin{block}{#1}}{\end{block}}
+\newtcolorbox{defblock}[1]{hlblockbase, title={#1},
+  colbacktitle=defcolor, colback=defcolor!15, colframe=defcolor}
+\newtcolorbox{thmblock}[1]{hlblockbase, title={#1},
+  colbacktitle=thmcolor, colback=thmcolor!15, colframe=thmcolor}
+\newtcolorbox{proofblock}[1]{hlblockbase, title={#1},
+  colbacktitle=proofcolor, colback=proofcolor!15, colframe=proofcolor}
+\newtcolorbox{exblock}[1]{hlblockbase, title={#1},
+  colbacktitle=excolor, colback=excolor!15, colframe=excolor}
+\newtcolorbox{remblock}[1]{hlblockbase, title={#1},
+  colbacktitle=remcolor, colback=remcolor!15, colframe=remcolor}
 
 % --- Metadata ---
 \title{Chapter 2: Basic Topology}
@@ -69,6 +90,12 @@
 
 \begin{document}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_00.png}%
+}
+% ============================================================
+% TITLE
 % ============================================================
 \begin{frame}
   \titlepage
@@ -81,10 +108,19 @@
     results.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_01.png}%
+}
 % ============================================================
-\begin{frame}{Outline}
-  \tableofcontents
+% OUTLINE
+% ============================================================
+\begin{frame}[c]{Outline}
+  \begin{center}
+    \tableofcontents
+  \end{center}
   \note{
     Here is what we will cover. We begin with the precise definitions of
     functions and mappings, then introduce the concept of countability,
@@ -96,11 +132,18 @@
 \end{frame}
 
 % ============================================================
+% MOTIVATION (progressive build)
+% ============================================================
+\section{Motivation}
+
+% ============================================================
 % --- Build 1/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item Topology requires a precise language for \alert{sets and functions}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Topology requires a precise language for \alert{sets and functions}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Before we can study topology, which is the main subject of this chapter,
@@ -111,10 +154,12 @@
 
 % --- Build 2/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item Topology requires a precise language for \alert{sets and functions}
-    \item Not all infinite sets are the same ``size'' --- we need to make this precise
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Topology requires a precise language for \alert{sets and functions}
+      \item Not all infinite sets are the same ``size'' --- we need to make this precise
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     A key insight in this section is that infinite sets come in different
@@ -126,11 +171,13 @@
 
 % --- Build 3/3 ---
 \begin{frame}{Why This Section Matters}
-  \begin{itemize}
-    \item Topology requires a precise language for \alert{sets and functions}
-    \item Not all infinite sets are the same ``size'' --- we need to make this precise
-    \item Key tools: \emph{1-1 correspondence}, \emph{countability}, \emph{Cantor's diagonal argument}
-  \end{itemize}
+  \begin{hlbox}
+    \begin{itemize}
+      \item Topology requires a precise language for \alert{sets and functions}
+      \item Not all infinite sets are the same ``size'' --- we need to make this precise
+      \item Key tools: \emph{1-1 correspondence}, \emph{countability}, \emph{Cantor's diagonal argument}
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The main tools we develop are one-to-one correspondences for comparing
@@ -139,7 +186,12 @@
     all of mathematics. Let us begin with the basics.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_02.png}%
+}
 % ============================================================
 \section{Functions and Mappings}
 
@@ -205,7 +257,9 @@
   \end{center}
 
   \vspace{0.3em}
-  Range $= f(A) = \{b_1, b_2, b_3\} = B$, so this $f$ maps $A$ \alert{onto} $B$.
+  \begin{center}
+    \hl{Range $= f(A) = \{b_1, b_2, b_3\} = B$, so this $f$ maps $A$ \alert{onto} $B$.}
+  \end{center}
 
   \note{
     Look at the diagram carefully. Notice two things. First, "x" sub 2 and
@@ -351,11 +405,13 @@
     \end{itemize}
   \end{defblock}
 
-  This relation is an \alert{equivalence relation}:
-  \begin{itemize}
-    \item \textbf{Reflexive:} $A \sim A$
-    \item \textbf{Symmetric:} $A \sim B \;\Rightarrow\; B \sim A$
-  \end{itemize}
+  \begin{hlbox}
+    This relation is an \alert{equivalence relation}:
+    \begin{itemize}
+      \item \textbf{Reflexive:} $A \sim A$
+      \item \textbf{Symmetric:} $A \sim B \;\Rightarrow\; B \sim A$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The equivalence relation has three properties. First, reflexivity:
@@ -376,12 +432,14 @@
     \end{itemize}
   \end{defblock}
 
-  This relation is an \alert{equivalence relation}:
-  \begin{itemize}
-    \item \textbf{Reflexive:} $A \sim A$
-    \item \textbf{Symmetric:} $A \sim B \;\Rightarrow\; B \sim A$
-    \item \textbf{Transitive:} $A \sim B$ and $B \sim C \;\Rightarrow\; A \sim C$
-  \end{itemize}
+  \begin{hlbox}
+    This relation is an \alert{equivalence relation}:
+    \begin{itemize}
+      \item \textbf{Reflexive:} $A \sim A$
+      \item \textbf{Symmetric:} $A \sim B \;\Rightarrow\; B \sim A$
+      \item \textbf{Transitive:} $A \sim B$ and $B \sim C \;\Rightarrow\; A \sim C$
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     And third, transitivity: if "A" is equivalent to "B" and "B" is
@@ -391,7 +449,12 @@
     their size.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_03.png}%
+}
 % ============================================================
 \section{Countability}
 
@@ -431,19 +494,21 @@
   \end{exblock}
 
   \vspace{0.3em}
-  \textbf{Arrangement:}
-  \begin{align*}
-    A&: \quad 0,\ 1,\ {-1},\ 2,\ {-2},\ 3,\ {-3},\ \dots \\
-    J&: \quad 1,\ 2,\ \phantom{-}3,\ 4,\ \phantom{-}5,\ 6,\ \phantom{-}7,\ \dots
-  \end{align*}
+  \begin{hlbox}
+    \textbf{Arrangement:}
+    \begin{align*}
+      A&: \quad 0,\ 1,\ {-1},\ 2,\ {-2},\ 3,\ {-3},\ \dots \\
+      J&: \quad 1,\ 2,\ \phantom{-}3,\ 4,\ \phantom{-}5,\ 6,\ \phantom{-}7,\ \dots
+    \end{align*}
 
-  \textbf{Explicit formula:}
-  \[
-    f(n) = \begin{cases}
-      \dfrac{n}{2} & \text{if } n \text{ is even}, \\[6pt]
-      -\dfrac{n-1}{2} & \text{if } n \text{ is odd}.
-    \end{cases}
-  \]
+    \textbf{Explicit formula:}
+    \[
+      f(n) = \begin{cases}
+        \dfrac{n}{2} & \text{if } n \text{ is even}, \\[6pt]
+        -\dfrac{n-1}{2} & \text{if } n \text{ is odd}.
+      \end{cases}
+    \]
+  \end{hlbox}
 
   \note{
     Here is our first surprising example. The integers include both positive
@@ -486,7 +551,9 @@
   \end{center}
 
   \vspace{0.5em}
-  \textbf{Key idea:} We ``zigzag'' through $\mathbb{Z}$, visiting $0$, then $\pm 1$, then $\pm 2$, \dots
+  \begin{hlbox}
+    \textbf{Key idea:} We ``zigzag'' through $\mathbb{Z}$, visiting $0$, then $\pm 1$, then $\pm 2$, \dots
+  \end{hlbox}
 
   \note{
     The zigzag trick shown here illustrates a general principle: to prove a
@@ -510,11 +577,13 @@
   \end{remblock}
 
   \vspace{0.5em}
-  \textbf{Example:} $J \subset \mathbb{Z}$ is a proper subset, yet $J \sim \mathbb{Z}$ (Example 2.5).
+  \begin{hlbox}
+    \textbf{Example:} $J \subset \mathbb{Z}$ is a proper subset, yet $J \sim \mathbb{Z}$ (Example 2.5).
 
-  \vspace{0.5em}
-  \textbf{Alternative definition of infinite:}\\
-  $A$ is infinite $\;\iff\;$ $A$ is equivalent to one of its proper subsets.
+    \vspace{0.5em}
+    \textbf{Alternative definition of infinite:}\\
+    $A$ is infinite $\;\iff\;$ $A$ is equivalent to one of its proper subsets.
+  \end{hlbox}
 
   \note{
     This remark highlights a key difference between finite and infinite sets.
@@ -542,12 +611,14 @@
   \end{defblock}
 
   \vspace{0.5em}
-  \textbf{Key observations:}
-  \begin{itemize}
-    \item Terms need \emph{not} be distinct
-    \item Every countable set is the range of a sequence of \emph{distinct} terms
-    \item We can ``arrange'' any countable set in a sequence
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key observations:}
+    \begin{itemize}
+      \item Terms need \emph{not} be distinct
+      \item Every countable set is the range of a sequence of \emph{distinct} terms
+      \item We can ``arrange'' any countable set in a sequence
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The formal definition of a sequence as a function on the positive
@@ -569,9 +640,11 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Consequence:} Countable sets are the ``smallest'' infinity.
+  \begin{hlbox}
+    \textbf{Consequence:} Countable sets are the ``smallest'' infinity.
 
-  No uncountable set can be a subset of a countable set.
+    No uncountable set can be a subset of a countable set.
+  \end{hlbox}
 
   \note{
     This theorem establishes that countable infinity is the smallest type
@@ -643,7 +716,12 @@
     "E". The proof is complete.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_04.png}%
+}
 % ============================================================
 \section{Unions and Intersections}
 
@@ -688,7 +766,9 @@
   \end{defblock}
 
   \vspace{0.5em}
-  If $A \cap B \neq \varnothing$, we say $A$ and $B$ \alert{intersect}; otherwise they are \alert{disjoint}.
+  \begin{hlbox}
+    If $A \cap B \neq \varnothing$, we say $A$ and $B$ \alert{intersect}; otherwise they are \alert{disjoint}.
+  \end{hlbox}
 
   \note{
     Notice the contrast: for the union, an element needs to be in just one
@@ -757,7 +837,9 @@
   \end{exblock}
 
   \vspace{0.3em}
-  (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
+  \begin{hlbox}
+    (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
+  \end{hlbox}
 
   \note{
     Part "b" is more interesting. Here we have a continuous family of sets
@@ -774,9 +856,12 @@
   \end{exblock}
 
   \vspace{0.3em}
-  (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
+  \begin{hlbox}
+    (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
 
-  (ii) $\displaystyle\bigcup_{x \in (0,1]} E_x = E_1 = (0, 1)$
+    \vspace{0.3em}
+    (ii) $\displaystyle\bigcup_{x \in (0,1]} E_x = E_1 = (0, 1)$
+  \end{hlbox}
 
   \note{
     The union of all these intervals is the largest one, which is the open
@@ -792,15 +877,19 @@
   \end{exblock}
 
   \vspace{0.3em}
-  (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
+  \begin{hlbox}
+    (i) $E_x \subset E_z$ if and only if $0 < x \leq z \leq 1$
 
-  (ii) $\displaystyle\bigcup_{x \in (0,1]} E_x = E_1 = (0, 1)$
+    \vspace{0.3em}
+    (ii) $\displaystyle\bigcup_{x \in (0,1]} E_x = E_1 = (0, 1)$
 
-  (iii) $\displaystyle\bigcap_{x \in (0,1]} E_x = \varnothing$
+    \vspace{0.3em}
+    (iii) $\displaystyle\bigcap_{x \in (0,1]} E_x = \varnothing$
 
-  \vspace{0.3em}
-  \emph{Why?} For any $y > 0$, if $x < y$ then $y \notin E_x$.
-  So no $y$ belongs to \emph{every} $E_x$.
+    \vspace{0.3em}
+    \emph{Why?} For any $y > 0$, if $x < y$ then $y \notin E_x$.
+    So no $y$ belongs to \emph{every} $E_x$.
+  \end{hlbox}
 
   \note{
     The intersection is empty! This is the surprising part. For any positive
@@ -814,10 +903,12 @@
 % ============================================================
 % --- Build 1/4 ---
 \begin{frame}{Remarks 2.11: Algebraic Properties of Set Operations}
-  \textbf{Commutative laws:}
-  \[
-    A \cup B = B \cup A; \qquad A \cap B = B \cap A.
-  \]
+  \begin{hlbox}
+    \textbf{Commutative laws:}
+    \[
+      A \cup B = B \cup A; \qquad A \cap B = B \cap A.
+    \]
+  \end{hlbox}
 
   \note{
     Rudin lists several algebraic properties of unions and intersections that
@@ -829,16 +920,18 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Remarks 2.11: Algebraic Properties of Set Operations}
-  \textbf{Commutative laws:}
-  \[
-    A \cup B = B \cup A; \qquad A \cap B = B \cap A.
-  \]
+  \begin{hlbox}
+    \textbf{Commutative laws:}
+    \[
+      A \cup B = B \cup A; \qquad A \cap B = B \cap A.
+    \]
 
-  \textbf{Associative laws:}
-  \[
-    (A \cup B) \cup C = A \cup (B \cup C); \qquad
-    (A \cap B) \cap C = A \cap (B \cap C).
-  \]
+    \textbf{Associative laws:}
+    \[
+      (A \cup B) \cup C = A \cup (B \cup C); \qquad
+      (A \cap B) \cap C = A \cap (B \cap C).
+    \]
+  \end{hlbox}
 
   \note{
     The associative laws say that grouping does not matter. We can write
@@ -849,21 +942,23 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Remarks 2.11: Algebraic Properties of Set Operations}
-  \textbf{Commutative laws:}
-  \[
-    A \cup B = B \cup A; \qquad A \cap B = B \cap A.
-  \]
+  \begin{hlbox}
+    \textbf{Commutative laws:}
+    \[
+      A \cup B = B \cup A; \qquad A \cap B = B \cap A.
+    \]
 
-  \textbf{Associative laws:}
-  \[
-    (A \cup B) \cup C = A \cup (B \cup C); \qquad
-    (A \cap B) \cap C = A \cap (B \cap C).
-  \]
+    \textbf{Associative laws:}
+    \[
+      (A \cup B) \cup C = A \cup (B \cup C); \qquad
+      (A \cap B) \cap C = A \cap (B \cap C).
+    \]
 
-  \textbf{Distributive law:}
-  \[
-    \boxed{A \cap (B \cup C) = (A \cap B) \cup (A \cap C)}
-  \]
+    \textbf{Distributive law:}
+    \[
+      \boxed{A \cap (B \cup C) = (A \cap B) \cup (A \cap C)}
+    \]
+  \end{hlbox}
 
   \note{
     The distributive law is the most important one. Intersection distributes
@@ -875,12 +970,15 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Remarks 2.11: Algebraic Properties of Set Operations}
-  \textbf{Further identities} (with $\varnothing$ denoting the empty set):
-  \begin{align*}
-    &A \subset A \cup B, \qquad A \cap B \subset A \\[4pt]
-    &A \cup \varnothing = A, \qquad A \cap \varnothing = \varnothing \\[4pt]
-    &\text{If } A \subset B: \quad A \cup B = B, \quad A \cap B = A
-  \end{align*}
+  \begin{hlbox}
+    \textbf{Further identities} (with $\varnothing$ denoting the empty set):
+    \begin{align*}
+      &A \subset A \cup B, \qquad A \cap B \subset A \\[4pt]
+      &A \cup \varnothing = A, \qquad A \cap \varnothing = \varnothing \\[4pt]
+      &\text{If } A \subset B: \\[4pt]
+      &A \cup B = B, \qquad A \cap B = A
+    \end{align*}
+  \end{hlbox}
 
   \note{
     Rudin also lists several additional identities. "A" is always a subset
@@ -892,7 +990,12 @@
     countability results of this section.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_05.png}%
+}
 % ============================================================
 \section{Countability Results}
 
@@ -907,7 +1010,9 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{In words:} A countable union of countable sets is countable.
+  \begin{center}
+    \hl{\textbf{In words:} A countable union of countable sets is countable.}
+  \end{center}
 
   \note{
     This is one of the most powerful results in this section. It says that
@@ -1023,7 +1128,9 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \emph{Proof:} $T$ is equivalent to a subset of the array from Theorem 2.12.
+  \begin{center}
+    \hl{\emph{Proof:} $T$ is equivalent to a subset of the array from Theorem 2.12.}
+  \end{center}
 
   \note{
     This corollary relaxes the hypotheses: the index set and the individual
@@ -1155,10 +1262,12 @@
   \end{thmblock}
 
   \vspace{0.5em}
-  \textbf{Elements of $A$:}\quad sequences like $1, 0, 0, 1, 0, 1, 1, 1, \dots$
+  \begin{hlbox}
+    \textbf{Elements of $A$:}\quad sequences like $1, 0, 0, 1, 0, 1, 1, 1, \dots$
 
-  \vspace{0.5em}
-  \textbf{Technique:} \alert{Cantor's diagonal argument}
+    \vspace{0.5em}
+    \textbf{Technique:} \alert{Cantor's diagonal argument}
+  \end{hlbox}
 
   \note{
     This is perhaps the most famous theorem in set theory. The set of all
@@ -1241,18 +1350,20 @@
   \end{proofblock}
 
   \vspace{0.3em}
-  \textbf{From the example:}
-  \begin{center}
-    \begin{tabular}{r@{\quad}cccccl}
-      Diagonal: & $\mathbf{1}$, & $\mathbf{1}$, & $\mathbf{0}$, & $\mathbf{1}$, & $\mathbf{1}$, & $\dots$ \\[2pt]
-      $s$:      & $\mathbf{0}$, & $\mathbf{0}$, & $\mathbf{1}$, & $\mathbf{0}$, & $\mathbf{0}$, & $\dots$
-    \end{tabular}
-  \end{center}
+  \begin{hlbox}
+    \textbf{From the example:}
+    \begin{center}
+      \begin{tabular}{r@{\quad}cccccl}
+        Diagonal: & $\mathbf{1}$, & $\mathbf{1}$, & $\mathbf{0}$, & $\mathbf{1}$, & $\mathbf{1}$, & $\dots$ \\[2pt]
+        $s$:      & $\mathbf{0}$, & $\mathbf{0}$, & $\mathbf{1}$, & $\mathbf{0}$, & $\mathbf{0}$, & $\dots$
+      \end{tabular}
+    \end{center}
 
-  \vspace{0.3em}
-  $s$ differs from $s_n$ in position $n$, so $s \neq s_n$ for every $n$.
+    \vspace{0.3em}
+    $s$ differs from $s_n$ in position $n$, so $s \neq s_n$ for every $n$.
 
-  Therefore $\alert{s \notin E}$, yet $s \in A$.
+    Therefore $\alert{s \notin E}$, yet $s \in A$.
+  \end{hlbox}
 
   \note{
     This is the heart of the argument, and it is worth understanding deeply.
@@ -1281,9 +1392,10 @@
   \end{proofblock}
 
   \vspace{0.5em}
-  \textbf{Connection:} Binary sequences $\longleftrightarrow$ real numbers (binary representation).
-
-  $\Rightarrow$ The set of all real numbers is \alert{uncountable}.
+  \begin{hlbox}
+    \textbf{Connection:} Binary sequences $\longleftrightarrow$ real numbers (binary representation).
+    $\Rightarrow$ The set of all real numbers is \alert{uncountable}.
+  \end{hlbox}
 
   \note{
     We have shown that any countable subset of "A" must miss at least one
@@ -1296,18 +1408,25 @@
     in Theorem 2.43.
   }
 \end{frame}
+}
 
+{
+\usebackgroundtemplate{%
+  \includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio=false]{chapter_02_bg_06.png}%
+}
 % ============================================================
 \section{Summary}
 
 % ============================================================
 % --- Build 1/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item \textbf{Functions and equivalence:} Two sets have the same size
-      ($A \sim B$) iff there is a bijection between them
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item \textbf{Functions and equivalence:} Two sets have the same size
+        ($A \sim B$) iff there is a bijection between them
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     Let us review the main ideas from this section. The fundamental concept
@@ -1318,13 +1437,15 @@
 
 % --- Build 2/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item \textbf{Functions and equivalence:} Two sets have the same size
-      ($A \sim B$) iff there is a bijection between them
-    \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
-      countable unions of countable sets remain countable (Theorems 2.12, 2.13)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item \textbf{Functions and equivalence:} Two sets have the same size
+        ($A \sim B$) iff there is a bijection between them
+      \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
+        countable unions of countable sets remain countable (Theorems 2.12, 2.13)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     The integers and rationals are both countable, which may be surprising
@@ -1337,15 +1458,17 @@
 
 % --- Build 3/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item \textbf{Functions and equivalence:} Two sets have the same size
-      ($A \sim B$) iff there is a bijection between them
-    \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
-      countable unions of countable sets remain countable (Theorems 2.12, 2.13)
-    \item \textbf{Uncountable sets exist:} The set of all binary sequences is
-      uncountable (Cantor's diagonal argument, Theorem 2.14)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item \textbf{Functions and equivalence:} Two sets have the same size
+        ($A \sim B$) iff there is a bijection between them
+      \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
+        countable unions of countable sets remain countable (Theorems 2.12, 2.13)
+      \item \textbf{Uncountable sets exist:} The set of all binary sequences is
+        uncountable (Cantor's diagonal argument, Theorem 2.14)
+    \end{itemize}
+  \end{hlbox}
 
   \note{
     But not all infinite sets are countable. Cantor's diagonal argument
@@ -1358,20 +1481,24 @@
 
 % --- Build 4/4 ---
 \begin{frame}{Summary}
-  \textbf{Key takeaways:}
-  \begin{itemize}
-    \item \textbf{Functions and equivalence:} Two sets have the same size
-      ($A \sim B$) iff there is a bijection between them
-    \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
-      countable unions of countable sets remain countable (Theorems 2.12, 2.13)
-    \item \textbf{Uncountable sets exist:} The set of all binary sequences is
-      uncountable (Cantor's diagonal argument, Theorem 2.14)
-    \item \textbf{Set operations:} Union, intersection, and their algebraic properties
-      (Remarks 2.11)
-  \end{itemize}
+  \begin{hlbox}
+    \textbf{Key takeaways:}
+    \begin{itemize}
+      \item \textbf{Functions and equivalence:} Two sets have the same size
+        ($A \sim B$) iff there is a bijection between them
+      \item \textbf{Countable sets:} $\mathbb{Z}$ and $\mathbb{Q}$ are countable;
+        countable unions of countable sets remain countable (Theorems 2.12, 2.13)
+      \item \textbf{Uncountable sets exist:} The set of all binary sequences is
+        uncountable (Cantor's diagonal argument, Theorem 2.14)
+      \item \textbf{Set operations:} Union, intersection, and their algebraic properties
+        (Remarks 2.11)
+    \end{itemize}
+  \end{hlbox}
 
   \vspace{0.5em}
-  \textbf{Coming up next:} Metric Spaces --- adding the concept of \emph{distance} to sets.
+  \begin{center}
+    \hl{\textbf{Coming up next:} Metric Spaces --- adding the concept of \emph{distance} to sets.}
+  \end{center}
 
   \note{
     We also established the basic algebraic properties of unions and
@@ -1382,5 +1509,6 @@
     you for watching, and see you in the next episode.
   }
 \end{frame}
+}
 
 \end{document}
