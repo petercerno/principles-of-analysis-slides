@@ -8,7 +8,7 @@ Licensed under the [MIT License](LICENSE).
 
 ## Preface
 
-1. About This Series - [pdf](slides/chapter_00_preface/slides.pdf) · [pptx](slides/chapter_00_preface/slides.pptx)
+1. About This Series - [pdf](slides/chapter_00_preface/slides.pdf)
 
 ## Chapter 1: The Real and Complex Number Systems
 
