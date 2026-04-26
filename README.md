@@ -12,22 +12,22 @@ Licensed under the [MIT License](LICENSE).
 
 ## Chapter 1: The Real and Complex Number Systems
 
-1. Introduction — [pdf](slides/chapter_01_section_01_introduction/slides.pdf) · [pptx](slides/chapter_01_section_01_introduction/slides.pptx)
-2. Ordered Sets — [pdf](slides/chapter_01_section_02_ordered_sets/slides.pdf) · [pptx](slides/chapter_01_section_02_ordered_sets/slides.pptx)
-3. Fields — [pdf](slides/chapter_01_section_03_fields/slides.pdf) · [pptx](slides/chapter_01_section_03_fields/slides.pptx)
-4. The Real Field — [pdf](slides/chapter_01_section_04_the_real_field/slides.pdf) · [pptx](slides/chapter_01_section_04_the_real_field/slides.pptx)
-5. The Extended Real Number System — [pdf](slides/chapter_01_section_05_the_extended_real_number_system/slides.pdf) · [pptx](slides/chapter_01_section_05_the_extended_real_number_system/slides.pptx)
-6. The Complex Field — [pdf](slides/chapter_01_section_06_the_complex_field/slides.pdf) · [pptx](slides/chapter_01_section_06_the_complex_field/slides.pptx)
-7. Euclidean Spaces — [pdf](slides/chapter_01_section_07_euclidean_spaces/slides.pdf) · [pptx](slides/chapter_01_section_07_euclidean_spaces/slides.pptx)
-8. Appendix — [pdf](slides/chapter_01_section_08_appendix/slides.pdf) · [pptx](slides/chapter_01_section_08_appendix/slides.pptx)
+1. Introduction — [pdf](slides/chapter_01_section_01_introduction/slides.pdf)
+2. Ordered Sets — [pdf](slides/chapter_01_section_02_ordered_sets/slides.pdf)
+3. Fields — [pdf](slides/chapter_01_section_03_fields/slides.pdf)
+4. The Real Field — [pdf](slides/chapter_01_section_04_the_real_field/slides.pdf)
+5. The Extended Real Number System — [pdf](slides/chapter_01_section_05_the_extended_real_number_system/slides.pdf)
+6. The Complex Field — [pdf](slides/chapter_01_section_06_the_complex_field/slides.pdf)
+7. Euclidean Spaces — [pdf](slides/chapter_01_section_07_euclidean_spaces/slides.pdf)
+8. Appendix — [pdf](slides/chapter_01_section_08_appendix/slides.pdf)
 
 ## Chapter 2: Basic Topology
 
-1. Finite, Countable, and Uncountable Sets - [pdf](slides/chapter_02_section_01_finite_countable_uncountable/slides.pdf) · [pptx](slides/chapter_02_section_01_finite_countable_uncountable/slides.pptx)
-2. Metric Spaces - [pdf](slides/chapter_02_section_02_metric_spaces/slides.pdf) · [pptx](slides/chapter_02_section_02_metric_spaces/slides.pptx)
-3. Compact Sets - [pdf](slides/chapter_02_section_03_compact_sets/slides.pdf) · [pptx](slides/chapter_02_section_03_compact_sets/slides.pptx)
-4. Perfect Sets - [pdf](slides/chapter_02_section_04_perfect_sets/slides.pdf) · [pptx](slides/chapter_02_section_04_perfect_sets/slides.pptx)
-5. Connected Sets - [pdf](slides/chapter_02_section_05_connected_sets/slides.pdf) · [pptx](slides/chapter_02_section_05_connected_sets/slides.pptx)
+1. Finite, Countable, and Uncountable Sets - [pdf](slides/chapter_02_section_01_finite_countable_uncountable/slides.pdf)
+2. Metric Spaces - [pdf](slides/chapter_02_section_02_metric_spaces/slides.pdf)
+3. Compact Sets - [pdf](slides/chapter_02_section_03_compact_sets/slides.pdf)
+4. Perfect Sets - [pdf](slides/chapter_02_section_04_perfect_sets/slides.pdf)
+5. Connected Sets - [pdf](slides/chapter_02_section_05_connected_sets/slides.pdf)
 
 ## Chapter 3: Numerical Sequences and Series
 
