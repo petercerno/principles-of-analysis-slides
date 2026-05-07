@@ -32,7 +32,7 @@ Licensed under the [MIT License](LICENSE).
 ## Chapter 3: Numerical Sequences and Series
 
 1. Convergent Sequences - [pdf](slides/chapter_03_section_01_convergent_sequences/slides.pdf)
-2. Subsequences
+2. Subsequences - [pdf](slides/chapter_03_section_02_subsequences/slides.pdf)
 3. Cauchy Sequences
 4. Upper and Lower Limits
 5. Some Special Sequences
