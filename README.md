@@ -33,7 +33,7 @@ Licensed under the [MIT License](LICENSE).
 
 1. Convergent Sequences - [pdf](slides/chapter_03_section_01_convergent_sequences/slides.pdf)
 2. Subsequences - [pdf](slides/chapter_03_section_02_subsequences/slides.pdf)
-3. Cauchy Sequences
+3. Cauchy Sequences - [pdf](slides/chapter_03_section_03_cauchy_sequences/slides.pdf)
 4. Upper and Lower Limits
 5. Some Special Sequences
 6. Series
