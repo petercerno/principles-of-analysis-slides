@@ -36,7 +36,7 @@ Licensed under the [MIT License](LICENSE).
 3. Cauchy Sequences - [pdf](slides/chapter_03_section_03_cauchy_sequences/slides.pdf)
 4. Upper and Lower Limits  - [pdf](slides/chapter_03_section_04_upper_and_lower_limits/slides.pdf)
 5. Some Special Sequences - [pdf](slides/chapter_03_section_05_some_special_sequences/slides.pdf)
-6. Series
+6. Series - [pdf](slides/chapter_03_section_06_series/slides.pdf)
 7. Series of Nonnegative Terms
 8. The Number e
 9. The Root and Ratio Tests
