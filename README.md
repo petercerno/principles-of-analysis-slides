@@ -37,7 +37,7 @@ Licensed under the [MIT License](LICENSE).
 4. Upper and Lower Limits  - [pdf](slides/chapter_03_section_04_upper_and_lower_limits/slides.pdf)
 5. Some Special Sequences - [pdf](slides/chapter_03_section_05_some_special_sequences/slides.pdf)
 6. Series - [pdf](slides/chapter_03_section_06_series/slides.pdf)
-7. Series of Nonnegative Terms
+7. Series of Nonnegative Terms - [pdf](slides/chapter_03_section_07_series_of_nonnegative_terms/slides.pdf)
 8. The Number e
 9. The Root and Ratio Tests
 10. Power Series
