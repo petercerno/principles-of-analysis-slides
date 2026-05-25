@@ -39,7 +39,7 @@ Licensed under the [MIT License](LICENSE).
 6. Series - [pdf](slides/chapter_03_section_06_series/slides.pdf)
 7. Series of Nonnegative Terms - [pdf](slides/chapter_03_section_07_series_of_nonnegative_terms/slides.pdf)
 8. The Number e - [pdf](slides/chapter_03_section_08_the_number_e/slides.pdf)
-9. The Root and Ratio Tests
+9. The Root and Ratio Tests - [pdf](slides/chapter_03_section_09_the_root_and_ratio_tests/slides.pdf)
 10. Power Series
 11. Summation by Parts
 12. Absolute Convergence
