@@ -42,7 +42,7 @@ Licensed under the [MIT License](LICENSE).
 9. The Root and Ratio Tests - [pdf](slides/chapter_03_section_09_the_root_and_ratio_tests/slides.pdf)
 10. Power Series - [pdf](slides/chapter_03_section_10_power_series/slides.pdf)
 11. Summation by Parts - [pdf](slides/chapter_03_section_11_summation_by_parts/slides.pdf)
-12. Absolute Convergence
+12. Absolute Convergence - [pdf](slides/chapter_03_section_12_absolute_convergence/slides.pdf)
 13. Addition and Multiplication of Series
 14. Rearrangements
 
