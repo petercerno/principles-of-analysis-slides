@@ -44,7 +44,7 @@ Licensed under the [MIT License](LICENSE).
 11. Summation by Parts - [pdf](slides/chapter_03_section_11_summation_by_parts/slides.pdf)
 12. Absolute Convergence - [pdf](slides/chapter_03_section_12_absolute_convergence/slides.pdf)
 13. Addition and Multiplication of Series - [pdf](slides/chapter_03_section_13_addition_and_multiplication_of_series/slides.pdf)
-14. Rearrangements
+14. Rearrangements - [pdf](slides/chapter_03_section_14_rearrangements/slides.pdf)
 
 ## Chapter 4: Continuity
 
