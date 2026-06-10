@@ -48,7 +48,7 @@ Licensed under the [MIT License](LICENSE).
 
 ## Chapter 4: Continuity
 
-1. Limits of Functions
+1. Limits of Functions - [pdf](slides/chapter_04_section_01_limits_of_functions/slides.pdf)
 2. Continuous Functions
 3. Continuity and Compactness
 4. Continuity and Connectedness
