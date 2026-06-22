@@ -52,7 +52,7 @@ Licensed under the [MIT License](LICENSE).
 2. Continuous Functions - [pdf](slides/chapter_04_section_02_continuous_functions/slides.pdf)
 3. Continuity and Compactness  - [pdf](slides/chapter_04_section_03_continuity_and_compactness/slides.pdf)
 4. Continuity and Connectedness - [pdf](slides/chapter_04_section_04_continuity_and_connectedness/slides.pdf)
-5. Discontinuities
+5. Discontinuities - [pdf](slides/chapter_04_section_05_discontinuities/slides.pdf)
 6. Monotonic Functions
 7. Infinite Limits and Limits at Infinity
 
