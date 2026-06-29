@@ -54,7 +54,7 @@ Licensed under the [MIT License](LICENSE).
 4. Continuity and Connectedness - [pdf](slides/chapter_04_section_04_continuity_and_connectedness/slides.pdf)
 5. Discontinuities - [pdf](slides/chapter_04_section_05_discontinuities/slides.pdf)
 6. Monotonic Functions - [pdf](slides/chapter_04_section_06_monotonic_functions/slides.pdf)
-7. Infinite Limits and Limits at Infinity
+7. Infinite Limits and Limits at Infinity - [pdf](slides/chapter_04_section_07_infinite_limits_and_limits_at_infinity/slides.pdf)
 
 ## Chapter 5: Differentiation
 
