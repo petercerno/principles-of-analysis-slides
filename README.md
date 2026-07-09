@@ -58,7 +58,7 @@ Licensed under the [MIT License](LICENSE).
 
 ## Chapter 5: Differentiation
 
-1. The Derivative of a Real Function
+1. The Derivative of a Real Function - [pdf](slides/chapter_05_section_01_the_derivative_of_a_real_function/slides.pdf)
 2. Mean Value Theorems
 3. The Continuity of Derivatives
 4. L'Hospital's Rule
