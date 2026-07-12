@@ -60,7 +60,7 @@ Licensed under the [MIT License](LICENSE).
 
 1. The Derivative of a Real Function - [pdf](slides/chapter_05_section_01_the_derivative_of_a_real_function/slides.pdf)
 2. Mean Value Theorems - [pdf](slides/chapter_05_section_02_mean_value_theorems/slides.pdf)
-3. The Continuity of Derivatives
+3. The Continuity of Derivatives - [pdf](slides/chapter_05_section_03_the_continuity_of_derivatives/slides.pdf)
 4. L'Hospital's Rule
 5. Derivatives of Higher Order
 6. Taylor's Theorem
