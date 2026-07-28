@@ -62,7 +62,7 @@ Licensed under the [MIT License](LICENSE).
 2. Mean Value Theorems - [pdf](slides/chapter_05_section_02_mean_value_theorems/slides.pdf)
 3. The Continuity of Derivatives - [pdf](slides/chapter_05_section_03_the_continuity_of_derivatives/slides.pdf)
 4. L'Hospital's Rule - [pdf](slides/chapter_05_section_04_lhospitals_rule/slides.pdf)
-5. Derivatives of Higher Order
+5. Derivatives of Higher Order - [pdf](slides/chapter_05_section_05_derivatives_of_higher_order/slides.pdf)
 6. Taylor's Theorem
 7. Differentiation of Vector-Valued Functions
 
