@@ -64,7 +64,7 @@ Licensed under the [MIT License](LICENSE).
 4. L'Hospital's Rule - [pdf](slides/chapter_05_section_04_lhospitals_rule/slides.pdf)
 5. Derivatives of Higher Order - [pdf](slides/chapter_05_section_05_derivatives_of_higher_order/slides.pdf)
 6. Taylor's Theorem - [pdf](slides/chapter_05_section_06_taylors_theorem/slides.pdf)
-7. Differentiation of Vector-Valued Functions
+7. Differentiation of Vector-Valued Functions - [pdf](slides/chapter_05_section_07_differentiation_of_vector_valued_functions/slides.pdf)
 
 ## Chapter 6: The Riemann-Stieltjes Integral
 
