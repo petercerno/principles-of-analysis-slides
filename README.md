@@ -70,7 +70,7 @@ Licensed under the [MIT License](LICENSE).
 
 1. Definition and Existence of the Integral - [pdf](slides/chapter_06_section_01_definition_and_existence_of_the_integral/slides.pdf)
 2. Properties of the Integral - [pdf](slides/chapter_06_section_02_properties_of_the_integral/slides.pdf)
-3. Integration and Differentiation
+3. Integration and Differentiation - [pdf](slides/chapter_06_section_03_integration_and_differentiation/slides.pdf)
 4. Integration of Vector-Valued Functions
 5. Rectifiable Curves
 
