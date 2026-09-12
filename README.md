@@ -72,7 +72,7 @@ Licensed under the [MIT License](LICENSE).
 2. Properties of the Integral - [pdf](slides/chapter_06_section_02_properties_of_the_integral/slides.pdf)
 3. Integration and Differentiation - [pdf](slides/chapter_06_section_03_integration_and_differentiation/slides.pdf)
 4. Integration of Vector-Valued Functions - [pdf](slides/chapter_06_section_04_integration_of_vector_valued_functions/slides.pdf)
-5. Rectifiable Curves
+5. Rectifiable Curves - [pdf](slides/chapter_06_section_05_rectifiable_curves/slides.pdf)
 
 ## Chapter 7: Sequences and Series of Functions
 
