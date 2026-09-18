@@ -76,7 +76,7 @@ Licensed under the [MIT License](LICENSE).
 
 ## Chapter 7: Sequences and Series of Functions
 
-1. Discussion of Main Problem
+1. Discussion of Main Problem - [pdf](slides/chapter_07_section_01_discussion_of_main_problem/slides.pdf)
 2. Uniform Convergence
 3. Uniform Convergence and Continuity
 4. Uniform Convergence and Integration
