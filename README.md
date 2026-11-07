@@ -81,7 +81,7 @@ Licensed under the [MIT License](LICENSE).
 3. Uniform Convergence and Continuity - [pdf](slides/chapter_07_section_03_uniform_convergence_and_continuity/slides.pdf)
 4. Uniform Convergence and Integration - [pdf](slides/chapter_07_section_04_uniform_convergence_and_integration/slides.pdf)
 5. Uniform Convergence and Differentiation - [pdf](slides/chapter_07_section_05_uniform_convergence_and_differentiation/slides.pdf)
-6. Equicontinuous Families of Functions
+6. Equicontinuous Families of Functions - [pdf](slides/chapter_07_section_06_equicontinuous_families_of_functions/slides.pdf)
 7. The Stone-Weierstrass Theorem
 
 ## Chapter 8: Some Special Functions
